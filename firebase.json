@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "abrhidon",
+    "public": "dist/tomer/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

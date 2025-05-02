@@ -1,0 +1,106 @@
+
+*{
+    user-select: none;
+    box-sizing: border-box;
+}
+main{
+    display: grid;
+    justify-self: center;
+    margin: 1rem 0.5rem;
+    padding: .5rem;
+    direction: rtl;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 2.5rem 0.5rem;
+    width: min(85%, 768px);
+    min-height: calc(100vh - 8rem);
+    background-color: #ffffffcc;
+    grid-template-rows: 1fr;
+
+    .submit-wrapper{
+        align-self: end;
+        justify-self: center;
+        justify-items: center;
+        
+        button{
+            margin-bottom: 1rem;
+            background: green;
+            color: white;
+            padding: 0.5rem;
+            align-self: center;
+            border: navajowhite;
+            border-radius: .25rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            cursor: pointer;
+            &[disabled]{
+                opacity: .5;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+.carousel{
+    anchor-name: --carousel;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    .carousel-inner{
+        height: 100%;
+        .carousel-item.active {
+            display: grid;
+            min-height: 100%;
+        }
+    }
+    
+    .controls{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        // color: darkgreen;
+        
+        [class^=carousel-control]{
+            cursor: pointer;
+            &:hover{
+                font-weight: bold;
+            }
+        }    
+        
+        .carousel-indicators{
+            flex-wrap: wrap;
+            position: relative;
+            margin: auto;
+            gap: .25rem 0;
+            &::ng-deep li{
+                border-radius: 50%;
+                border: 2px solid;
+                padding: 0.125rem;
+                height: 0.5rem;
+                width: 0.5rem;
+                opacity: 1;
+                cursor: pointer;
+                background-color: red;
+                &::marker {
+                    font-size: 0;
+                }
+                &.answered{
+                    background-color: green;
+                }
+                &.active{
+                    background-color: orange !important;
+                }
+            }
+        }
+        button{
+            background: none;
+            border: none;
+        }
+    }
+}
+@media (max-width: 960px) {
+    main{
+        // width: 85%;
+        // height: 65%;
+    }    
+}

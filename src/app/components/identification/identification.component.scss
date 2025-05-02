@@ -1,0 +1,35 @@
+main{
+    display: grid;
+    justify-self: center;
+    margin: 2rem;
+    padding: 1rem;
+    direction: rtl;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 2.5rem 0.5rem;
+    width: min(85%, 768px);
+    justify-content: center;
+    gap: 1rem;
+    background-color: #ffffffcc;
+    .identification{
+        display: grid;
+        gap: 0.5rem;
+    }
+    
+    button{
+        justify-self: center;
+        margin-bottom: 1rem;
+        background: green;
+        color: white;
+        padding: 0.5rem;
+        align-self: center;
+        border: navajowhite;
+        border-radius: .25rem;
+        font-weight: bold;
+        font-size: 1.25rem;
+        cursor: pointer;
+        &[disabled]{
+            opacity: .5;
+            cursor: not-allowed;
+        }
+    }
+}

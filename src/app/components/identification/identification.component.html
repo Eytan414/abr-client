@@ -1,0 +1,17 @@
+<main>
+    <h1>ברוכים הבאים</h1>
+    <h3>נא למלא פרטי זיהוי:</h3>
+    <div class="identification">
+        <label for="name">שם מלא:</label>
+        <input autocomplete="on" [(ngModel)]="name" id="name" type="text">
+        <label for="phone">טלפון:</label>
+        <input autocomplete="on" [(ngModel)]="phone" id="phone" type="tel">
+        <label for="school">בחירת בית ספר:</label>
+        <select [(ngModel)]="school" id="school">
+            @for(school of schools(); track school){
+                <option [value]="school.schoolId">{{school.name}}</option>
+            }
+        </select>
+        <button [disabled]="!areDetailsFilled()" (click)="gotoInstructions()">המשך</button>
+    </div>
+</main>
