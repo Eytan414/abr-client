@@ -9,10 +9,10 @@ export class AppService {
   questions = signal<Question[]>([]);
   schools = signal<SchoolDTO[]>([]);
   userDetails = signal<UserDetails>({});
-  quizId = computed(()=> {
+  quizId = computed(() => {
     return this.schools().find(s => s.schoolId === this.userDetails().schoolId)?.quizId
   });
-  
+
 }
 type UserDetails = {
   readonly name?: string;

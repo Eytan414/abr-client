@@ -7,7 +7,7 @@ import { Answer, Question } from '../../shared/models/question';
   templateUrl: './question-card.component.html',
   styleUrl: './question-card.component.scss',
   standalone: true,
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionCardComponent {
 
@@ -19,14 +19,14 @@ export class QuestionCardComponent {
   possible_answers = computed(() => this.question()?.possible_answers);
 
 
-  getTitle(){
-    return  "שאלה " + (this.questionIndex()+1) + ": " + this.title();
+  getTitle() {
+    return "שאלה " + (this.questionIndex() + 1) + ": " + this.title();
   }
 
   userAnswered(pickedAnswer: Answer) {
-    this.userEntries()[this.questionIndex()+1] = pickedAnswer.id;
+    this.userEntries()[this.questionIndex() + 1] = pickedAnswer.id;
   }
-  highlightSelectedAnswer(answerIndex:number){
-    return this.userEntries().at(this.questionIndex()+1) === (answerIndex+1) ? "h" : "";
+  highlightSelectedAnswer(answerIndex: number) {
+    return this.userEntries().at(this.questionIndex() + 1) === (answerIndex + 1) ? "h" : "";
   }
 }

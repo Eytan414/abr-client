@@ -1,4 +1,4 @@
-main{
+main {
     display: grid;
     justify-self: center;
     margin: 2rem;
@@ -11,7 +11,7 @@ main{
     gap: 1rem;
     background-color: #ffffffcc;
 
-    button{
+    button {
         justify-self: center;
         margin-bottom: 1rem;
         background: green;
@@ -22,6 +22,6 @@ main{
         border-radius: .25rem;
         font-weight: bold;
         font-size: 1.25rem;
-        cursor: pointer;            
+        cursor: pointer;
     }
 }

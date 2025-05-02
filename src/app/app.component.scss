@@ -1,8 +1,8 @@
-.wrapper{
+.wrapper {
     padding: 0 .5rem .5rem;
     position: relative;
-    
-    .background{
+
+    .background {
         position: absolute;
         top: 0;
         left: 0;
@@ -12,7 +12,7 @@
         background-size: cover;
         filter: blur(8px);
         background-image: url('../assets/bg.jpg');
-        pointer-events: none; 
+        pointer-events: none;
     }
 
 }

@@ -1,10 +1,10 @@
 export type Question = {
-    title:string,
+    title: string,
     possible_answers: Answer[],
     imageUrl?: string,
     weight: number
 }
 export type Answer = {
-    id:number,
+    id: number,
     value: string
 }

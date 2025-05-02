@@ -3,34 +3,23 @@
         <div class="carousel-inner">
             @for(question of appService.questions(); track question){
             <div class="carousel-item" [class.active]="$index === activeIndex()">
-                <question-card 
-                    [userEntries]="userEntries"
-                    [question]="question" 
-                    [questionIndex]="$index">
+                <question-card [userEntries]="userEntries" [question]="question" [questionIndex]="$index">
                 </question-card>
             </div>
             }
         </div>
         <div class="controls">
-            <button type="button"
-                    data-coreui-target="#carousel"
-                    data-coreui-slide="prev"
-            >
+            <button type="button" data-coreui-target="#carousel" data-coreui-slide="prev">
                 <svg [cIcon]="icons.cilArrowCircleRight" width="25" title="ArrowRight"></svg>
             </button>
             <ol class="carousel-indicators">
                 @for(question of appService.questions(); track question){
-                    <li 
-                        [class]="{'active' : $index === activeIndex(), 'answered':userEntries().at($index+1)}"
-                        data-coreui-target="#carousel"
-                        [attr.data-coreui-slide-to]="$index">
-                    </li>
+                <li [class]="{'active' : $index === activeIndex(), 'answered':userEntries().at($index+1)}"
+                    data-coreui-target="#carousel" [attr.data-coreui-slide-to]="$index">
+                </li>
                 }
             </ol>
-            <button type="button"
-                    data-coreui-target="#carousel"
-                    data-coreui-slide="next"
-            >
+            <button type="button" data-coreui-target="#carousel" data-coreui-slide="next">
                 <svg [cIcon]="icons.cilArrowCircleLeft" width="25" title="ArrowLeft"></svg>
             </button>
         </div>
@@ -38,23 +27,19 @@
 
     <div class="submit-wrapper">
         <button (click)="submit()" [disabled]="quizSent()"> סיום ושליחה </button>
-            <c-alert 
-                (closed)="alertClosed()"
-                [(visible)]="showAlert"
-                dismissible="true" color="warning" fade
-            >
-                לא ניתן לשלוח, יש לענות על כל השאלות 
-            </c-alert>
+        <c-alert (closed)="alertClosed()" [(visible)]="showAlert" dismissible="true" color="warning" fade>
+            לא ניתן לשלוח, יש לענות על כל השאלות
+        </c-alert>
         @let resp = responseSignal().resp;
         @if(resp === "success"){
-            <c-alert visible="true" dismissible="false" color="success" fade>
-                החידון נשלח בהצלחה
-            </c-alert>
+        <c-alert visible="true" dismissible="false" color="success" fade>
+            החידון נשלח בהצלחה
+        </c-alert>
         }
         @if(resp === "failure"){
-            <c-alert visible="true" dismissible="true" color="danger" fade>
-                חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
-            </c-alert>
+        <c-alert visible="true" dismissible="true" color="danger" fade>
+            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
+        </c-alert>
         }
     </div>
 </main>

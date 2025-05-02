@@ -14,7 +14,7 @@ import { AppService } from '../../services/app.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdentificationComponent implements OnInit{
+export class IdentificationComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
@@ -29,7 +29,7 @@ export class IdentificationComponent implements OnInit{
     this.school() !== -1
   );
 
-  
+
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }
@@ -39,7 +39,7 @@ export class IdentificationComponent implements OnInit{
       {
         ...u,
         name: this.name(),
-        phone: this.phone(), 
+        phone: this.phone(),
         schoolId: +this.school(),
       }));
     this.router.navigateByUrl('/instructions', { skipLocationChange: true });

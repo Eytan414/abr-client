@@ -9,7 +9,7 @@
         <label for="school">בחירת בית ספר:</label>
         <select [(ngModel)]="school" id="school">
             @for(school of schools(); track school){
-                <option [value]="school.schoolId">{{school.name}}</option>
+            <option [value]="school.schoolId">{{school.name}}</option>
             }
         </select>
         <button [disabled]="!areDetailsFilled()" (click)="gotoInstructions()">המשך</button>

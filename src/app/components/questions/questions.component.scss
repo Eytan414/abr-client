@@ -1,9 +1,9 @@
-
-*{
+* {
     user-select: none;
     box-sizing: border-box;
 }
-main{
+
+main {
     display: grid;
     justify-self: center;
     margin: 1rem 0.5rem;
@@ -16,12 +16,12 @@ main{
     background-color: #ffffffcc;
     grid-template-rows: 1fr;
 
-    .submit-wrapper{
+    .submit-wrapper {
         align-self: end;
         justify-self: center;
         justify-items: center;
-        
-        button{
+
+        button {
             margin-bottom: 1rem;
             background: green;
             color: white;
@@ -32,7 +32,8 @@ main{
             font-weight: bold;
             font-size: 1.25rem;
             cursor: pointer;
-            &[disabled]{
+
+            &[disabled] {
                 opacity: .5;
                 cursor: not-allowed;
             }
@@ -40,39 +41,42 @@ main{
     }
 }
 
-.carousel{
+.carousel {
     anchor-name: --carousel;
     display: flex;
     flex-direction: column;
     padding: 1rem;
 
-    .carousel-inner{
+    .carousel-inner {
         height: 100%;
+
         .carousel-item.active {
             display: grid;
             min-height: 100%;
         }
     }
-    
-    .controls{
+
+    .controls {
         display: flex;
         justify-content: space-between;
         margin-top: 1rem;
         // color: darkgreen;
-        
-        [class^=carousel-control]{
+
+        [class^=carousel-control] {
             cursor: pointer;
-            &:hover{
+
+            &:hover {
                 font-weight: bold;
             }
-        }    
-        
-        .carousel-indicators{
+        }
+
+        .carousel-indicators {
             flex-wrap: wrap;
             position: relative;
             margin: auto;
             gap: .25rem 0;
-            &::ng-deep li{
+
+            &::ng-deep li {
                 border-radius: 50%;
                 border: 2px solid;
                 padding: 0.125rem;
@@ -81,26 +85,31 @@ main{
                 opacity: 1;
                 cursor: pointer;
                 background-color: red;
+
                 &::marker {
                     font-size: 0;
                 }
-                &.answered{
+
+                &.answered {
                     background-color: green;
                 }
-                &.active{
+
+                &.active {
                     background-color: orange !important;
                 }
             }
         }
-        button{
+
+        button {
             background: none;
             border: none;
         }
     }
 }
+
 @media (max-width: 960px) {
-    main{
+    main {
         // width: 85%;
         // height: 65%;
-    }    
+    }
 }

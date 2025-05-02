@@ -1,13 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, NgZone, OnInit, signal} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, NgZone, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 // @ts-ignore
-import {Carousel} from '@coreui/coreui';
-import { AlertComponent,} from '@coreui/angular';
+import { Carousel } from '@coreui/coreui';
+import { AlertComponent, } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 
 
-import {QuestionCardComponent} from '../question-card/question-card.component'
+import { QuestionCardComponent } from '../question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';
 import { tap } from 'rxjs';
@@ -22,10 +22,10 @@ import { tap } from 'rxjs';
   ],
   templateUrl: './questions.component.html',
   styleUrl: './questions.component.scss',
-  standalone:true,
-  changeDetection:ChangeDetectionStrategy.OnPush
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionsComponent implements OnInit, AfterViewInit{
+export class QuestionsComponent implements OnInit, AfterViewInit {
 
   icons = { cilArrowCircleRight, cilArrowCircleLeft };
   private ngZone = inject(NgZone);
@@ -40,7 +40,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit{
   showAlert: boolean = false;
   quizSent = computed(() => this.responseSignal().resp === 'success');
 
-  ngOnInit(){
+  ngOnInit() {
     this.backend.getQuizById().subscribe();
   }
   ngAfterViewInit(): void {
@@ -58,37 +58,37 @@ export class QuestionsComponent implements OnInit, AfterViewInit{
         });
     });
   }
-  alertClosed(){
+  alertClosed() {
     this.showAlert = false
   }
   submit() {
     const userEntriesCount = this.userEntries().length;
     const questionsCount = this.appService.questions().length;
     const emptySlots = userEntriesCount - this.userEntries().filter(() => true).length;
-    if(emptySlots > 1) return;
+
+    if (emptySlots > 1 || questionsCount > userEntriesCount) {
+      this.showAlert = true;
+      return;
+    }
     for (let i = 1; i < userEntriesCount; i++) {
       const element = this.userEntries()[i];
-      if(!element){
+      if (!element) {
         this.showAlert = true;
         return;
       }
     }
-    if(questionsCount > userEntriesCount){
-      this.showAlert = true;
-      return;
-    }
-    let {name, phone, schoolId: school } = this.appService.userDetails();
+    let { name, phone, schoolId: school } = this.appService.userDetails();
     const userDetails = { name, phone, school, quizId: this.appService.quizId() };
 
-    const data = { userDetails, userEntries: [...this.userEntries()]};
+    const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
-      tap((response:Resp) => {
+      tap((response: Resp) => {
         this.responseSignal.set(response);
       })
     ).subscribe();
   }
 
-  
+
 }
 type Resp = {
   resp?: any;

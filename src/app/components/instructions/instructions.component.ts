@@ -6,15 +6,15 @@ import { Router } from '@angular/router';
   imports: [],
   templateUrl: './instructions.component.html',
   styleUrl: './instructions.component.scss',
-  standalone:true,
-  changeDetection:ChangeDetectionStrategy.OnPush
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class InstructionsComponent {
   private readonly router = inject(Router);
 
   startQuiz() {
-    this.router.navigateByUrl('/questions', { skipLocationChange: true });  
+    this.router.navigateByUrl('/questions', { skipLocationChange: true });
   }
 
 }

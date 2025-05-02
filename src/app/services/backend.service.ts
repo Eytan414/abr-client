@@ -16,20 +16,20 @@ export class BackendService {
   // url = 'http://localhost:3300/';
   url = 'https://abr-server-production.up.railway.app/';
 
-  
-  getQuizById(){
+
+  getQuizById() {
     const id = this.appService.quizId();
     return this.http.get<Quiz>(`${this.url}${id}`)
       .pipe(tap(quiz => {
         this.appService.questions.set(quiz.questions);
       }));
   }
-  submitData(body:any){
+  submitData(body: any) {
     return this.http.post(this.url, body);
   }
-  getSchoolList(){
+  getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${this.url}school/all`)
-    .pipe(tap(schools => this.appService.schools.set(schools)));
+      .pipe(tap(schools => this.appService.schools.set(schools)));
   }
 
 }

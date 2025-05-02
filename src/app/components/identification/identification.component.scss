@@ -1,4 +1,4 @@
-main{
+main {
     display: grid;
     justify-self: center;
     margin: 2rem;
@@ -10,12 +10,13 @@ main{
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
-    .identification{
+
+    .identification {
         display: grid;
         gap: 0.5rem;
     }
-    
-    button{
+
+    button {
         justify-self: center;
         margin-bottom: 1rem;
         background: green;
@@ -27,7 +28,8 @@ main{
         font-weight: bold;
         font-size: 1.25rem;
         cursor: pointer;
-        &[disabled]{
+
+        &[disabled] {
             opacity: .5;
             cursor: not-allowed;
         }

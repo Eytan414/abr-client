@@ -1,19 +1,21 @@
 <div class="wrapper">
 
-<div class="card">
-    @let hasImage = question().imageUrl?.length;
-    <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
-        {{getTitle()}}
-        @if(hasImage){
-            <button [attr.popovertarget]="'popover' + question().imageUrl"> <span><img [src]="question().imageUrl" alt=""></span></button>
+    <div class="card">
+        @let hasImage = question().imageUrl?.length;
+        <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
+            {{getTitle()}}
+            @if(hasImage){
+            <button [attr.popovertarget]="'popover' + question().imageUrl"> <span><img [src]="question().imageUrl"
+                        alt=""></span></button>
             <div [id]="'popover' + question().imageUrl" popover><img [src]="question().imageUrl" alt=""></div>
-        }
-    </div>
+            }
+        </div>
 
-    <div class="possible-answers">
-        @for(answer of possible_answers(); track $index){
-            <div (click)="userAnswered(answer)" [class]='highlightSelectedAnswer($index)' class="answer">{{ answer.value }}</div>
-        }
+        <div class="possible-answers">
+            @for(answer of possible_answers(); track $index){
+            <div (click)="userAnswered(answer)" [class]='highlightSelectedAnswer($index)' class="answer">{{ answer.value
+                }}</div>
+            }
+        </div>
     </div>
-</div>
 </div>
