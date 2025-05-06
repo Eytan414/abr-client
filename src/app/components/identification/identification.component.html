@@ -12,6 +12,6 @@
             <option [value]="school.schoolId">{{school.name}}</option>
             }
         </select>
-        <button [disabled]="!areDetailsFilled()" (click)="gotoInstructions()">המשך</button>
+        <button [disabled]="!areDetailsFilled()" (click)="checkIfSupervisor()">המשך</button>
     </div>
 </main>

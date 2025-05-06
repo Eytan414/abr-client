@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Injector, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
-import { SchoolDTO } from '../../shared/models/school';
 import { tap } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../services/app.service';
@@ -15,6 +14,7 @@ import { AppService } from '../../services/app.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdentificationComponent implements OnInit {
+  private readonly injector = inject(Injector);
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
@@ -29,19 +29,36 @@ export class IdentificationComponent implements OnInit {
     this.school() !== -1
   );
 
-
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }
 
+  updateUserDetails(schoolId: number = +this.school()) {
+    this.appService.userDetails.update(u => ({
+      ...u,
+      name: this.name(),
+      phone: this.phone(),
+      schoolId: schoolId,
+    }));
+  }
+
+  checkIfSupervisor() {
+    this.backend.checkIsSuper(this.phone()).pipe(
+      tap((result) => {
+        if(result.supervisor){
+          this.updateUserDetails(result.supervisor.schoolId);
+          this.gotoResults();
+        }
+        else
+          this.gotoInstructions();
+      })
+    ).subscribe();
+  }
+
+  gotoResults() {
+    this.router.navigateByUrl('/results', { skipLocationChange: true });
+  }
   gotoInstructions() {
-    this.appService.userDetails.update(u => (
-      {
-        ...u,
-        name: this.name(),
-        phone: this.phone(),
-        schoolId: +this.school(),
-      }));
     this.router.navigateByUrl('/instructions', { skipLocationChange: true });
   }
 }
