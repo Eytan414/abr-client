@@ -15,9 +15,6 @@ export class BackendService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly appService = inject(AppService);
-  // url = 'http://localhost:3300/';
-  // url = 'https://abr-server-production.up.railway.app/';
-
   private isAuthenticated = signal<boolean>(false);
 
   getQuizById() {
