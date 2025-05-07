@@ -6,7 +6,8 @@ import { ResultsComponent } from './components/results/results.component';
 
 export const routes: Routes = [
   { path: '', component: IdentificationComponent },
-  { path: 'questions', component: QuestionsComponent },
+  { path: 'questions', loadComponent: () => 
+    import('./components/questions/questions.component').then(m => m.QuestionsComponent) },
   { path: 'instructions', component: InstructionsComponent },
   { path: 'results', component: ResultsComponent },
 ];

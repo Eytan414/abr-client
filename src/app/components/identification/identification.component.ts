@@ -14,7 +14,6 @@ import { AppService } from '../../services/app.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdentificationComponent implements OnInit {
-  private readonly injector = inject(Injector);
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
@@ -49,8 +48,10 @@ export class IdentificationComponent implements OnInit {
           this.updateUserDetails(result.supervisor.schoolId);
           this.gotoResults();
         }
-        else
+        else{
+          this.updateUserDetails();
           this.gotoInstructions();
+        }
       })
     ).subscribe();
   }

@@ -7,9 +7,9 @@ import { SchoolDTO } from '../shared/models/school';
 })
 export class AppService {
   questions = signal<Question[]>([]);
-  schools = signal<SchoolDTO[]>([]);
   userDetails = signal<UserDetails>({schoolId:-1});
-  quizId = computed(() => {
+  schools = signal<SchoolDTO[]>([]);
+  quizId = computed(() => {  
     return this.schools().find(s => s.schoolId === this.userDetails().schoolId)?.quizId
   });
   scoresData = signal({});
@@ -18,5 +18,6 @@ export class AppService {
 type UserDetails = {
   readonly name?: string;
   readonly phone?: string;
+  readonly role?: string;
   readonly schoolId: number;
 }

@@ -8,8 +8,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // provideNoopAnimations(),
+    provideAnimations(),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    provideNoopAnimations()
-  ]
+    BrowserAnimationsModule,
+    ]
 };

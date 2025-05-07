@@ -5,8 +5,15 @@
         <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
             {{getTitle()}}
             @if(hasImage){
-            <button [attr.popovertarget]="'popover' + question().imageUrl"> <span><img [src]="question().imageUrl"
-                        alt=""></span></button>
+            <button [attr.popovertarget]="'popover' + question().imageUrl"> 
+                <span>
+                    <img alt=""
+                        loading="lazy"
+                        fetchpriority="low"
+                        [src]="question().imageUrl"
+                    >
+                </span>
+            </button>
             <div [id]="'popover' + question().imageUrl" popover><img [src]="question().imageUrl" alt=""></div>
             }
         </div>
