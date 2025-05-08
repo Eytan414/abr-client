@@ -19,12 +19,14 @@ export class IdentificationComponent implements OnInit {
   private readonly appService = inject(AppService);
   schools = this.appService.schools;
   name = signal<string>('');
+  grade = signal<string>('');
   phone = signal<string>('');
   school = signal<number>(-1);
 
   areDetailsFilled = computed(() =>
     this.name().trim() !== '' &&
     this.phone().trim() !== '' &&
+    this.grade().trim() !== '' &&
     this.school() !== -1
   );
 
@@ -35,9 +37,10 @@ export class IdentificationComponent implements OnInit {
   updateUserDetails(schoolId: number = +this.school()) {
     this.appService.userDetails.update(u => ({
       ...u,
-      name: this.name(),
-      phone: this.phone(),
       schoolId: schoolId,
+      name: this.name(),
+      grade: this.grade(),
+      phone: this.phone(),
     }));
   }
 

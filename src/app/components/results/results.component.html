@@ -1,40 +1,16 @@
+{{'role: ' + this.dashboardService.role()}}
+{{'isAuthenticated: ' + this.isAuthenticated()}}
 <main>
     @if(isAuthenticated()){
-    <!-- {{ results() | json}} -->
-    {{'role: ' + this.dashboardService.role()}}
-    {{'isAuthenticated: ' + this.isAuthenticated()}}
-
-    <button (click)="passmepass()">מסור</button>
-    @let dataSource = this.dashboardService.passwords();
-    @if(dataSource.length > 0) {
-    <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="סיסמה">
-            <th mat-header-cell *matHeaderCellDef> סיסמה </th>
-            <td mat-cell *matCellDef="let element">
-                @if(element.isEditing) {
-                <input matInput [(ngModel)]="element.password">
-                <button [disabled]="element.password.length < 8" (click)="saveCell(element)"> 
-                    <mat-icon class="material-icons">save</mat-icon>
-                </button>
-                } @else {
-                <span> {{element.password}} </span>
-                <button class='edit' (click)="editCell(element)">
-                    <mat-icon class="material-icons">edit</mat-icon>
-                </button>
-                }
-            </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['סיסמה']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['סיסמה']"></tr>
-    </table>
-    }
+    
+    <passwords-table class="passwords"/>
+    <scores-table class="scores"/>
     }
     @else { <!-- unauthenticated -->
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+        {{'qW3rTy@8'}}
         <input type="password" name="password" [(ngModel)]="password" minlength="8" required placeholder="סיסמה">
         <button type="submit" [disabled]="loginForm.invalid">התחברות</button>
-        mN7bV&1z
-
     </form>
     }
 </main>

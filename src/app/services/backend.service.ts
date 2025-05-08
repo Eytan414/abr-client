@@ -8,6 +8,7 @@ import { Supervisor } from '../shared/models/supervisor';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { DashboardService } from './dashboard.service';
+import { ScoreRecord, ScoresData } from '../shared/models/types';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class BackendService {
   }
 
   fetchResultsBySchool(schoolId: number) {
-    return this.http.get(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
+    return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
 
   login(password: string): Observable<string> {
@@ -53,8 +54,11 @@ export class BackendService {
         else {
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
           return this.fetchResultsBySchool(supervisorSchool)
-            .pipe(map((scores) => {
-              this.appService.scoresData.set(scores);
+            .pipe(map((scoresResp:ScoresData) => {
+              const scoresWithFormattedDate = scoresResp.scoresBySchool
+                .map((record:ScoreRecord) => ({...record, date: record.timestamp.split('T')[0]}));
+                scoresResp.scoresBySchool = scoresWithFormattedDate;
+              this.appService.scoresData.set(scoresResp);
               return result.role;
             }))
         }

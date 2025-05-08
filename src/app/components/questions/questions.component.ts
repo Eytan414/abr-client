@@ -64,9 +64,9 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   submit() {
     const userEntriesCount = this.userEntries().length;
     const questionsCount = this.appService.questions().length;
-    const emptySlots = userEntriesCount - this.userEntries().filter(() => true).length;
+    const emptySlots = userEntriesCount - this.userEntries().filter(e => e !== undefined).length;
 
-    if (emptySlots > 1 || questionsCount > userEntriesCount) {
+    if (emptySlots > 1 || questionsCount > (userEntriesCount - 1)) {
       this.showAlert = true;
       return;
     }
@@ -77,8 +77,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         return;
       }
     }
-    let { name, phone, schoolId: school } = this.appService.userDetails();
-    const userDetails = { name, phone, school, quizId: this.appService.quizId() };
+    const userDetails = { ...this.appService.userDetails(), quizId: this.appService.quizId() };
 
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(

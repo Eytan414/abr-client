@@ -12,6 +12,8 @@
             <option [value]="school.schoolId">{{school.name}}</option>
             }
         </select>
+        <label for="grade">כיתה:</label>
+        <input autocomplete="on" [(ngModel)]="grade" id="grade" type="text">
         <button [disabled]="!areDetailsFilled()" (click)="checkIfSupervisor()">המשך</button>
     </div>
 </main>

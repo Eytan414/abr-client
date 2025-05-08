@@ -1,5 +1,5 @@
 main {
-    display: grid;
+    display: flex;
     justify-self: center;
     margin: 2rem auto;
     padding: 1rem;
@@ -11,46 +11,31 @@ main {
     gap: 1rem;
     background-color: #ffffffcc;
 
-    table {
-        user-select: none;
-
-        th {
-            text-align: center;
-            font-size: 2rem;
+    .passwords{
+        flex: 2;
+    }
+    .scores{
+        flex: 3;
+    }
+    ::ng-deep table {
+        td{
+            text-align: right;
         }
-
-        td {
-            display: flex;
-            align-items: center;
-            padding: .5rem;
-            font-size: 1.5rem;
-            line-height: 1.5rem;
-
-            input {
-                width: 10ch;
-                padding: .25rem;
-            }
-
-            button{
-                margin-inline: auto 0.75rem;
-                display: inline-flex;
-                cursor: pointer;
-                border: 0;
-                background-color: transparent;
-                border-radius: 50%;
-                padding: .25rem;
-                &:disabled {
-                    cursor: not-allowed;
+        th{
+            text-align: left;
+        }
+        tbody{
+            tr{
+                &:nth-child(odd) {
+                    background-color: #ddd;
                 }
-                &:hover:not(:disabled) {
-                    background-color: #900;
-                }
-                &.edit:hover {
-                    background-color: #090;
+                &:hover {
+                    background-color: #a0a0a0;
                 }
             }
         }
     }
+    
 
     form {
         display: flex;

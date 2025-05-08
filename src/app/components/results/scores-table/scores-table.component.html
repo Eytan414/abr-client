@@ -1,0 +1,31 @@
+<select [(ngModel)]="selectedDate" (change)="updateFilter($event)" id="date">
+    @for(date of distinctDates(); track date){
+    <option [value]="date">{{date}}</option>
+    }
+</select>
+<div class="scores-table-wrapper">
+    <table mat-table matSort [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>שם</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.name}}
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="grade">
+            <th mat-header-cell *matHeaderCellDef>כיתה</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.grade ?? ''}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="score">
+            <th mat-sort-header="score" mat-header-cell *matHeaderCellDef>ציון</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.score}}
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="['name','grade','score']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
+    </table>
+</div>
