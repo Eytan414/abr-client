@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +12,9 @@ export type TablePassword = {
   id: string,
   password: string,
   isEditing: boolean,
+}
+type studentSheetData = {
+  studentAnswer: string, 
+  question: string,
+  correctAnswer: string,
 }

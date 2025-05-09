@@ -3,9 +3,10 @@ select{
     border: none;
     border-radius: 0.25rem;
     padding: 0.5rem 1rem;
+    appearance: none;
 }
 
-.scores-table-wrapper {
+.table-wrapper {
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
     margin-top: 1rem;

@@ -1,8 +1,10 @@
-{{'role: ' + this.dashboardService.role()}}
-{{'isAuthenticated: ' + this.isAuthenticated()}}
+<div [style.color]="'white'">
+
+    {{'role: ' + this.dashboardService.role()}}
+    {{'isAuthenticated: ' + this.isAuthenticated()}}
+</div>
 <main>
     @if(isAuthenticated()){
-    
     <passwords-table class="passwords"/>
     <scores-table class="scores"/>
     }

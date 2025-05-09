@@ -92,6 +92,9 @@ export class BackendService {
   updatePassword(id: string, value: string) {
     return this.http.patch(`${environment.apiUrl}passwords/${id}`, { value }, { withCredentials: true });
   }
+  getScoresByPhone(phone: string){
+    return this.http.get(`${environment.apiUrl}scores/${phone}`, { withCredentials: true });
+  }
 }
 
 type SuperPasswordsResp = {

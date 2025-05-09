@@ -1,41 +1,47 @@
 main {
     display: flex;
-    justify-self: center;
-    margin: 2rem auto;
+    // justify-self: center;
+    margin: 2rem;
     padding: 1rem;
     direction: rtl;
     border-radius: 0.25rem;
     box-shadow: 0 0 2.5rem 0.5rem;
-    width: min(85%, 768px);
+    // width: min(85%, 768px);
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
 
-    .passwords{
+    .passwords {
         flex: 2;
     }
-    .scores{
+
+    .scores {
         flex: 3;
     }
+
     ::ng-deep table {
-        td{
-            text-align: right;
+        td {
+            text-align: center;
         }
-        th{
-            text-align: left;
+
+        th > div {
+            display: flex;
+            justify-content: center;
         }
-        tbody{
-            tr{
+
+        tbody {
+            tr {
                 &:nth-child(odd) {
                     background-color: #ddd;
                 }
+
                 &:hover {
                     background-color: #a0a0a0;
                 }
             }
         }
     }
-    
+
 
     form {
         display: flex;

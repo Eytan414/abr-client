@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BackendService } from '../../services/backend.service';
-import { AppService } from '../../services/app.service';
-import { JsonPipe } from '@angular/common';
-import { DashboardService } from '../../services/dashboard.service';
+import { BackendService } from '../../../services/backend.service';
+import { DashboardService } from '../../../services/dashboard.service';
 import { MatTableModule } from '@angular/material/table';
 import { ScoresTableComponent } from "./scores-table/scores-table.component";
 import { PasswordsTableComponent } from "./passwords-table/passwords-table.component";
+import { MatDialog } from '@angular/material/dialog';
+import { AddSchoolComponent } from '../add-school/add-school.component';
 
 @Component({
   selector: 'app-results',
@@ -14,8 +14,8 @@ import { PasswordsTableComponent } from "./passwords-table/passwords-table.compo
     FormsModule,
     MatTableModule,
     ScoresTableComponent,
-    PasswordsTableComponent
-],
+    PasswordsTableComponent,
+  ],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
   standalone: true,
@@ -23,27 +23,11 @@ import { PasswordsTableComponent } from "./passwords-table/passwords-table.compo
 })
 export class ResultsComponent {
   private readonly backend = inject(BackendService);
+  private readonly dialog = inject(MatDialog);
   readonly dashboardService = inject(DashboardService);
-  
+
   password = '';
   isAuthenticated = computed(() => this.dashboardService.role() !== 'unidentified');
-
-//   tst = computed(() => 
-//     this.results().map((record: TableData) => ({
-//       name: record.name,
-//       score: record.score,
-//     }))
-// );
-
-  // tableData:Array<Partial<TableData>> = computed(() => {
-  //   // this.results()
-  //   [].map((record: TableData) => ({
-  //     name: record.name,
-  //     score: record.score,
-  //   }))
-  // })
-  
-
 
   onSubmit() {
     this.backend.login(this.password).subscribe();

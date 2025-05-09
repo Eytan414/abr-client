@@ -1,9 +1,18 @@
+@if(showQuizForm){
+    <button (click)="showQuizForm = false" class="back">חזרה</button>
+    <div class="summary">
+        <p>{{selectedRow?.name + ': ' + selectedRow?.score}}</p>
+    </div>
+    <student-sheet [studentPhone]="selectedRow?.phone!"/>
+}
+@else{
 <select [(ngModel)]="selectedDate" (change)="updateFilter($event)" id="date">
+    <option value='' selected>כל התאריכים</option>
     @for(date of distinctDates(); track date){
     <option [value]="date">{{date}}</option>
     }
 </select>
-<div class="scores-table-wrapper">
+<div class="table-wrapper">
     <table mat-table matSort [dataSource]="dataSource">
         <ng-container matColumnDef="name">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>שם</th>
@@ -26,6 +35,7 @@
         </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="['name','grade','score']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
+        <tr (click)="rowClicked(row)" mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
     </table>
 </div>
+}
