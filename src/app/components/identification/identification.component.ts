@@ -21,23 +21,23 @@ export class IdentificationComponent implements OnInit {
   name = signal<string>('');
   grade = signal<string>('');
   phone = signal<string>('');
-  school = signal<number>(-1);
+  school = signal<string>('');
 
   areDetailsFilled = computed(() =>
     this.name().trim() !== '' &&
     this.phone().trim() !== '' &&
     this.grade().trim() !== '' &&
-    this.school() !== -1
+    this.school().trim() !== ''
   );
 
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }
 
-  updateUserDetails(schoolId: number = +this.school()) {
+  updateUserDetails(id: string = this.school()) {
     this.appService.userDetails.update(u => ({
       ...u,
-      schoolId: schoolId,
+      _id:id,
       name: this.name(),
       grade: this.grade(),
       phone: this.phone(),
@@ -48,7 +48,7 @@ export class IdentificationComponent implements OnInit {
     this.backend.checkIsSuper(this.phone()).pipe(
       tap((result) => {
         if(result.supervisor){
-          this.updateUserDetails(result.supervisor.schoolId);
+          this.updateUserDetails(result.supervisor._id);
           this.gotoResults();
         }
         else{

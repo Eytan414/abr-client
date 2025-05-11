@@ -1,8 +1,29 @@
-<h3>הוספת בית ספר</h3>
+<h2>כותרת</h2>
 <main>
-    <!-- <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
+        <label>שם בית ספר</label>
         <input type="text" name="schoolName" [(ngModel)]="schoolName" required placeholder="שם בית ספר">
-        <input type="text" name="supervisor" [(ngModel)]="schoolCode" required placeholder="הגדרת רכז">
+        <label>שיוך חידון</label>
+        <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
+            @for(quiz of (quizzes | async); track quiz.id){
+            <option [value]="quiz.id">{{quiz.title}}</option>
+            }
+        </select>
+        <label>שם רכז</label>
+        <input type="text" name="supervisor" [(ngModel)]="supervisorName" required="true" placeholder="שם רכז">
+        <label>טלפון רכז</label>
+        <input type="tel" name="supervisor-phone" [(ngModel)]="supervisorPhone" required placeholder="טלפון רכז">
         <button type="submit" [disabled]="addSchoolForm.invalid">הוספה</button>
-    </form> -->
+    </form>
+<!--     
+        @if(submitionStatus() === 200){
+        <c-alert visible="true" dismissible="false" color="success" fade>
+            החידון נשלח בהצלחה
+        </c-alert>
+        }
+        @if(submitionStatus() === 500){
+        <c-alert visible="true" dismissible="true" color="danger" fade>
+            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
+        </c-alert>
+        } -->
 </main>

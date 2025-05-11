@@ -1,5 +1,6 @@
 export type Supervisor = {
-    schoolId: number,
+    schoolId: string,
+    _id: string,
     phone: string,
     name: string,
 }

@@ -7,10 +7,10 @@
   @include mat.all-component-themes(theme.$light-theme);
 
 }
-
+input,
 button,
 select {
-  border: 1px solid black;
+  border: 1px solid #333;
   border-radius: 0.25rem;
   background: white;
   padding: 0.5rem 1rem;
@@ -18,8 +18,9 @@ select {
 
 button {
   border: none;
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #961a1d;
+    color: white;
   }
 }
 

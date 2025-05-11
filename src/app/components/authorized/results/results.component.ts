@@ -15,7 +15,8 @@ import { AddSchoolComponent } from '../add-school/add-school.component';
     MatTableModule,
     ScoresTableComponent,
     PasswordsTableComponent,
-  ],
+    AddSchoolComponent
+],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
   standalone: true,

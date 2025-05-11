@@ -1,4 +1,4 @@
-type TableData = {
+export type TableData = {
     phone: string,
     name: string,
     score: number,
@@ -18,4 +18,12 @@ export type ScoreRecord = {
 export type ScoresData = {
     scoresBySchool: ScoreRecord[];
     quizDistinctDates: string[];
+}
+export type SchoolToAdd = {
+    name: string,
+    quizId: number,
+    supervisor: {
+        phone: string,
+        name: string,
+    }
 }

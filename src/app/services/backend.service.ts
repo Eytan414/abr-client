@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 import { DashboardService } from './dashboard.service';
 import { ScoreRecord, ScoresData } from '../shared/models/types';
 import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
+import { SchoolToAdd } from '../shared/models/types';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,9 @@ export class BackendService {
   private readonly dashboardService = inject(DashboardService);
   private isAuthenticated = signal<boolean>(false);
 
+  getAllQuizzes() {
+    return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`);
+  }
   getQuizById() {
     const id = this.appService.quizId();
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
@@ -40,12 +44,12 @@ export class BackendService {
     return this.http.get<{ supervisor: null | Supervisor }>(`${environment.apiUrl}supervisor/is-super/${phone}`);
   }
 
-  fetchResultsBySchool(schoolId: number) {
+  fetchResultsBySchool(schoolId: string) {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
 
   login(password: string): Observable<string> {
-    const supervisorSchool = this.appService.userDetails().schoolId;
+    const supervisorSchool = this.appService.userDetails()._id;
 
     return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password })
       .pipe(switchMap(result => {
@@ -95,6 +99,9 @@ export class BackendService {
   }
   getScoresByPhone(phone: string) {
     return this.http.get<SheetData[]>(`${environment.apiUrl}scores/${phone}`, { withCredentials: true });
+  }
+  addSchool(schoolToAdd: SchoolToAdd) {
+    return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true, });
   }
 }
 

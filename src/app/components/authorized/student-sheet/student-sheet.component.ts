@@ -55,21 +55,20 @@ export class StudentSheetComponent implements OnInit {
       return {
         ...p,
         questionText: rowAnswerData.question,
-        answerText: '',
-        answerIndex: -1,
         questionIndex: isSame ? -1 : questionIndex,
+        answerIndex: -1,
       }
     });
   }
+  
   showTextualAnswer(answerIndex: number, rowAnswerData: SheetData) {
     this.popover.update(p => {
       const isSame = p.answerIndex === answerIndex;
       return {
         ...p,
-        questionText: '',
         answerText: rowAnswerData.answerText,
+        answerIndex: isSame ? -1 : answerIndex,
         questionIndex: -1,
-        answerIndex: isSame ? -1 : answerIndex
       }
     });
   }
@@ -77,9 +76,7 @@ export class StudentSheetComponent implements OnInit {
   styleAnswer(answerData: any): string {
     return answerData.isCorrect ? 'correct' : 'wrong';
   }
-  debugger() {
-    debugger;
-  }
+  
 
 }
 export type SheetData = {
