@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { DashboardService } from '../../../services/dashboard.service';
 import { catchError } from 'rxjs/operators';
 import { of, tap } from 'rxjs';
-
+import { PopoverModule, PopoverDirective } from '@coreui/angular';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'student-sheet',
   imports: [
     MatTableModule,
+    PopoverDirective,
+    MatTooltipModule,
   ],
   templateUrl: './student-sheet.component.html',
   styleUrl: './student-sheet.component.scss',
@@ -16,6 +19,8 @@ import { of, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentSheetComponent implements OnInit {
+
+
   private readonly backend = inject(BackendService);
   private readonly dashboardService = inject(DashboardService);
 
@@ -23,17 +28,19 @@ export class StudentSheetComponent implements OnInit {
 
   studentTableData = signal<any>([]);
   displayedColumns = signal<string[]>([]);
-  fullAnswerData!: any;
+  fullAnswerData!: SheetData[];
+  popover = signal<PopoverData>({});
+  showPopover = signal<boolean>(false);
 
   ngOnInit(): void {
     this.backend.getScoresByPhone(this.studentPhone()).pipe(
       catchError(err => {
         console.error(err);
-        return of([]);
+        return of<SheetData[]>([]);
       }),
-      tap((data: any) => {
+      tap((data: SheetData[]) => {
         const flatRow = Object.fromEntries(
-          data.map((entry: any, i: number) => [(i + 1).toString(), entry.studentAnswer])
+          data.map((entry: any, i: number) => [(i + 1).toString()])
         );
         this.studentTableData.set([flatRow]);
         this.displayedColumns.set(Object.keys(flatRow));
@@ -42,9 +49,49 @@ export class StudentSheetComponent implements OnInit {
     ).subscribe();
 
   }
+  showTextualQuestion(questionIndex: number, rowAnswerData: SheetData) {
+    this.popover.update(p => {
+      const isSame = p.questionIndex === questionIndex;
+      return {
+        ...p,
+        questionText: rowAnswerData.question,
+        answerText: '',
+        answerIndex: -1,
+        questionIndex: isSame ? -1 : questionIndex,
+      }
+    });
+  }
+  showTextualAnswer(answerIndex: number, rowAnswerData: SheetData) {
+    this.popover.update(p => {
+      const isSame = p.answerIndex === answerIndex;
+      return {
+        ...p,
+        questionText: '',
+        answerText: rowAnswerData.answerText,
+        questionIndex: -1,
+        answerIndex: isSame ? -1 : answerIndex
+      }
+    });
+  }
 
+  styleAnswer(answerData: any): string {
+    return answerData.isCorrect ? 'correct' : 'wrong';
+  }
   debugger() {
     debugger;
   }
 
+}
+export type SheetData = {
+  answer?: number;
+  answerText?: string;
+  correctAnswer?: { id: number, value: string };
+  isCorrect?: boolean;
+  question?: string;
+}
+type PopoverData = {
+  questionText?: string;
+  questionIndex?: number;
+  answerText?: string;
+  answerIndex?: number;
 }

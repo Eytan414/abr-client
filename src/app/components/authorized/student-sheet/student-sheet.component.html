@@ -1,20 +1,20 @@
 <div class="table-wrapper">
-
     <table mat-table [dataSource]="studentTableData()">
         @for(col of displayedColumns(); track col){
         @let adjustedIndex = (+col) - 1;
         <ng-container [matColumnDef]="col">
-            <th mat-header-cell *matHeaderCellDef>
-                <div [title]="fullAnswerData[adjustedIndex].question">
-                    <!-- <span > -->
+            <th mat-header-cell *matHeaderCellDef
+                (click)="showTextualQuestion(adjustedIndex, fullAnswerData[adjustedIndex])"
+                [cPopover]="popover().questionText" cPopoverPlacement="top" [cPopoverTrigger]="'focus'"
+                [cPopoverVisible]="adjustedIndex === popover().questionIndex" color="secondary">
+                <div>
                     {{ 'שאלה ' + col }}
-                    </div>
+                </div>
             </th>
-            <td mat-cell *matCellDef="let element">
-                <span
-                    [class]="{'correct': fullAnswerData[adjustedIndex].isCorrect, 'wrong': !fullAnswerData[adjustedIndex].isCorrect }"
-                    [title]="fullAnswerData[adjustedIndex].answerText"> 
-
+            <td mat-cell *matCellDef (click)="showTextualAnswer(adjustedIndex, fullAnswerData[adjustedIndex])"
+                [cPopoverTrigger]="'focus'" [cPopover]="popover().answerText" cPopoverPlacement="bottom"
+                [cPopoverVisible]="adjustedIndex === popover().answerIndex" color="secondary">
+                <span [class]="styleAnswer(fullAnswerData[adjustedIndex])">
                     {{ fullAnswerData[adjustedIndex].answer }}
                 </span>
             </td>
@@ -23,21 +23,5 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
     </table>
-
-
-
-
-
-    <!-- <table mat-table [dataSource]="studentSheetData()">
-        @for(column of displayedColumns; track column){
-        <ng-container [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-            <td mat-cell *matCellDef="let element">{{ element | json }}</td>
-        </ng-container>
-        }
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table> -->
 </div>
 <button (click)="debugger()">debugger()</button>

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { DashboardService } from './dashboard.service';
 import { ScoreRecord, ScoresData } from '../shared/models/types';
+import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,7 @@ export class BackendService {
   login(password: string): Observable<string> {
     const supervisorSchool = this.appService.userDetails().schoolId;
 
-    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value:password })
+    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password })
       .pipe(switchMap(result => {
         if (result.role === 'unidentified') {
           return of('unidentified');
@@ -54,10 +55,10 @@ export class BackendService {
         else {
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
           return this.fetchResultsBySchool(supervisorSchool)
-            .pipe(map((scoresResp:ScoresData) => {
+            .pipe(map((scoresResp: ScoresData) => {
               const scoresWithFormattedDate = scoresResp.scoresBySchool
-                .map((record:ScoreRecord) => ({...record, date: record.timestamp.split('T')[0]}));
-                scoresResp.scoresBySchool = scoresWithFormattedDate;
+                .map((record: ScoreRecord) => ({ ...record, date: record.timestamp.split('T')[0] }));
+              scoresResp.scoresBySchool = scoresWithFormattedDate;
               this.appService.scoresData.set(scoresResp);
               return result.role;
             }))
@@ -92,8 +93,8 @@ export class BackendService {
   updatePassword(id: string, value: string) {
     return this.http.patch(`${environment.apiUrl}passwords/${id}`, { value }, { withCredentials: true });
   }
-  getScoresByPhone(phone: string){
-    return this.http.get(`${environment.apiUrl}scores/${phone}`, { withCredentials: true });
+  getScoresByPhone(phone: string) {
+    return this.http.get<SheetData[]>(`${environment.apiUrl}scores/${phone}`, { withCredentials: true });
   }
 }
 

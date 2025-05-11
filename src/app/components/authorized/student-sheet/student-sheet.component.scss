@@ -1,9 +1,10 @@
 .table-wrapper {
     max-width: calc(50vw - 5rem);
     overflow-x: auto;
-
-    ::ng-deep th{
+    user-select: none;
+    ::ng-deep th,td{
         text-align: center;
+        cursor: pointer;
     }
 
     span {
@@ -16,5 +17,11 @@
             color: red;
         }
 
+    }
+}
+@media (max-width: 768px) {
+    table-wrapper{
+
+        max-width: unset;
     }
 }

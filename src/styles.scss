@@ -5,4 +5,24 @@
 
 :root {
   @include mat.all-component-themes(theme.$light-theme);
+
+}
+
+button,
+select {
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  background: white;
+  padding: 0.5rem 1rem;
+}
+
+button {
+  border: none;
+  &:hover {
+    background-color: #961a1d;
+  }
+}
+
+select {
+  appearance: none;
 }
