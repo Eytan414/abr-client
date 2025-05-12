@@ -1,21 +1,22 @@
 @let role = this.dashboardService.role();
 <main>
-    @if(role === 'supervisor'){
-    <div class='supervisor'>
+    <div [class]="role">
+        @if(role === 'supervisor'){
         <scores-table />
-    </div>
-    }
-    @else if (role === 'admin'){
-    <div class='admin'>
+        }
+        @else if (role === 'admin'){
         <passwords-table />
         <add-school />
+        }
+        @else {
+        <form #loginForm='ngForm' (ngSubmit)='onSubmit()'>
+            {{'qW3rTy@8'}}
+            <input type='password' name='password' [(ngModel)]='password' minlength='8' required placeholder='סיסמה'>
+            <button type='submit' [disabled]='loginForm.invalid'>התחברות</button>
+        </form>
+        }
     </div>
-    }
-    @else {
-    <form #loginForm='ngForm' (ngSubmit)='onSubmit()'>
-        {{'qW3rTy@8'}}
-        <input type='password' name='password' [(ngModel)]='password' minlength='8' required placeholder='סיסמה'>
-        <button type='submit' [disabled]='loginForm.invalid'>התחברות</button>
-    </form>
-    }
 </main>
+<button (click)="adminRole()">admin role</button>
+<button (click)="superRole()">super role</button>
+<button (click)="unidentified()">unidentified</button>

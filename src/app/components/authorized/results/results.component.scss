@@ -1,12 +1,11 @@
 main {
-    display: flex;
-    // justify-self: center;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     margin: 2rem;
     padding: 1rem;
     direction: rtl;
     border-radius: 0.25rem;
     box-shadow: 0 0 2.5rem 0.5rem;
-    // width: min(85%, 768px);
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;

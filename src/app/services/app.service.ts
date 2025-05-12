@@ -8,10 +8,10 @@ import { ScoreRecord, ScoresData } from '../shared/models/types';
 })
 export class AppService {
   questions = signal<Question[]>([]);
-  userDetails = signal<UserDetails>({ _id: '' });
+  userDetails = signal<UserDetails>({ });
   schools = signal<SchoolDTO[]>([]);
   quizId = computed(() => {
-    return this.schools().find(s => s._id === this.userDetails()._id)?.quizId
+    return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId
   });
   scoresData = signal<ScoresData>({
     scoresBySchool: [],
@@ -26,5 +26,5 @@ type UserDetails = {
   readonly phone?: string;
   readonly grade?: string;
   readonly role?: string;
-  readonly _id: string;
+  readonly schoolId?: string;
 }

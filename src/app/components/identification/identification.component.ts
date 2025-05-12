@@ -34,10 +34,10 @@ export class IdentificationComponent implements OnInit {
     this.backend.getSchoolList().subscribe();
   }
 
-  updateUserDetails(id: string = this.school()) {
+  updateUserDetails(schoolId: string = this.school()) {
     this.appService.userDetails.update(u => ({
       ...u,
-      _id:id,
+      schoolId,
       name: this.name(),
       grade: this.grade(),
       phone: this.phone(),
@@ -48,7 +48,7 @@ export class IdentificationComponent implements OnInit {
     this.backend.checkIsSuper(this.phone()).pipe(
       tap((result) => {
         if(result.supervisor){
-          this.updateUserDetails(result.supervisor._id);
+          this.updateUserDetails(result.supervisor.schoolId);
           this.gotoResults();
         }
         else{

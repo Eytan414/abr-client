@@ -49,8 +49,9 @@ export class BackendService {
   }
 
   login(password: string): Observable<string> {
-    const supervisorSchool = this.appService.userDetails()._id;
-
+    const supervisorSchool = this.appService.userDetails().schoolId;
+    if(!supervisorSchool) return of('unidentified');
+    
     return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password })
       .pipe(switchMap(result => {
         if (result.role === 'unidentified') {
