@@ -25,7 +25,7 @@ import { AddSchoolComponent } from '../add-school/add-school.component';
 export class ResultsComponent {
 
 
-  unidentified() {
+  /* unidentified() {
     this.dashboardService.role.set('unidentified');
   }
   adminRole() {
@@ -33,7 +33,7 @@ export class ResultsComponent {
   }
   superRole() {
     this.dashboardService.role.set('super');
-  }
+  } */
   private readonly backend = inject(BackendService);
   private readonly dialog = inject(MatDialog);
   readonly dashboardService = inject(DashboardService);

@@ -1,19 +1,19 @@
 <main>
     <h1>ברוכים הבאים</h1>
     <h3>נא למלא פרטי זיהוי:</h3>
-    <div class="identification">
+    <form #identificationForm="ngForm" class="identification">
         <label for="name">שם מלא:</label>
-        <input autocomplete="on" [(ngModel)]="name" id="name" type="text">
+        <input autocomplete="on" [(ngModel)]="name" name="name" id="name" type="text" required>
         <label for="phone">טלפון:</label>
-        <input autocomplete="on" [(ngModel)]="phone" id="phone" type="tel">
+        <input autocomplete="on" [(ngModel)]="phone" name="phone" id="phone" pattern="^\d{10}$" type="tel" required>
         <label for="school">בחירת בית ספר:</label>
-        <select [(ngModel)]="school" id="school">
+        <select [(ngModel)]="school" name="school" id="school" required>
             @for(school of schools(); track school){
             <option [value]="school._id">{{school.name}}</option>
             }
         </select>
         <label for="grade">כיתה:</label>
-        <input autocomplete="on" [(ngModel)]="grade" id="grade" type="text">
-        <button [disabled]="!areDetailsFilled()" (click)="checkIfSupervisor()">המשך</button>
-    </div>
+        <input autocomplete="on" [(ngModel)]="grade" name="grade" id="grade" type="text" required>
+        <button [disabled]="identificationForm.invalid" (click)="checkIfSupervisor()">המשך</button>
+    </form>
 </main>

@@ -22,14 +22,7 @@ export class IdentificationComponent implements OnInit {
   grade = signal<string>('');
   phone = signal<string>('');
   school = signal<string>('');
-
-  areDetailsFilled = computed(() =>
-    this.name().trim() !== '' &&
-    this.phone().trim() !== '' &&
-    this.grade().trim() !== '' &&
-    this.school().trim() !== ''
-  );
-
+  
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }

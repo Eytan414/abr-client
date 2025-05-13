@@ -42,7 +42,6 @@ export class AddSchoolComponent {
           this.submitionStatus.set(200);
         }),
         catchError(err => {
-          debugger
           this.submitionStatus.set(err.status);
           return of(err);
         })
