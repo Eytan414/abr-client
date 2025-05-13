@@ -55,7 +55,7 @@ export class BackendService {
     const supervisorSchool = this.appService.userDetails().schoolId;
     if(!supervisorSchool) return of('unidentified');
     
-    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password })
+    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password }, { withCredentials: true })
       .pipe(switchMap(result => {
         if (result.role === 'unidentified') {
           return of('unidentified');
