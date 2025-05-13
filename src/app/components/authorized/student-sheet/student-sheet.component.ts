@@ -2,16 +2,14 @@ import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } fro
 import { BackendService } from '../../../services/backend.service';
 import { MatTableModule } from '@angular/material/table';
 import { DashboardService } from '../../../services/dashboard.service';
-import { catchError } from 'rxjs/operators';
-import { of, tap } from 'rxjs';
-import { PopoverModule, PopoverDirective } from '@coreui/angular';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
+import { PopoverDirective } from '@coreui/angular';
 @Component({
   selector: 'student-sheet',
   imports: [
     MatTableModule,
     PopoverDirective,
-    MatTooltipModule,
   ],
   templateUrl: './student-sheet.component.html',
   styleUrl: './student-sheet.component.scss',
@@ -60,7 +58,7 @@ export class StudentSheetComponent implements OnInit {
       }
     });
   }
-  
+
   showTextualAnswer(answerIndex: number, rowAnswerData: SheetData) {
     this.popover.update(p => {
       const isSame = p.answerIndex === answerIndex;
@@ -76,7 +74,7 @@ export class StudentSheetComponent implements OnInit {
   styleAnswer(answerData: any): string {
     return answerData.isCorrect ? 'correct' : 'wrong';
   }
-  
+
 
 }
 export type SheetData = {

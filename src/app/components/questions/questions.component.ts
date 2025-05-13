@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, NgZone, OnInit, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 // @ts-ignore
 import { Carousel } from '@coreui/coreui';
 import { AlertComponent, } from '@coreui/angular';
@@ -10,7 +9,7 @@ import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 import { QuestionCardComponent } from '../question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';
-import { tap } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 
 @Component({

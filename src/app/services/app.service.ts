@@ -1,7 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Question } from '../shared/models/question';
 import { SchoolDTO } from '../shared/models/school';
-import { ScoreRecord, ScoresData } from '../shared/models/types';
+import { ScoresData } from '../shared/models/types';
 
 @Injectable({
   providedIn: 'root'

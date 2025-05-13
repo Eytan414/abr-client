@@ -2,11 +2,11 @@
 <main>
     <div [class]="role">
         @if(role === 'supervisor'){
-        <scores-table />
-        }
-        @else if (role === 'admin'){
-        <passwords-table />
-        <add-school />
+        <ng-container *ngComponentOutlet="scoresComponent()" />
+    }
+    @else if (role === 'admin'){
+        <ng-container *ngComponentOutlet="passwordsComponent()" />
+        <ng-container *ngComponentOutlet="addSchoolComponent()" />
         }
         @else {
         <form #loginForm='ngForm' (ngSubmit)='onSubmit()'>

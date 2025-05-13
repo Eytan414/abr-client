@@ -3,9 +3,9 @@ import { AppService } from '../../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatSortModule, MatSort } from '@angular/material/sort';
-import { FormsModule } from '@angular/forms';
 import { ScoreRecord } from '../../../../shared/models/types';
 import { StudentSheetComponent } from '../../student-sheet/student-sheet.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'scores-table',
@@ -23,11 +23,11 @@ import { StudentSheetComponent } from '../../student-sheet/student-sheet.compone
 })
 export class ScoresTableComponent implements AfterViewInit {
   readonly appService = inject(AppService);
-
   scores = computed(() => this.appService.scoresData().scoresBySchool);
   distinctDates = computed(() => this.appService.scoresData().quizDistinctDates);
   @ViewChild(MatSort) sort!: MatSort;
   dataSource = new MatTableDataSource(this.scores());
+
   selectedDate: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, inject, Injector, OnInit,
 import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
 import { tap } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms';
 import { AppService } from '../../services/app.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'identification',

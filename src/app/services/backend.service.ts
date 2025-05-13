@@ -1,16 +1,19 @@
-import { HttpClient, } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Quiz } from '../shared/models/quiz';
-import { finalize, map, Observable, of, switchMap, tap } from 'rxjs';
-import { AppService } from './app.service';
-import { SchoolDTO } from '../shared/models/school';
-import { Supervisor } from '../shared/models/supervisor';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { AppService } from './app.service';
 import { DashboardService } from './dashboard.service';
-import { ScoreRecord, ScoresData } from '../shared/models/types';
 import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
+import { ScoreRecord, ScoresData } from '../shared/models/types';
 import { SchoolToAdd } from '../shared/models/types';
+import { Supervisor } from '../shared/models/supervisor';
+import { Quiz } from '../shared/models/quiz';
+import { SchoolDTO } from '../shared/models/school';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'

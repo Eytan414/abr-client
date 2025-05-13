@@ -1,21 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, Type } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { BackendService } from '../../../services/backend.service';
 import { DashboardService } from '../../../services/dashboard.service';
-import { MatTableModule } from '@angular/material/table';
-import { ScoresTableComponent } from "./scores-table/scores-table.component";
-import { PasswordsTableComponent } from "./passwords-table/passwords-table.component";
-import { MatDialog } from '@angular/material/dialog';
-import { AddSchoolComponent } from '../add-school/add-school.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-results',
   imports: [
     FormsModule,
-    MatTableModule,
-    ScoresTableComponent,
-    PasswordsTableComponent,
-    AddSchoolComponent
+    NgComponentOutlet
   ],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
@@ -23,8 +16,9 @@ import { AddSchoolComponent } from '../add-school/add-school.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResultsComponent {
-
-
+  scoresComponent = this.injectComponent(() => import('./scores-table/scores-table.component').then(m => m.ScoresTableComponent));
+  passwordsComponent = this.injectComponent(() => import('./passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
+  addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
   /* unidentified() {
     this.dashboardService.role.set('unidentified');
   }
@@ -35,7 +29,6 @@ export class ResultsComponent {
     this.dashboardService.role.set('super');
   } */
   private readonly backend = inject(BackendService);
-  private readonly dialog = inject(MatDialog);
   readonly dashboardService = inject(DashboardService);
 
   password = '';
@@ -43,6 +36,12 @@ export class ResultsComponent {
 
   onSubmit() {
     this.backend.login(this.password).subscribe();
+  }
+
+  injectComponent<T>(loader: () => Promise<Type<T>>) {
+    const comp = signal<Type<T> | null>(null);
+    loader().then(comp.set);
+    return comp;
   }
 
 }

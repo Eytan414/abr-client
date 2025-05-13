@@ -1,11 +1,9 @@
 @use '@angular/material' as mat;
 @use '../theme-colors' as theme;
-
 @include mat.core();
 
 :root {
-  @include mat.all-component-themes(theme.$light-theme);
-
+  @include mat.table-theme(theme.$light-theme);
 }
 
 input,

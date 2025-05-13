@@ -1,14 +1,20 @@
 import { Routes } from '@angular/router';
-import { IdentificationComponent } from './components/identification/identification.component';
-import { InstructionsComponent } from './components/instructions/instructions.component';
-import { ResultsComponent } from './components/authorized/results/results.component';
 
 export const routes: Routes = [
-  { path: '', component: IdentificationComponent },
+  {
+    path: '', loadComponent: () =>
+      import('./components/identification/identification.component').then(m => m.IdentificationComponent)
+  },
   {
     path: 'questions', loadComponent: () =>
       import('./components/questions/questions.component').then(m => m.QuestionsComponent)
   },
-  { path: 'instructions', component: InstructionsComponent },
-  { path: 'results', component: ResultsComponent },
+  {
+    path: 'results', loadComponent: () =>
+      import('./components/authorized/results/results.component').then(m => m.ResultsComponent)
+  },
+  {
+    path: 'instructions', loadComponent: () =>
+      import('./components/instructions/instructions.component').then(m => m.InstructionsComponent)
+  },
 ];

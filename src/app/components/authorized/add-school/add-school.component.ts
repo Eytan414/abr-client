@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
 import { AsyncPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 import { AlertComponent, } from '@coreui/angular';
 import { SchoolToAdd } from '../../../shared/models/types';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'add-school',
