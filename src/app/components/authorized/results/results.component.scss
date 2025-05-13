@@ -10,8 +10,14 @@ main {
     gap: 1rem;
     background-color: #ffffffcc;
 
-    &:has(.summary) {
+    &:has(.admin, .summary) {
         grid-template-columns: 1fr;
+    }
+
+    .admin {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
     }
 
     ::ng-deep table {
@@ -45,11 +51,13 @@ main {
     }
 }
 
-@media(max-width: 768px){
-    main{
+@media(max-width: 768px) {
+    main {
         grid-template-columns: 1fr;
-
-        form{
+    .admin {
+        grid-template-columns: 1fr;
+    }
+        form {
             flex-direction: column;
         }
     }

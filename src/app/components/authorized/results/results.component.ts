@@ -16,18 +16,10 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResultsComponent {
-  scoresComponent = this.injectComponent(() => import('./scores-table/scores-table.component').then(m => m.ScoresTableComponent));
-  passwordsComponent = this.injectComponent(() => import('./passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
+  scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
+  passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
-  /* unidentified() {
-    this.dashboardService.role.set('unidentified');
-  }
-  adminRole() {
-    this.dashboardService.role.set('admin');
-  }
-  superRole() {
-    this.dashboardService.role.set('super');
-  } */
+
   private readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
 

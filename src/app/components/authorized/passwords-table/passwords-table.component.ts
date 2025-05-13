@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { DashboardService, TablePassword } from '../../../../services/dashboard.service';
+import { DashboardService, TablePassword } from '../../../services/dashboard.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { BackendService } from '../../../../services/backend.service';
+import { BackendService } from '../../../services/backend.service';
 
 @Component({
   selector: 'passwords-table',

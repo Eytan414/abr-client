@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, ViewChild } from '@angular/core';
-import { AppService } from '../../../../services/app.service';
+import { AppService } from '../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatSortModule, MatSort } from '@angular/material/sort';
-import { ScoreRecord } from '../../../../shared/models/types';
-import { StudentSheetComponent } from '../../student-sheet/student-sheet.component';
+import { ScoreRecord } from '../../../shared/models/types';
+import { StudentSheetComponent } from '../student-sheet/student-sheet.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -46,7 +46,7 @@ export class ScoresTableComponent implements AfterViewInit {
     };
   }
 
-  rowClicked(row:any) {
+  rowClicked(row: any) {
     this.selectedRow = row;
     this.showQuizForm = true;
   }

@@ -5,8 +5,8 @@
         <ng-container *ngComponentOutlet="scoresComponent()" />
     }
     @else if (role === 'admin'){
-        <ng-container *ngComponentOutlet="passwordsComponent()" />
         <ng-container *ngComponentOutlet="addSchoolComponent()" />
+        <ng-container *ngComponentOutlet="passwordsComponent()" />
         }
         @else {
         <form #loginForm='ngForm' (ngSubmit)='onSubmit()'>
@@ -16,6 +16,3 @@
         }
     </div>
 </main>
-<!-- <button (click)="adminRole()">admin role</button>
-<button (click)="superRole()">super role</button>
-<button (click)="unidentified()">unidentified</button> -->
