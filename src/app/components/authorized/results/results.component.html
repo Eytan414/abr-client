@@ -10,7 +10,6 @@
         }
         @else {
         <form #loginForm='ngForm' (ngSubmit)='onSubmit()'>
-            {{'qW3rTy@8'}}
             <input type='password' name='password' [(ngModel)]='password' minlength='8' required placeholder='סיסמה'>
             <button type='submit' [disabled]='loginForm.invalid'>התחברות</button>
         </form>
