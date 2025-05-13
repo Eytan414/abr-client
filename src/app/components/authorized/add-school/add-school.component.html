@@ -1,29 +1,39 @@
 <h2>כותרת</h2>
 <main>
     <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
-        <label>שם בית ספר</label>
-        <input type="text" name="schoolName" [(ngModel)]="schoolName" required placeholder="שם בית ספר">
-        <label>שיוך חידון</label>
-        <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
-            @for(quiz of (quizzes | async); track quiz.id){
-            <option [value]="quiz.id">{{quiz.title}}</option>
-            }
-        </select>
-        <label>שם רכז</label>
-        <input type="text" name="supervisor" [(ngModel)]="supervisorName" required="true" placeholder="שם רכז">
-        <label>טלפון רכז</label>
-        <input type="tel" name="supervisor-phone" [(ngModel)]="supervisorPhone" required placeholder="טלפון רכז">
+        <div class="form-control-wrapper">
+            <label>שם בית ספר</label>
+            <input type="text" name="schoolName" [(ngModel)]="schoolName" required placeholder="שם בית ספר">
+        </div>
+        <div class="form-control-wrapper">
+            <label>שיוך חידון</label>
+            <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
+                @for(quiz of (quizzes | async); track quiz.id){
+                <option [value]="quiz.id">{{quiz.title}}</option>
+                }
+            </select>
+        </div>
+        <div class="form-control-wrapper">
+
+            <label>שם רכז</label>
+            <input type="text" name="supervisor" [(ngModel)]="supervisorName" required="true" placeholder="שם רכז">
+        </div>
+        <div class="form-control-wrapper">
+            <label>טלפון רכז</label>
+            <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="supervisorPhone" required
+                placeholder="0521234567">
+        </div>
         <button type="submit" [disabled]="addSchoolForm.invalid">הוספה</button>
     </form>
-<!--     
-        @if(submitionStatus() === 200){
-        <c-alert visible="true" dismissible="false" color="success" fade>
-            החידון נשלח בהצלחה
-        </c-alert>
-        }
-        @if(submitionStatus() === 500){
-        <c-alert visible="true" dismissible="true" color="danger" fade>
-            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
-        </c-alert>
-        } -->
+
+    @if(submitionStatus() === 200){
+    <c-alert visible="true" dismissible="false" color="success" fade>
+        החידון נשלח בהצלחה
+    </c-alert>
+    }
+    @else if(submitionStatus() !== -1){
+    <c-alert visible="true" dismissible="true" color="danger" fade>
+        חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
+    </c-alert>
+    }
 </main>

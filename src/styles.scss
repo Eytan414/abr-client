@@ -7,6 +7,7 @@
   @include mat.all-component-themes(theme.$light-theme);
 
 }
+
 input,
 button,
 select {
@@ -16,12 +17,9 @@ select {
   padding: 0.5rem 1rem;
 }
 
-button {
-  border: none;
-  &:not(:disabled):hover {
-    background-color: #961a1d;
-    color: white;
-  }
+button:not(:disabled):hover {
+  background-color: #961a1d;
+  color: white;
 }
 
 select {

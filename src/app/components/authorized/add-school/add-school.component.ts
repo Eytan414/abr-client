@@ -25,7 +25,7 @@ export class AddSchoolComponent {
   supervisorName = signal<string>('');
   supervisorPhone = signal<string>('');
   assignedQuiz = signal<number>(-1);
-  submitionStatus = signal<number>(0);
+  submitionStatus = signal<number>(-1);
 
   onSubmit() {
     const requestBody: SchoolToAdd = {

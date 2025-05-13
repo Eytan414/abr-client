@@ -1,5 +1,5 @@
 .table-wrapper {
-    max-width: calc(50vw - 5rem);
+    display: grid;
     overflow-x: auto;
     user-select: none;
     ::ng-deep th,td{

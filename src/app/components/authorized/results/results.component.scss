@@ -10,12 +10,16 @@ main {
     gap: 1rem;
     background-color: #ffffffcc;
 
+    &:has(.summary) {
+        grid-template-columns: 1fr;
+    }
+
     ::ng-deep table {
         td {
             text-align: center;
         }
 
-        th > div {
+        th>div {
             display: flex;
             justify-content: center;
         }
@@ -41,9 +45,12 @@ main {
     }
 }
 
-@media (max-width: 768px) {
-    main {
-        flex-direction: column;
-        
+@media(max-width: 768px){
+    main{
+        grid-template-columns: 1fr;
+
+        form{
+            flex-direction: column;
+        }
     }
 }

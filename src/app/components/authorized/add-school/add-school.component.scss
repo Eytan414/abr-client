@@ -1,0 +1,19 @@
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    .form-control-wrapper {
+        display: grid;
+        gap: .25rem;
+    }
+}
+
+@media(max-width: 768px){
+    main{
+        
+        form{
+            grid-template-columns: 1fr;
+        }
+    }
+}
