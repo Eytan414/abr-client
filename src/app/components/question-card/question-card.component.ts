@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, Input, input, Signal } from '@angular/core';
 import { Answer, Question } from '../../shared/models/question';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'question-card',
@@ -10,7 +11,7 @@ import { Answer, Question } from '../../shared/models/question';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionCardComponent {
-
+  env = environment;
   questionIndex = input<number>(0);
   question = input.required<Question>();
   @Input({ required: true }) userEntries!: Signal<number[]>;

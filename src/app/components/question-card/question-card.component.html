@@ -2,6 +2,7 @@
 
     <div class="card">
         @let hasImage = question().imageUrl?.length;
+        @let imageUrl = env.apiUrl + question().imageUrl;
         <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
             {{getTitle()}}
             @if(hasImage){
@@ -10,11 +11,11 @@
                     <img alt=""
                         loading="lazy"
                         fetchpriority="low"
-                        [src]="question().imageUrl"
+                        [src]="imageUrl"
                     >
                 </span>
             </button>
-            <div [id]="'popover' + question().imageUrl" popover><img [src]="question().imageUrl" alt=""></div>
+            <div [id]="'popover' + question().imageUrl" popover><img [src]="imageUrl"></div>
             }
         </div>
 
