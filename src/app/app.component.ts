@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,8 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent {
   title = 'tomer';
+
+  getBgString() {
+    return `url(${environment.apiUrl}webp-image/bg)`
+  }
 }

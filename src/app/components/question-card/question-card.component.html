@@ -2,7 +2,7 @@
 
     <div class="card">
         @let hasImage = question().imageUrl?.length;
-        @let imageUrl = env.apiUrl + question().imageUrl;
+        @let imageUrl = apiUrl + question().imageUrl;
         <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
             {{getTitle()}}
             @if(hasImage){

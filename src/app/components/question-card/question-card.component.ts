@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionCardComponent {
-  env = environment;
+  apiUrl = environment.apiUrl;
   questionIndex = input<number>(0);
   question = input.required<Question>();
   @Input({ required: true }) userEntries!: Signal<number[]>;

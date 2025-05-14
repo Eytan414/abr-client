@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-header',
   imports: [],
@@ -9,5 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
+  apiUrl = environment.apiUrl;
 
 }
