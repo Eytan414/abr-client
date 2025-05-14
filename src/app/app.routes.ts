@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
+import { IdentificationComponent } from './components/identification/identification.component';
 
 export const routes: Routes = [
-  {
-    path: '', loadComponent: () =>
-      import('./components/identification/identification.component').then(m => m.IdentificationComponent)
-  },
+  { path: '', component: IdentificationComponent, data: { preload: true } },
   {
     path: 'questions', loadComponent: () =>
       import('./components/questions/questions.component').then(m => m.QuestionsComponent)
