@@ -1,4 +1,4 @@
-@let role = this.dashboardService.role();
+@let role = this.appService.userDetails().role;
 <main>
     <div [class]="role">
         @if(role === 'supervisor'){

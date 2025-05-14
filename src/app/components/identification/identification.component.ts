@@ -23,6 +23,7 @@ export class IdentificationComponent implements OnInit {
   phone = signal<string>('');
   school = signal<string>('');
 
+
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }

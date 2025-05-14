@@ -6,12 +6,13 @@ import { AppService } from '../services/app.service';
 export const authGuard: CanActivateFn = route => {
   const appService = inject(AppService);
   const router = inject(Router);
+  const role = appService.userDetails().role;
 
-  if (appService.userDetails().role === 'supervisor'
-    || appService.userDetails().role === 'admin') {
+  if (role === 'supervisor' || role === 'admin') {
     return true;
+  } else {
+    router.navigateByUrl('/');
+    return false;
   }
 
-  router.navigateByUrl('/');
-  return false;
 }

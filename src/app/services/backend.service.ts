@@ -24,7 +24,6 @@ export class BackendService {
   private readonly router = inject(Router);
   private readonly appService = inject(AppService);
   private readonly dashboardService = inject(DashboardService);
-  private isAuthenticated = signal<boolean>(false);
 
   getAllQuizzes() {
     return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`);
@@ -54,7 +53,10 @@ export class BackendService {
 
   login(password: string) {
     const supervisorSchool = this.appService.userDetails().schoolId;
-    if (!supervisorSchool) return of();
+    if (!supervisorSchool) {
+      this.router.navigateByUrl('/');
+      return EMPTY;
+    }
 
     return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password }, { withCredentials: true })
       .pipe(
@@ -63,38 +65,32 @@ export class BackendService {
             this.router.navigateByUrl('/');
             return EMPTY;
           }
+
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
+
           if (result.role === 'admin') {
             this.router.navigateByUrl('/results');
             return EMPTY;
           }
-          else if (result.role === 'supervisor') {
-            return this.fetchResultsBySchool(supervisorSchool)
-              .pipe(map(
-                (scoresResp: ScoresData) => {
-                  const scoresWithFormattedDate = scoresResp.scoresBySchool.map(
-                    (record: ScoreRecord) => (
-                      {
-                        ...record,
-                        date: record.timestamp.split('T')[0]
-                      }));
-                  scoresResp.scoresBySchool = scoresWithFormattedDate;
-                  this.appService.scoresData.set(scoresResp);
-                  return result.role;
-                }))
+
+          if (result.role === 'supervisor') {
+            return this.fetchResultsBySchool(supervisorSchool).pipe(
+              map((scoresResp: ScoresData) => {
+                const scoresWithFormattedDate = scoresResp.scoresBySchool.map(record => ({
+                  ...record,
+                  date: record.timestamp.split('T')[0]
+                }));
+                scoresResp.scoresBySchool = scoresWithFormattedDate;
+                this.appService.scoresData.set(scoresResp);
+                this.router.navigateByUrl('/results');
+                
+              })
+            );
           }
+
           return EMPTY;
-        }),
-        map(role => {
-          this.dashboardService.role.set(role);
-          this.router.navigateByUrl('/results');
-        }),
-        finalize(() => {
-          if (this.dashboardService.role() === 'unidentified') {
-            this.router.navigateByUrl('/');
-          }
         })
-      );
+      )
   }
 
   passmepass() {

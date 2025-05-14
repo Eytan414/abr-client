@@ -2,9 +2,10 @@ import { Routes } from '@angular/router';
 import { IdentificationComponent } from './components/identification/identification.component';
 import { authGuard } from './guards/auth.guard';
 import { questionsGuard } from './guards/questions.guard';
+import { ResultsComponent } from './components/authorized/results/results.component';
 
 export const routes: Routes = [
-  { path: '', component: IdentificationComponent, data: { preload: true } },
+  { path: '', component: IdentificationComponent },
   {
     path: 'questions', loadComponent: () =>
       import('./components/questions/questions.component').then(m => m.QuestionsComponent),
@@ -24,4 +25,6 @@ export const routes: Routes = [
     path: 'instructions', loadComponent: () =>
       import('./components/instructions/instructions.component').then(m => m.InstructionsComponent)
   },
+  { path: '**', component: IdentificationComponent },
+
 ];

@@ -8,7 +8,7 @@
         <input autocomplete="on" [(ngModel)]="phone" name="phone" id="phone" pattern="^\d{10}$" type="tel" required>
         <label for="school">בחירת בית ספר:</label>
         <select [(ngModel)]="school" name="school" id="school" required>
-            @for(school of schools(); track school){
+            @for(school of schools(); track school._id){
             <option [value]="school._id">{{school.name}}</option>
             }
         </select>

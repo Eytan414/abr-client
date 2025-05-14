@@ -1,11 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { AppService } from './app.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
+  private readonly appService = inject(AppService)
+
   passwords = signal<TablePassword[]>([]);
-  role = signal<string>('unidentified');
 
 }
 export type TablePassword = {
