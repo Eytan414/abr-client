@@ -9,10 +9,10 @@ form {
     }
 }
 
-@media(max-width: 768px){
-    main{
-        
-        form{
+@media(max-width: 768px) {
+    main {
+
+        form {
             grid-template-columns: 1fr;
         }
     }

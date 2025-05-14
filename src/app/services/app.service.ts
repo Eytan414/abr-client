@@ -8,7 +8,7 @@ import { ScoresData } from '../shared/models/types';
 })
 export class AppService {
   questions = signal<Question[]>([]);
-  userDetails = signal<UserDetails>({ });
+  userDetails = signal<UserDetails>({});
   schools = signal<SchoolDTO[]>([]);
   quizId = computed(() => {
     return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId

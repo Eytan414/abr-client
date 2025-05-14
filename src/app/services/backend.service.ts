@@ -1,4 +1,4 @@
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
@@ -53,8 +53,8 @@ export class BackendService {
 
   login(password: string): Observable<string> {
     const supervisorSchool = this.appService.userDetails().schoolId;
-    if(!supervisorSchool) return of('unidentified');
-    
+    if (!supervisorSchool) return of('unidentified');
+
     return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password }, { withCredentials: true })
       .pipe(switchMap(result => {
         if (result.role === 'unidentified') {

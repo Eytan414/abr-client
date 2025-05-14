@@ -1,9 +1,9 @@
 @if(showQuizForm){
-    <button (click)="showQuizForm = false" class="back">חזרה</button>
-    <div class="summary">
-        <p>{{selectedRow?.name + ': ' + selectedRow?.score}}</p>
-    </div>
-    <student-sheet [studentPhone]="selectedRow?.phone!"/>
+<button (click)="showQuizForm = false" class="back">חזרה</button>
+<div class="summary">
+    <p>{{selectedRow?.name + ': ' + selectedRow?.score}}</p>
+</div>
+<student-sheet [studentPhone]="selectedRow?.phone!" />
 }
 @else{
 <select [(ngModel)]="selectedDate" (change)="updateFilter($event)" id="date">
@@ -15,25 +15,31 @@
 <div class="table-wrapper">
     <table mat-table matSort [dataSource]="dataSource">
         <ng-container matColumnDef="name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef><div>שם</div></th>
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                <div>שם</div>
+            </th>
             <td mat-cell *matCellDef="let element">
                 {{element.name}}
             </td>
         </ng-container>
-        
+
         <ng-container matColumnDef="grade">
-            <th mat-header-cell *matHeaderCellDef><div>כיתה</div></th>
+            <th mat-header-cell *matHeaderCellDef>
+                <div>כיתה</div>
+            </th>
             <td mat-cell *matCellDef="let element">
                 {{element.grade ?? ''}}
             </td>
         </ng-container>
         <ng-container matColumnDef="score">
-            <th mat-sort-header="score" mat-header-cell *matHeaderCellDef><div>ציון</div></th>
+            <th mat-sort-header="score" mat-header-cell *matHeaderCellDef>
+                <div>ציון</div>
+            </th>
             <td mat-cell *matCellDef="let element">
                 {{element.score}}
             </td>
         </ng-container>
-        
+
         <tr mat-header-row *matHeaderRowDef="['name','grade','score']"></tr>
         <tr (click)="rowClicked(row)" mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
     </table>

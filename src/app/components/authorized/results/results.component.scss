@@ -54,9 +54,11 @@ main {
 @media(max-width: 768px) {
     main {
         grid-template-columns: 1fr;
-    .admin {
-        grid-template-columns: 1fr;
-    }
+
+        .admin {
+            grid-template-columns: 1fr;
+        }
+
         form {
             flex-direction: column;
         }

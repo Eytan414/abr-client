@@ -2,13 +2,16 @@
     display: grid;
     overflow-x: auto;
     user-select: none;
-    ::ng-deep th,td{
+
+    ::ng-deep th,
+    td {
         text-align: center;
         cursor: pointer;
     }
 
     span {
         font-size: 1.25rem;
+
         &.correct {
             color: green;
         }
@@ -19,8 +22,9 @@
 
     }
 }
+
 @media (max-width: 768px) {
-    table-wrapper{
+    table-wrapper {
 
         max-width: unset;
     }

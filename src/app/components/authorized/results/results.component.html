@@ -3,8 +3,8 @@
     <div [class]="role">
         @if(role === 'supervisor'){
         <ng-container *ngComponentOutlet="scoresComponent()" />
-    }
-    @else if (role === 'admin'){
+        }
+        @else if (role === 'admin'){
         <ng-container *ngComponentOutlet="addSchoolComponent()" />
         <ng-container *ngComponentOutlet="passwordsComponent()" />
         }

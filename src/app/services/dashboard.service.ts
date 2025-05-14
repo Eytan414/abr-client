@@ -14,7 +14,7 @@ export type TablePassword = {
   isEditing: boolean,
 }
 type studentSheetData = {
-  studentAnswer: string, 
+  studentAnswer: string,
   question: string,
   correctAnswer: string,
 }

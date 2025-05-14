@@ -22,7 +22,7 @@ export class IdentificationComponent implements OnInit {
   grade = signal<string>('');
   phone = signal<string>('');
   school = signal<string>('');
-  
+
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }
@@ -40,11 +40,11 @@ export class IdentificationComponent implements OnInit {
   checkIfSupervisor() {
     this.backend.checkIsSuper(this.phone()).pipe(
       tap((result) => {
-        if(result.supervisor){
+        if (result.supervisor) {
           this.updateUserDetails(result.supervisor.schoolId);
           this.gotoResults();
         }
-        else{
+        else {
           this.updateUserDetails();
           this.gotoInstructions();
         }
