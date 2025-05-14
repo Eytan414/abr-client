@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
 import { MatTableModule } from '@angular/material/table';
-import { DashboardService } from '../../../services/dashboard.service';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { PopoverDirective } from '@coreui/angular';
@@ -17,11 +16,7 @@ import { PopoverDirective } from '@coreui/angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentSheetComponent implements OnInit {
-
-
   private readonly backend = inject(BackendService);
-  private readonly dashboardService = inject(DashboardService);
-
   studentPhone = input<string>('');
 
   studentTableData = signal<any>([]);

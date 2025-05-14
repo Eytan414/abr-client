@@ -14,7 +14,7 @@ export class InstructionsComponent {
   private readonly router = inject(Router);
 
   startQuiz() {
-    this.router.navigateByUrl('/questions', { skipLocationChange: true });
+    this.router.navigateByUrl('/questions');
   }
 
 }

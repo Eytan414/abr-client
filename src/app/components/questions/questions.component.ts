@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, NgZone, OnInit, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, NgZone, OnInit, signal } from '@angular/core';
 // @ts-ignore
 import { Carousel } from '@coreui/coreui';
 import { AlertComponent, } from '@coreui/angular';
@@ -6,11 +6,12 @@ import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 
 
-import { QuestionCardComponent } from '../question-card/question-card.component'
+import { QuestionCardComponent } from './question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';
-import { tap } from 'rxjs/operators';
-
+import { filter, tap } from 'rxjs/operators';
+import { fromEvent } from 'rxjs/internal/observable/fromEvent';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'questions',
@@ -27,39 +28,43 @@ import { tap } from 'rxjs/operators';
 export class QuestionsComponent implements OnInit, AfterViewInit {
 
   icons = { cilArrowCircleRight, cilArrowCircleLeft };
-  private ngZone = inject(NgZone);
-  private backend = inject(BackendService);
-  appService = inject(AppService);
-  private carouselInstance!: any;
-
+  private readonly ngZone = inject(NgZone);
+  private readonly backend = inject(BackendService);
+  private readonly destroyRef = inject(DestroyRef); 
+  readonly appService = inject(AppService);
+  carouselInstance!: any;
   activeIndex = signal<number>(0);
   userEntries = signal<number[]>([]);
-  responseSignal = signal<Resp>({});
 
   showAlert: boolean = false;
-  quizSent = computed(() => this.responseSignal().resp === 'success');
 
   ngOnInit() {
     this.backend.getQuizById().subscribe();
   }
+  
   ngAfterViewInit(): void {
+    const el = document.getElementById('carousel')!;
     this.ngZone.runOutsideAngular(() => {
-      this.carouselInstance = new Carousel(
-        document.getElementById('carousel')!,
-        { interval: 5000 }
-      );
+      this.carouselInstance = new Carousel(el, { interval: 5000 });
 
-      document.getElementById('carousel')!
-        .addEventListener('slide.bs.carousel', (e: any) => {
-          this.ngZone.run(() => {
-            this.activeIndex = e.to;
-          });
+      fromEvent<KeyboardEvent>(window, 'keydown')
+        .pipe(
+          filter(e => ['ArrowLeft', 'ArrowRight'].includes(e.key)),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(e => {
+          if(e.key === 'ArrowLeft')
+            this.carouselInstance.next()
+          if(e.key === 'ArrowRight')
+            this.carouselInstance.prev();
         });
     });
   }
+
   alertClosed() {
     this.showAlert = false
   }
+
   submit() {
     const userEntriesCount = this.userEntries().length;
     const questionsCount = this.appService.questions().length;
@@ -80,17 +85,9 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
 
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
-      tap((response: Resp) => {
-        this.responseSignal.set(response);
-      })
+      tap(this.appService.responseSignal.set)
     ).subscribe();
   }
 
 
 }
-type Resp = {
-  resp?: any;
-  savedQuiz?: any;
-};
-
-

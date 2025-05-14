@@ -53,9 +53,9 @@ export class IdentificationComponent implements OnInit {
   }
 
   gotoResults() {
-    this.router.navigateByUrl('/results', { skipLocationChange: true });
+    this.router.navigateByUrl('/login');
   }
   gotoInstructions() {
-    this.router.navigateByUrl('/instructions', { skipLocationChange: true });
+    this.router.navigateByUrl('/instructions');
   }
 }

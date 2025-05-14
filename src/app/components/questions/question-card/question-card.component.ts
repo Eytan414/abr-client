@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, Input, input, Signal } from '@angular/core';
-import { Answer, Question } from '../../shared/models/question';
-import { environment } from '../../../environments/environment';
+import { ChangeDetectionStrategy, Component, computed, inject, Input, input, Signal } from '@angular/core';
+import { Answer, Question } from '../../../shared/models/question';
+import { environment } from '../../../../environments/environment';
+import { AppService } from '../../../services/app.service';
 
 @Component({
   selector: 'question-card',
@@ -11,10 +12,12 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionCardComponent {
+  readonly appService = inject(AppService);
+  @Input({ required: true }) userEntries!: Signal<number[]>;
+
   apiUrl = environment.apiUrl;
   questionIndex = input<number>(0);
   question = input.required<Question>();
-  @Input({ required: true }) userEntries!: Signal<number[]>;
 
   title = computed(() => this.question()?.title);
   possible_answers = computed(() => this.question()?.possible_answers);

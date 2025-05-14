@@ -10,13 +10,13 @@ export class AppService {
   questions = signal<Question[]>([]);
   userDetails = signal<UserDetails>({});
   schools = signal<SchoolDTO[]>([]);
-  quizId = computed(() => {
-    return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId
-  });
+  quizId = computed(() => { return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId });
   scoresData = signal<ScoresData>({
     scoresBySchool: [],
     quizDistinctDates: []
   });
+  responseSignal = signal<Resp>({});
+  quizSent = computed(() => this.responseSignal().resp === 'success');
 
 }
 
@@ -28,3 +28,9 @@ type UserDetails = {
   readonly role?: string;
   readonly schoolId?: string;
 }
+
+type Resp = {
+  resp?: any;
+  savedQuiz?: any;
+};
+

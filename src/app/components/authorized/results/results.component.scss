@@ -44,23 +44,24 @@ main {
     }
 
 
-    form {
-        display: flex;
-        gap: 1rem;
-        outline: 0;
-    }
+    // form {
+    //     display: flex;
+    //     gap: 1rem;
+    //     outline: 0;
+    // }
 }
 
 @media(max-width: 768px) {
     main {
         grid-template-columns: 1fr;
+        margin: 1rem;
 
         .admin {
             grid-template-columns: 1fr;
         }
 
-        form {
-            flex-direction: column;
-        }
+        // form {
+        //     flex-direction: column;
+        // }
     }
 }

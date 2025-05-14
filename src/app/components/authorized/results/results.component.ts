@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, Type } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
-import { BackendService } from '../../../services/backend.service';
 import { DashboardService } from '../../../services/dashboard.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-results',
+  selector: 'results',
   imports: [
     FormsModule,
     NgComponentOutlet
@@ -20,15 +19,8 @@ export class ResultsComponent {
   passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
 
-  private readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
-
-  password = '';
   isAuthenticated = computed(() => this.dashboardService.role() !== 'unidentified');
-
-  onSubmit() {
-    this.backend.login(this.password).subscribe();
-  }
 
   injectComponent<T>(loader: () => Promise<Type<T>>) {
     const comp = signal<Type<T> | null>(null); 

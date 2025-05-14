@@ -13,6 +13,7 @@ import { Supervisor } from '../shared/models/supervisor';
 import { Quiz } from '../shared/models/quiz';
 import { SchoolDTO } from '../shared/models/school';
 import { environment } from '../../environments/environment';
+import { EMPTY } from 'rxjs';
 
 
 @Injectable({
@@ -40,7 +41,7 @@ export class BackendService {
   }
   getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`)
-      .pipe(tap(schoolsList => this.appService.schools.set(schoolsList)));
+      .pipe(tap(this.appService.schools.set));
   }
 
   checkIsSuper(phone: string) {
@@ -51,34 +52,46 @@ export class BackendService {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
 
-  login(password: string): Observable<string> {
+  login(password: string) {
     const supervisorSchool = this.appService.userDetails().schoolId;
-    if (!supervisorSchool) return of('unidentified');
+    if (!supervisorSchool) return of();
 
     return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password }, { withCredentials: true })
-      .pipe(switchMap(result => {
-        if (result.role === 'unidentified') {
-          return of('unidentified');
-        }
-        else {
+      .pipe(
+        switchMap(result => {
+          if (result.role === 'unidentified') {
+            this.router.navigateByUrl('/');
+            return EMPTY;
+          }
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
-          return this.fetchResultsBySchool(supervisorSchool)
-            .pipe(map((scoresResp: ScoresData) => {
-              const scoresWithFormattedDate = scoresResp.scoresBySchool
-                .map((record: ScoreRecord) => ({ ...record, date: record.timestamp.split('T')[0] }));
-              scoresResp.scoresBySchool = scoresWithFormattedDate;
-              this.appService.scoresData.set(scoresResp);
-              return result.role;
-            }))
-        }
-      }),
+          if (result.role === 'admin') {
+            this.router.navigateByUrl('/results');
+            return EMPTY;
+          }
+          else if (result.role === 'supervisor') {
+            return this.fetchResultsBySchool(supervisorSchool)
+              .pipe(map(
+                (scoresResp: ScoresData) => {
+                  const scoresWithFormattedDate = scoresResp.scoresBySchool.map(
+                    (record: ScoreRecord) => (
+                      {
+                        ...record,
+                        date: record.timestamp.split('T')[0]
+                      }));
+                  scoresResp.scoresBySchool = scoresWithFormattedDate;
+                  this.appService.scoresData.set(scoresResp);
+                  return result.role;
+                }))
+          }
+          return EMPTY;
+        }),
         map(role => {
           this.dashboardService.role.set(role);
-          return role;
+          this.router.navigateByUrl('/results');
         }),
         finalize(() => {
           if (this.dashboardService.role() === 'unidentified') {
-            this.router.navigateByUrl('/', { skipLocationChange: true });
+            this.router.navigateByUrl('/');
           }
         })
       );

@@ -26,11 +26,11 @@
     </div>
 
     <div class="submit-wrapper">
-        <button (click)="submit()" [disabled]="quizSent()"> סיום ושליחה </button>
+        <button (click)="submit()" [disabled]="appService.quizSent()"> סיום ושליחה </button>
         <c-alert (closed)="alertClosed()" [(visible)]="showAlert" dismissible="true" color="warning" fade>
             לא ניתן לשלוח, יש לענות על כל השאלות
         </c-alert>
-        @let resp = responseSignal().resp;
+        @let resp = appService.responseSignal().resp;
         @if(resp === "success"){
         <c-alert visible="true" dismissible="false" color="success" fade>
             החידון נשלח בהצלחה
