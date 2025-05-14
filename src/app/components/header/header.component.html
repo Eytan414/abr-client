@@ -2,12 +2,10 @@
     <div class="logo">
         <img [src]="apiUrl + 'webp-image/logo'" alt="logo">
     </div>
-    <div class="site-link">
-        <a href="https://www.avi-safety.co.il/" target="_blank">יציאה מהחידון אל האתר המלא</a>
-    </div>
-    <div class="whatsapp">
-        <a href="https://api.whatsapp.com/send?phone=972546655932&text=%D7%A9%D7%9C%D7%95%D7%9D,%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%AA%D7%99%D7%99%D7%A2%D7%A5"
-            target="_blank">לשיחת וואטסאפ</a>
-        <img [src]="apiUrl + 'webp-image/whatsapp'" alt="logo" height="32" width="32">
-    </div>
+    <a class="link-wrapper site-link" href="https://www.avi-safety.co.il/" target="_blank"> אל האתר המלא</a>
+    <a class="link-wrapper whatsapp" target="_blank"
+        href="https://api.whatsapp.com/send?phone=972546655932&text=%D7%A9%D7%9C%D7%95%D7%9D,%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%AA%D7%99%D7%99%D7%A2%D7%A5">
+        לשיחת וואטסאפ
+        <img [src]="apiUrl + 'webp-image/whatsapp'" alt="logo" height="30" width="30">
+    </a>
 </header>

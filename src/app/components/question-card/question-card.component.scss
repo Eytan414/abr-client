@@ -68,16 +68,17 @@
             }
         }
 
-        #imageModal {
-            width: 25vh;
-            height: 25vh;
-            overflow-y: clip;
+    }
+}
 
-            img {
-                height: 100%;
-                width: 100%;
-            }
+@media(max-width:768px) {
+    .popover-wrapper {
+        width: min(80%, 700px);
+
+        img {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
         }
-
     }
 }

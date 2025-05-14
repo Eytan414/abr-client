@@ -107,9 +107,8 @@ main {
     }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
     main {
-        // width: 85%;
-        // height: 65%;
+        width: auto;
     }
 }

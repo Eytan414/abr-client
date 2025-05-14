@@ -31,7 +31,7 @@ export class ResultsComponent {
   }
 
   injectComponent<T>(loader: () => Promise<Type<T>>) {
-    const comp = signal<Type<T> | null>(null);
+    const comp = signal<Type<T> | null>(null); 
     loader().then(comp.set);
     return comp;
   }

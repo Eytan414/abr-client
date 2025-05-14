@@ -10,8 +10,14 @@ main {
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
-
-    .identification {
+    
+    h1{
+        font-size: 2rem;
+    }
+    h2{
+        font-size: 1.25rem;
+    }
+    .identification-form {
         display: grid;
         gap: 0.5rem;
     }
