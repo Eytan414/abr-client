@@ -1,11 +1,15 @@
 <app-header />
 <div class="wrapper">
     <div class="background">
-        <img 
-            [src]="getBgString()" 
+        @let src = preloadedUrl$ | async;
+        @if(src){
+        <img [src]="src"
             (load)="bgLoaded.set(true)"
-            [class]="bgLoaded() ? 'show' : ''"
-            alt="background image" />
+            [class]="bgLoaded() ? 'show' : ''" 
+            alt="background image" 
+        />
+        }
+
     </div>
 
     <router-outlet />
