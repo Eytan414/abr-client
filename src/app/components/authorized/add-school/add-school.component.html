@@ -14,7 +14,6 @@
             </select>
         </div>
         <div class="form-control-wrapper">
-
             <label>שם רכז</label>
             <input type="text" name="supervisor" [(ngModel)]="supervisorName" required="true" placeholder="שם רכז">
         </div>
@@ -27,7 +26,7 @@
     </form>
 
     @if(submitionStatus() === 200){
-    <c-alert visible="true" dismissible="false" color="success" fade>
+    <c-alert visible="true" dismissible="true" color="success" fade>
         בית הספר נוסף בהצלחה
     </c-alert>
     }

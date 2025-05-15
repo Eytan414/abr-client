@@ -1,11 +1,19 @@
-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+main {
 
-    .form-control-wrapper {
+    .alert {
+        width: fit-content;
+    }
+
+    form {
         display: grid;
-        gap: .25rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        .form-control-wrapper {
+            display: grid;
+            gap: .25rem;
+        }
     }
 }
 

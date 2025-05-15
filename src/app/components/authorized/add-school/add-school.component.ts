@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
 import { AsyncPipe } from '@angular/common';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { AlertComponent, } from '@coreui/angular';
 import { SchoolToAdd } from '../../../shared/models/types';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'add-school',
@@ -27,6 +27,7 @@ export class AddSchoolComponent {
   supervisorPhone = signal<string>('');
   assignedQuiz = signal<number>(-1);
   submitionStatus = signal<number>(-1);
+  @ViewChild('addSchoolForm') addSchoolForm!: NgForm;
 
   onSubmit() {
     const requestBody: SchoolToAdd = {
@@ -41,6 +42,7 @@ export class AddSchoolComponent {
       .pipe(
         tap(() => {
           this.submitionStatus.set(200);
+          this.addSchoolForm.resetForm();
         }),
         catchError(err => {
           this.submitionStatus.set(err.status);
