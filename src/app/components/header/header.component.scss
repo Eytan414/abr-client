@@ -19,6 +19,7 @@ header {
 
     .link-wrapper {
         display: inline-block;
+        height: calc(100% - 1rem);
         max-width: 10rem;
         padding: .5rem;
         color: #fff;
@@ -36,7 +37,6 @@ header {
         }
 
         &.site-link {
-            height: calc(100% - 1rem);
             align-content: center;
         }
     }
