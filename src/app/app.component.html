@@ -1,13 +1,9 @@
 <app-header />
 <div class="wrapper">
     <div class="background">
-        @let src = preloadedUrl$ | async;
+        @let src = preloadedBackgroundUrl$ | async;
         @if(src){
-        <img [src]="src"
-            (load)="bgLoaded.set(true)"
-            [class]="bgLoaded() ? 'show' : ''" 
-            alt="background image" 
-        />
+        <img [src]="src" [class]="bgLoaded() ? 'show' : ''" alt="background image" />
         }
 
     </div>

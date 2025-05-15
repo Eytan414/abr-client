@@ -21,7 +21,7 @@ export class AppComponent {
   bgUrl = `${environment.apiUrl}webp-image/bg`;
   bgLoaded = signal<boolean>(false);
 
-  readonly preloadedUrl$: Observable<string> = new Observable(observer => {
+  readonly preloadedBackgroundUrl$: Observable<string> = new Observable(observer => {
     const img = new Image();
     img.onload = () => {
       observer.next(this.bgUrl);
