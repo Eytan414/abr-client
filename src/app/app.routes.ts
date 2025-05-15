@@ -3,6 +3,7 @@ import { IdentificationComponent } from './components/identification/identificat
 import { authGuard } from './guards/auth.guard';
 import { questionsGuard } from './guards/questions.guard';
 import { ResultsComponent } from './components/authorized/results/results.component';
+import { leaveQuizGuard } from './guards/leave-quiz.guard';
 
 export const routes: Routes = [
   { path: '', component: IdentificationComponent },
@@ -10,7 +11,7 @@ export const routes: Routes = [
     path: 'questions', loadComponent: () =>
       import('./components/questions/questions.component').then(m => m.QuestionsComponent),
     canActivate: [questionsGuard],
-    // canDeactivate:
+    canDeactivate: [leaveQuizGuard]
   },
   {
     path: 'login', loadComponent: () =>

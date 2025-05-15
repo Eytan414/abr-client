@@ -4,11 +4,14 @@ import { MatTableModule } from '@angular/material/table';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { PopoverDirective } from '@coreui/angular';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @Component({
   selector: 'student-sheet',
   imports: [
     MatTableModule,
     PopoverDirective,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './student-sheet.component.html',
   styleUrl: './student-sheet.component.scss',
@@ -19,7 +22,7 @@ export class StudentSheetComponent implements OnInit {
   private readonly backend = inject(BackendService);
   studentPhone = input<string>('');
 
-  studentTableData = signal<any>([]);
+  studentTableData = signal<unknown[]>([]);
   displayedColumns = signal<string[]>([]);
   fullAnswerData!: SheetData[];
   popover = signal<PopoverData>({});

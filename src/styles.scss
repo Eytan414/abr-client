@@ -2,8 +2,14 @@
 @use '../theme-colors' as theme;
 @include mat.core();
 
+
 :root {
+  --main-color: #961a1d;
   @include mat.table-theme(theme.$light-theme);
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: var(--main-color),
+  ));
+
 }
 
 input,
@@ -16,7 +22,7 @@ select {
 }
 
 button:not(:disabled):hover {
-  background-color: #961a1d;
+  background-color: var(--main-color);
   color: white;
 }
 
