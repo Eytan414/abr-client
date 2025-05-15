@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { environment } from '../environments/environment';
@@ -13,8 +13,9 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   title = 'tomer';
+  bgLoaded = signal<boolean>(false);
 
   getBgString() {
-    return `url(${environment.apiUrl}webp-image/bg)`
+    return `${environment.apiUrl}webp-image/bg`
   }
 }

@@ -1,5 +1,12 @@
 <app-header />
 <div class="wrapper">
-    <div [style.backgroundImage]="getBgString()" class="background"></div>
+    <div class="background">
+        <img 
+            [src]="getBgString()" 
+            (load)="bgLoaded.set(true)"
+            [class]="bgLoaded() ? 'show' : ''"
+            alt="background image" />
+    </div>
+
     <router-outlet />
 </div>
