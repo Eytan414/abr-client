@@ -31,6 +31,6 @@ export class QuestionCardComponent {
     this.userEntries()[this.questionIndex() + 1] = pickedAnswer.id;
   }
   highlightSelectedAnswer(answerIndex: number) {
-    return this.userEntries().at(this.questionIndex() + 1) === (answerIndex + 1) ? "h" : "";
+    return this.userEntries().at(this.questionIndex() + 1) === (answerIndex + 1) ? "highlight" : "";
   }
 }

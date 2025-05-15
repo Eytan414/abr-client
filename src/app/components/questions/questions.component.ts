@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, NgZone, OnInit, signal } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // @ts-ignore
 import { Carousel } from '@coreui/coreui';
 import { AlertComponent, } from '@coreui/angular';
@@ -19,6 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     AlertComponent,
     QuestionCardComponent,
     IconDirective,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './questions.component.html',
   styleUrl: './questions.component.scss',
@@ -30,18 +32,18 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   icons = { cilArrowCircleRight, cilArrowCircleLeft };
   private readonly ngZone = inject(NgZone);
   private readonly backend = inject(BackendService);
-  private readonly destroyRef = inject(DestroyRef); 
+  private readonly destroyRef = inject(DestroyRef);
   readonly appService = inject(AppService);
   carouselInstance!: any;
   activeIndex = signal<number>(0);
   userEntries = signal<number[]>([]);
-
-  showAlert: boolean = false;
+  loading = signal<boolean>(false);
+  showAlert = signal<boolean>(false);
 
   ngOnInit() {
     this.backend.getQuizById().subscribe();
   }
-  
+
   ngAfterViewInit(): void {
     const el = document.getElementById('carousel')!;
     this.ngZone.runOutsideAngular(() => {
@@ -53,16 +55,16 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
           takeUntilDestroyed(this.destroyRef)
         )
         .subscribe(e => {
-          if(e.key === 'ArrowLeft')
+          if (e.key === 'ArrowLeft')
             this.carouselInstance.next()
-          if(e.key === 'ArrowRight')
+          if (e.key === 'ArrowRight')
             this.carouselInstance.prev();
         });
     });
   }
 
   alertClosed() {
-    this.showAlert = false
+    this.showAlert.set(false)
   }
 
   submit() {
@@ -71,20 +73,22 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const emptySlots = userEntriesCount - this.userEntries().filter(e => e !== undefined).length;
 
     if (emptySlots > 1 || questionsCount > (userEntriesCount - 1)) {
-      this.showAlert = true;
+      this.showAlert.set(true);
       return;
     }
     for (let i = 1; i < userEntriesCount; i++) {
       const element = this.userEntries()[i];
       if (!element) {
-        this.showAlert = true;
+        this.showAlert.set(true);
         return;
       }
     }
+    this.loading.set(true);
     const userDetails = { ...this.appService.userDetails(), quizId: this.appService.quizId() };
 
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
+      tap(() => this.loading.set(false)),
       tap(this.appService.responseSignal.set)
     ).subscribe();
   }

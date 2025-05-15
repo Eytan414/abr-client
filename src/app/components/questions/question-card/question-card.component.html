@@ -8,7 +8,7 @@
             @if(hasImage){
             <button [attr.popovertarget]="'popover' + question().imageUrl">
                 <span>
-                    <img alt="" loading="lazy" fetchpriority="low" [src]="imageUrl">
+                    <img loading="lazy" fetchpriority="low" [src]="imageUrl">
                 </span>
             </button>
             <div class="popover-wrapper" [id]="'popover' + question().imageUrl" popover><img [src]="imageUrl"></div>
