@@ -1,9 +1,13 @@
-.table-wrapper {
+main {
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
-    margin-top: 1rem;
 
-    tr {
-        cursor: pointer;
+    .table-wrapper {
+        max-height: calc(100vh - 10rem);
+        margin-top: 1rem;
+
+        tr {
+            cursor: pointer;
+        }
     }
 }
