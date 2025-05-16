@@ -1,7 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Question } from '../shared/models/question';
 import { SchoolDTO } from '../shared/models/school';
-import { ScoresData } from '../shared/models/types';
+import { School, ScoresData, ScoresDataAdmin } from '../shared/models/types';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,10 @@ export class AppService {
   userDetails = signal<UserDetails>({});
   schools = signal<SchoolDTO[]>([]);
   quizId = computed(() => { return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId });
+  scoresDataAdmin = signal<School[]>([]);
   scoresData = signal<ScoresData>({
     scoresBySchool: [],
-    quizDistinctDates: []
+    quizDistinctDates: [],
   });
   responseSignal = signal<Resp>({});
   quizSent = computed(() => this.responseSignal().resp === 'success');

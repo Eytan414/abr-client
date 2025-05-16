@@ -6,7 +6,6 @@ import { AlertComponent, } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 
-
 import { QuestionCardComponent } from './question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';

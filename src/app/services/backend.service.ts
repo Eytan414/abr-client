@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 import { DashboardService } from './dashboard.service';
 import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
-import { ScoreRecord, ScoresData } from '../shared/models/types';
+import { School, ScoresData, ScoresDataAdmin } from '../shared/models/types';
 import { SchoolToAdd } from '../shared/models/types';
 import { Supervisor } from '../shared/models/supervisor';
 import { Quiz } from '../shared/models/quiz';
@@ -50,10 +48,13 @@ export class BackendService {
   fetchResultsBySchool(schoolId: string) {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
+  fetchAllSchools() {
+    return this.http.get<School[]>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
+  }
 
   login(password: string) {
-    const supervisorSchool = this.appService.userDetails().schoolId;
-    if (!supervisorSchool) {
+    const supervisorSchoolId = this.appService.userDetails().schoolId;
+    if (!supervisorSchoolId) {
       this.router.navigateByUrl('/');
       return EMPTY;
     }
@@ -69,24 +70,16 @@ export class BackendService {
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
 
           if (result.role === 'admin') {
-            this.router.navigateByUrl('/results');
-            return EMPTY;
-          }
-
-          if (result.role === 'supervisor') {
-            return this.fetchResultsBySchool(supervisorSchool).pipe(
-              map((scoresResp: ScoresData) => {
-                const scoresWithFormattedDate = scoresResp.scoresBySchool.map(record => ({
-                  ...record,
-                  date: record.timestamp.split('T')[0]
-                }));
-                scoresResp.scoresBySchool = scoresWithFormattedDate;
-                this.appService.scoresData.set(scoresResp);
+            return this.fetchAllSchools().pipe(
+              map((scoresResp: School[]) => {
+                this.appService.scoresDataAdmin.set(scoresResp);
                 this.router.navigateByUrl('/results');
-                
               })
             );
           }
+
+          if (result.role === 'supervisor')
+            this.router.navigateByUrl('/results');
 
           return EMPTY;
         })

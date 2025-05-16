@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, ViewChild } from '@angular/core';
 import { AppService } from '../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
@@ -6,6 +6,8 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { ScoreRecord } from '../../../shared/models/types';
 import { StudentSheetComponent } from '../student-sheet/student-sheet.component';
 import { FormsModule } from '@angular/forms';
+import { DashboardService } from '../../../services/dashboard.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'scores-table',
@@ -15,6 +17,8 @@ import { FormsModule } from '@angular/forms';
     MatSortModule,
     FormsModule,
     StudentSheetComponent,
+    MatProgressSpinnerModule,
+
   ],
   templateUrl: './scores-table.component.html',
   styleUrl: './scores-table.component.scss',
@@ -23,15 +27,22 @@ import { FormsModule } from '@angular/forms';
 })
 export class ScoresTableComponent implements AfterViewInit {
   readonly appService = inject(AppService);
-  scores = computed(() => this.appService.scoresData().scoresBySchool);
-  distinctDates = computed(() => this.appService.scoresData().quizDistinctDates);
+  readonly dashboardService = inject(DashboardService);
   @ViewChild(MatSort) sort!: MatSort;
-  dataSource = new MatTableDataSource(this.scores());
 
   selectedDate: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
-
+  dataSource = new MatTableDataSource<ScoreRecord>();
+  scores = computed(() => this.appService.scoresData().scoresBySchool);
+  distinctDates = computed(() => this.appService.scoresData().quizDistinctDates);
+  
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.scores();
+      this.dashboardService.scoresTableLoading.set(false);
+    });
+  }
   ngAfterViewInit() {
     this.dataSource.sortData = (data: ScoreRecord[], sort: MatSort) => {
       if (!sort.active || sort.direction === '') {

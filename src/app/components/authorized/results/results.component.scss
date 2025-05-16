@@ -18,6 +18,12 @@ main {
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 2rem;
+
+        .scores-table {
+            display: grid;
+            gap: 1rem;   
+            grid-auto-rows: min-content;
+        }
     }
 
     ::ng-deep table {

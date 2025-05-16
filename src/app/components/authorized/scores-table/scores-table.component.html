@@ -1,4 +1,8 @@
+@if(dashboardService.scoresTableLoading()){
+<mat-spinner [style.justifySelf]="'center'"></mat-spinner>
+} @else {
 <main>
+    <h2>טבלת ציונים</h2>
     @if(showQuizForm){
     <button (click)="showQuizForm = false" class="back">חזרה</button>
     <div class="summary">
@@ -6,13 +10,14 @@
     </div>
     <student-sheet [studentPhone]="selectedRow?.phone!" />
     }
-    @else{
+    @else {
     <select [(ngModel)]="selectedDate" (change)="updateFilter($event)" id="date">
         <option value='' selected>כל התאריכים</option>
         @for(date of distinctDates(); track date){
         <option [value]="date">{{date}}</option>
         }
     </select>
+    }
     <div class="table-wrapper">
         <table mat-table matSort [dataSource]="dataSource">
             <ng-container matColumnDef="name">
@@ -23,7 +28,6 @@
                     {{element.name}}
                 </td>
             </ng-container>
-
             <ng-container matColumnDef="grade">
                 <th mat-header-cell *matHeaderCellDef>
                     <div>כיתה</div>
@@ -45,5 +49,5 @@
             <tr (click)="rowClicked(row)" mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
         </table>
     </div>
-    }
 </main>
+}

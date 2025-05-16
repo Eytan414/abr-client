@@ -3,21 +3,30 @@ export type TableData = {
     name: string,
     score: number,
     userEntries: number[],
-    timestamp: Date,
+    date: string;
+    // timestamp: Date,
 }
 export type ScoreRecord = {
     name: string;
-    phone: string;
+    phone?: string;
     quizId: number;
     school: string;
     score: number;
-    timestamp: string;
+    // timestamp: string;
     date?: string;
     userEntries: number[];
 }
 export type ScoresData = {
     scoresBySchool: ScoreRecord[];
+    // allScores?: ScoreRecord[];
     quizDistinctDates: string[];
+}
+export type ScoresDataAdmin = {
+    allScores: ScoreRecord[];
+}
+export type School = {
+    id: string,
+    name: string,
 }
 export type SchoolToAdd = {
     name: string,

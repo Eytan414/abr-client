@@ -8,7 +8,7 @@ export class DashboardService {
   private readonly appService = inject(AppService)
 
   passwords = signal<TablePassword[]>([]);
-
+  scoresTableLoading = signal<boolean>(false);
 }
 export type TablePassword = {
   id: string,
