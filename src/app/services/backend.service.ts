@@ -56,13 +56,13 @@ export class BackendService {
   }
 
   login(password: string) {
-    const supervisorSchoolId = this.appService.userDetails().schoolId;
-    if (!supervisorSchoolId) {
+    const userSchoolId = this.appService.userDetails().schoolId;
+    if (!userSchoolId) {
       this.router.navigateByUrl('/');
       return EMPTY;
     }
 
-    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { value: password }, { withCredentials: true })
+    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { password }, { withCredentials: true })
       .pipe(
         switchMap(result => {
           if (result.role === 'unidentified') {

@@ -17,12 +17,17 @@ main {
         grid-template-columns: 2fr 1fr;
         gap: 2rem;
 
+        > * {
+            border: 1px dashed #961a1d;
+            padding: 1rem;
+        }
+
         .scores-table {
             display: grid;
             gap: 1rem;
             grid-auto-rows: min-content;
 
-            select{
+            select {
                 justify-self: flex-start;
             }
         }
