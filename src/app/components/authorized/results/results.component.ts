@@ -1,12 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnInit, signal, Type, ViewChild } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../services/app.service';
-import { fromEvent } from 'rxjs/internal/observable/fromEvent';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { BackendService } from '../../../services/backend.service';
-import { catchError, filter, map, tap } from 'rxjs/operators';
-import { ScoresData } from '../../../shared/models/types';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { DashboardService } from '../../../services/dashboard.service';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 
@@ -21,7 +18,7 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultsComponent implements OnInit, AfterViewInit {
+export class ResultsComponent implements OnInit {
   scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
   passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
@@ -32,33 +29,42 @@ export class ResultsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('selectSchool') selectSchool!: ElementRef<HTMLSelectElement>;
 
+  constructor() {
+    effect(() => {
+      if (this.appService.userDetails().role !== 'admin' || this.selectedSchool() === '') return;
 
-  ngOnInit() {
-    if (this.appService.userDetails().role !== 'supervisor') return;
-    this.backend.fetchResultsBySchool(this.appService.userDetails().schoolId!).pipe(
-      map((scoresResp: ScoresData) => {
-        this.appService.scoresData.set(scoresResp);
-      }))
-  }
+      this.dashboardService.scoresTableLoading.set(true);
 
-  ngAfterViewInit() {
-    if (this.appService.userDetails().role !== 'admin') return;
-
-    fromEvent(this.selectSchool.nativeElement, 'change').pipe(
-      map(e => (e.target as HTMLSelectElement).value),
-      filter(value => value !== ''),
-      tap(() => this.dashboardService.scoresTableLoading.set(true)),
-      switchMap(schoolId => this.backend.fetchResultsBySchool(schoolId).pipe(
-        tap(scoresResp => this.appService.scoresData.set(scoresResp)),
+      this.backend.fetchResultsBySchool(this.selectedSchool()).pipe(
+        tap(scores => this.appService.scoresData.set(scores)),
         catchError(err => {
           console.error(err);
           this.dashboardService.scoresTableLoading.set(false);
           return EMPTY;
         }),
-      )),
+        finalize(() => this.dashboardService.scoresTableLoading.set(false))
+      ).subscribe();
+    });
+
+  }
+
+  ngOnInit() {
+    const user = this.appService.userDetails();
+    if (user.role !== 'supervisor') return;
+
+    this.dashboardService.scoresTableLoading.set(true);
+
+    this.backend.fetchResultsBySchool(user.schoolId!).pipe(
+      tap(scores => this.appService.scoresData.set(scores)),
+      catchError(err => {
+        console.error(err);
+        return EMPTY;
+      }),
+      finalize(() => this.dashboardService.scoresTableLoading.set(false))
     ).subscribe();
 
   }
+
 
   injectComponent<T>(loader: () => Promise<Type<T>>) {
     const comp = signal<Type<T> | null>(null);

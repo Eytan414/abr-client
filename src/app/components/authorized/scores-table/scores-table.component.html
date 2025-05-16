@@ -17,7 +17,6 @@
         <option [value]="date">{{date}}</option>
         }
     </select>
-    }
     <div class="table-wrapper">
         <table mat-table matSort [dataSource]="dataSource">
             <ng-container matColumnDef="name">
@@ -49,5 +48,7 @@
             <tr (click)="rowClicked(row)" mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
         </table>
     </div>
+    }
+
 </main>
 }

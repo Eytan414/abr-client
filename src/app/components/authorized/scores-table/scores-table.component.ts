@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, ViewChild } from '@angular/core';
 import { AppService } from '../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
@@ -34,16 +34,19 @@ export class ScoresTableComponent implements AfterViewInit {
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
   dataSource = new MatTableDataSource<ScoreRecord>();
-  scores = computed(() => this.appService.scoresData().scoresBySchool);
-  distinctDates = computed(() => this.appService.scoresData().quizDistinctDates);
-  
+  distinctDates = computed(() => this.appService.scoresData().quizDistinctDates ?? []);
+
   constructor() {
     effect(() => {
-      this.dataSource.data = this.scores();
-      this.dashboardService.scoresTableLoading.set(false);
+      this.dataSource.data = this.appService.scoresData().scoresBySchool;
     });
   }
+
   ngAfterViewInit() {
+    this.setupDataTable();
+  }
+  
+  setupDataTable() {
     this.dataSource.sortData = (data: ScoreRecord[], sort: MatSort) => {
       if (!sort.active || sort.direction === '') {
         return data;

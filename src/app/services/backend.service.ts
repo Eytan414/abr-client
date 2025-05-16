@@ -5,7 +5,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 import { DashboardService } from './dashboard.service';
 import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
-import { School, ScoresData, ScoresDataAdmin } from '../shared/models/types';
+import { School, ScoresData, ScoresDataAdmin, UserDetails } from '../shared/models/types';
 import { SchoolToAdd } from '../shared/models/types';
 import { Supervisor } from '../shared/models/supervisor';
 import { Quiz } from '../shared/models/quiz';
@@ -39,6 +39,9 @@ export class BackendService {
   getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`)
       .pipe(tap(this.appService.schools.set));
+  }
+  getSessionUser() {
+    return this.http.get<UserDetails>(`${environment.apiUrl}session`, { withCredentials: true });
   }
 
   checkIsSuper(phone: string) {

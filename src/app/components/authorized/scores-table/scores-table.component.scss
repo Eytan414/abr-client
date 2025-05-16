@@ -1,13 +1,25 @@
 main {
-    max-height: calc(100vh - 10rem);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+
+    button, select {
+        align-self: flex-start;
+    }
 
     .table-wrapper {
-        max-height: calc(100vh - 10rem);
+        overflow-y: auto;
+        flex: 1;
         margin-top: 1rem;
 
         tr {
             cursor: pointer;
         }
     }
+}
+
+.supervisor main {
+    max-height: calc(100vh - 10rem);
+
 }

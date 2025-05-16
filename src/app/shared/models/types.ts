@@ -4,7 +4,6 @@ export type TableData = {
     score: number,
     userEntries: number[],
     date: string;
-    // timestamp: Date,
 }
 export type ScoreRecord = {
     name: string;
@@ -12,13 +11,11 @@ export type ScoreRecord = {
     quizId: number;
     school: string;
     score: number;
-    // timestamp: string;
     date?: string;
     userEntries: number[];
 }
 export type ScoresData = {
     scoresBySchool: ScoreRecord[];
-    // allScores?: ScoreRecord[];
     quizDistinctDates: string[];
 }
 export type ScoresDataAdmin = {
@@ -35,4 +32,11 @@ export type SchoolToAdd = {
         phone: string,
         name: string,
     }
+}
+export type UserDetails = {
+    readonly name?: string;
+    readonly phone?: string;
+    readonly grade?: string;
+    readonly role?: string;
+    readonly schoolId?: string;
 }

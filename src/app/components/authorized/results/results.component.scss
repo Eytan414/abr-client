@@ -1,6 +1,6 @@
 main {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     margin: 2rem;
     padding: 1rem;
     direction: rtl;
@@ -9,10 +9,8 @@ main {
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
-
-    &:has(.admin, .summary) {
-        grid-template-columns: 1fr;
-    }
+    max-height: calc(100vh - 10rem);
+    overflow-y: auto;
 
     .admin {
         display: grid;
@@ -21,8 +19,12 @@ main {
 
         .scores-table {
             display: grid;
-            gap: 1rem;   
+            gap: 1rem;
             grid-auto-rows: min-content;
+
+            select{
+                justify-self: flex-start;
+            }
         }
     }
 
@@ -49,12 +51,6 @@ main {
         }
     }
 
-
-    // form {
-    //     display: flex;
-    //     gap: 1rem;
-    //     outline: 0;
-    // }
 }
 
 @media(max-width: 768px) {
@@ -66,8 +62,5 @@ main {
             grid-template-columns: 1fr;
         }
 
-        // form {
-        //     flex-direction: column;
-        // }
     }
 }
