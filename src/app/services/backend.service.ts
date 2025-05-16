@@ -24,7 +24,7 @@ export class BackendService {
   private readonly dashboardService = inject(DashboardService);
 
   getAllQuizzes() {
-    return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`);
+    return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
   }
   getQuizById() {
     const id = this.appService.quizId();
