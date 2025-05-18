@@ -9,7 +9,11 @@ main {
     button, select {
         align-self: flex-start;
     }
-
+    .summary{
+        p{
+            margin-top: 0.5rem;
+        }
+    }
     .table-wrapper {
         overflow-y: auto;
         flex: 1;
