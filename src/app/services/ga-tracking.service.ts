@@ -16,4 +16,8 @@ export class GaTrackingService {
         });
       });
   }
+
+  sendEvent(eventName: string, params: Record<string, any> = {}): void {
+    gtag('event', eventName, params);
+  }
 }

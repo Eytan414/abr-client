@@ -12,6 +12,7 @@ import { AppService } from '../../services/app.service';
 import { filter, tap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { GaTrackingService } from '../../services/ga-tracking.service';
 
 @Component({
   selector: 'questions',
@@ -29,9 +30,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class QuestionsComponent implements OnInit, AfterViewInit {
 
   icons = { cilArrowCircleRight, cilArrowCircleLeft };
+  private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
   private readonly backend = inject(BackendService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly tracking = inject(GaTrackingService);
   readonly appService = inject(AppService);
   carouselInstance!: any;
   activeIndex = signal<number>(0);
@@ -41,6 +43,11 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.backend.getQuizById().subscribe();
+    const name = this.appService.userDetails().name
+    const text = `${name}: started quiz at: ${new Date().toLocaleDateString('en-GB')}`;
+
+    this.tracking.sendEvent(text)
+
   }
 
   ngAfterViewInit(): void {
@@ -87,7 +94,14 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
 
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
-      tap(() => this.loading.set(false)),
+      tap(() => {
+        const name = this.appService.userDetails().name
+        const text = `${name}: sent quiz at: ${new Date().toLocaleDateString('en-GB')}`;
+        this.tracking.sendEvent(text);
+
+        this.loading.set(false);
+      }
+      ),
       tap(this.appService.responseSignal.set)
     ).subscribe();
   }

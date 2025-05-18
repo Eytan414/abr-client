@@ -6,6 +6,7 @@ import { BackendService } from '../../../services/backend.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { DashboardService } from '../../../services/dashboard.service';
 import { EMPTY } from 'rxjs/internal/observable/empty';
+import { GaTrackingService } from '../../../services/ga-tracking.service';
 
 @Component({
   selector: 'manage',
@@ -22,6 +23,7 @@ export class ManageComponent implements OnInit {
   scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
   passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
+  private readonly tracking = inject(GaTrackingService);
   readonly appService = inject(AppService);
   readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
@@ -49,6 +51,7 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage');
     const user = this.appService.userDetails();
     if (user.role !== 'supervisor') return;
 
