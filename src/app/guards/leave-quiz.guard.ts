@@ -4,5 +4,5 @@ import { AppService } from '../services/app.service';
 
 export const leaveQuizGuard: CanDeactivateFn<unknown> = () => {
   const appService = inject(AppService);
-  return appService.quizSent() ? true : confirm('לעזוב את החידון?');
+  return appService.quizSent() ? true : confirm('יציאה מהחידון?');
 };

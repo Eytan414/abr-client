@@ -6,9 +6,8 @@
 :root {
   --main-color: #961a1d;
   @include mat.table-theme(theme.$light-theme);
-  @include mat.progress-spinner-overrides((
-    active-indicator-color: var(--main-color),
-  ));
+  @include mat.progress-spinner-overrides((active-indicator-color: var(--main-color),
+    ));
 
 }
 
@@ -18,7 +17,7 @@ select {
   border: 1px solid #333;
   border-radius: 0.25rem;
   background: white;
-  padding: 0.5rem 1rem;
+  padding: .5rem 1rem;
 }
 
 button:not(:disabled):hover {
@@ -28,4 +27,44 @@ button:not(:disabled):hover {
 
 select {
   appearance: none;
+}
+
+.popover {
+  direction: rtl;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+
+.main-content {
+  width: min(90%, 768px);
+  max-width: 768px;
+  margin-inline: auto;
+
+  &:has(.admin) {
+    width: 85vw ;
+    max-width: unset;
+  }
+}
+
+.main-content>*>main {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    width: 85vw;
+    padding: 0;
+  }
+}
+
+th{
+  color: white;
+  background-color: var(--main-color) !important;
 }

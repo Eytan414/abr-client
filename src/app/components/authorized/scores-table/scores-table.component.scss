@@ -1,8 +1,10 @@
+mat-spinner{
+    margin: 1rem auto;
+}
 main {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    max-height: 80vh;
 
     button, select {
         align-self: flex-start;
@@ -19,7 +21,3 @@ main {
     }
 }
 
-.supervisor main {
-    max-height: calc(100vh - 10rem);
-
-}

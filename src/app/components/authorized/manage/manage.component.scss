@@ -1,7 +1,7 @@
 main {
     display: grid;
     grid-template-columns: 1fr;
-    margin: 2rem;
+    margin-block: 1rem;
     padding: 1rem;
     direction: rtl;
     border-radius: 0.25rem;
@@ -9,17 +9,30 @@ main {
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
-    max-height: calc(100vh - 10rem);
     overflow-y: auto;
+    width: 100%;
 
-    .admin {
+    ::ng-deep .admin {
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 2rem;
 
-        > * {
-            border: 1px dashed #961a1d;
+        >* {
+            border: 1px dashed var(--main-color);
             padding: 1rem;
+        }
+
+        summary {
+            outline: 0;
+
+            :hover {
+                color: blue;
+            }
+
+            h2 {
+                display: inline-block;
+                margin-inline-start: 0.25rem;
+            }
         }
 
         .scores-table {
@@ -29,6 +42,10 @@ main {
 
             select {
                 justify-self: flex-start;
+            }
+
+            .table-wrapper {
+                max-height: calc(100vh - 8rem);
             }
         }
     }
@@ -61,7 +78,7 @@ main {
 @media(max-width: 768px) {
     main {
         grid-template-columns: 1fr;
-        margin: 1rem;
+        // margin: 1rem;
 
         .admin {
             grid-template-columns: 1fr;

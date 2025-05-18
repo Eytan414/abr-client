@@ -8,17 +8,17 @@ import { DashboardService } from '../../../services/dashboard.service';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Component({
-  selector: 'results',
+  selector: 'manage',
   imports: [
     FormsModule,
     NgComponentOutlet
   ],
-  templateUrl: './results.component.html',
-  styleUrl: './results.component.scss',
+  templateUrl: './manage.component.html',
+  styleUrl: './manage.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultsComponent implements OnInit {
+export class ManageComponent implements OnInit {
   scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
   passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));

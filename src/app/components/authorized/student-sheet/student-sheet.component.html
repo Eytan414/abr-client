@@ -8,17 +8,23 @@
         @for(col of displayedColumns(); track col){
         @let adjustedIndex = (+col) - 1;
         <ng-container [matColumnDef]="col">
-            <th mat-header-cell *matHeaderCellDef
+            <th mat-header-cell *matHeaderCellDef  color="secondary"
                 (click)="showTextualQuestion(adjustedIndex, fullAnswerData[adjustedIndex])"
-                [cPopover]="popover().questionText" cPopoverPlacement="top" [cPopoverTrigger]="'focus'"
-                [cPopoverVisible]="adjustedIndex === popover().questionIndex" color="secondary">
+                [cPopover]="popover().questionText"
+                cPopoverPlacement="top"
+                [cPopoverTrigger]="'focus'"
+                [cPopoverVisible]="adjustedIndex === popover().questionIndex">
                 <div>
                     {{ 'שאלה ' + col }}
                 </div>
             </th>
-            <td mat-cell *matCellDef (click)="showTextualAnswer(adjustedIndex, fullAnswerData[adjustedIndex])"
-                [cPopoverTrigger]="'focus'" [cPopover]="popover().answerText" cPopoverPlacement="bottom"
-                [cPopoverVisible]="adjustedIndex === popover().answerIndex" color="secondary">
+            <td mat-cell *matCellDef color="secondary"
+                (click)="showTextualAnswer(adjustedIndex, fullAnswerData[adjustedIndex])"
+                [cPopoverTrigger]="'focus'" 
+                [cPopover]="popover().answerText"
+                cPopoverPlacement="bottom"
+                [cPopoverVisible]="adjustedIndex === popover().answerIndex"
+            >
                 <span [class]="styleAnswer(fullAnswerData[adjustedIndex])">
                     {{ fullAnswerData[adjustedIndex].answer }}
                 </span>

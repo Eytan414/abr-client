@@ -6,12 +6,11 @@
 main {
     display: grid;
     justify-self: center;
-    margin: 1rem 0.5rem;
+    margin-block: 1rem;
     padding: .5rem;
     direction: rtl;
     border-radius: 0.25rem;
     box-shadow: 0 0 2.5rem 0.5rem;
-    width: min(85%, 768px);
     min-height: calc(100vh - 8rem);
     background-color: #ffffffcc;
     grid-template-rows: 1fr;
@@ -29,7 +28,7 @@ main {
             margin-bottom: 1rem;
             background: green;
             color: white;
-            padding: 0.5rem;
+            padding: 0.375rem;
             align-self: center;
             border: navajowhite;
             border-radius: .25rem;
@@ -54,8 +53,7 @@ main {
     anchor-name: --carousel;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-
+    padding-bottom: 1.75rem;
     .carousel-inner {
         height: 100%;
 
@@ -113,11 +111,5 @@ main {
             background: none;
             border: none;
         }
-    }
-}
-
-@media (max-width: 768px) {
-    main {
-        width: auto;
     }
 }

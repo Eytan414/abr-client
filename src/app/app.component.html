@@ -5,8 +5,8 @@
         @if(src){
         <img [src]="src" [class]="bgLoaded() ? 'show' : ''" alt="background image" />
         }
-
     </div>
-
-    <router-outlet />
+    <div class="main-content">
+        <router-outlet />
+    </div>
 </div>

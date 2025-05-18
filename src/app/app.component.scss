@@ -1,6 +1,10 @@
 .wrapper {
     padding: 0 .5rem .5rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 
     .background {
         position: absolute;
@@ -33,4 +37,6 @@
             }
         }
     }
+    
+
 }

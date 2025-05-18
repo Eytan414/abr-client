@@ -43,7 +43,7 @@ export class IdentificationComponent implements OnInit {
       tap((result) => {
         if (result.supervisor) {
           this.updateUserDetails(result.supervisor.schoolId);
-          this.gotoResults();
+          this.router.navigateByUrl('/login');
         }
         else {
           this.updateUserDetails();
@@ -51,10 +51,6 @@ export class IdentificationComponent implements OnInit {
         }
       })
     ).subscribe();
-  }
-
-  gotoResults() {
-    this.router.navigateByUrl('/login');
   }
   gotoInstructions() {
     this.router.navigateByUrl('/instructions');

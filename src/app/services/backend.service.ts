@@ -76,13 +76,13 @@ export class BackendService {
             return this.fetchAllSchools().pipe(
               map((scoresResp: School[]) => {
                 this.appService.scoresDataAdmin.set(scoresResp);
-                this.router.navigateByUrl('/results');
+                this.router.navigateByUrl('/manage');
               })
             );
           }
 
           if (result.role === 'supervisor')
-            this.router.navigateByUrl('/results');
+            this.router.navigateByUrl('/manage');
 
           return EMPTY;
         })

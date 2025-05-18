@@ -1,0 +1,46 @@
+@let role = this.appService.userDetails().role;
+<main>
+    <h1>ניהול</h1>
+    <div [class]="role">
+        @if (role === 'admin'){
+        <div class="scores-table">
+            <details>
+                <summary>
+                    <h2>צפייה בתוצאות</h2>
+                </summary>
+                <select [(ngModel)]="selectedSchool" #selectSchool>
+                    <option value='' selected>בחירת בית ספר</option>
+                    @for(school of appService.scoresDataAdmin(); track school.id){
+                    <option [value]="school.id">{{school.name}}</option>
+                    }
+                </select>
+                @if(selectedSchool() !== ''){
+                <ng-container *ngComponentOutlet="scoresComponent()" />
+                }
+            </details>
+        </div>
+        <div class="passwords">
+            <details>
+                <summary>
+                    <h2>ניהול סיסמאות</h2>
+                </summary>
+                <ng-container *ngComponentOutlet="passwordsComponent()" />
+
+            </details>
+        </div>
+        <div class="add-schools">
+            <details>
+                <summary>
+                    <h2>הוספת בית ספר</h2>
+                </summary>
+                <ng-container *ngComponentOutlet="addSchoolComponent()" />
+
+            </details>
+
+        </div>
+        }
+        @if (role === 'supervisor'){
+        <ng-container *ngComponentOutlet="scoresComponent()" />
+        }
+    </div>
+</main>

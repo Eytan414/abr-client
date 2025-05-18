@@ -3,10 +3,12 @@
     overflow-x: auto;
     user-select: none;
 
-    ::ng-deep th,
-    td {
-        text-align: center;
-        cursor: pointer;
+    ::ng-deep {
+        th,
+        td {
+            text-align: center;
+            cursor: pointer;
+        }
     }
 
     span {

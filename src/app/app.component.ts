@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { AsyncPipe } from '@angular/common';
+import { GaTrackingService } from './services/ga-tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
+  private analytics = inject(GaTrackingService);
   bgUrl = `${environment.apiUrl}webp-image/bg`;
   bgLoaded = signal<boolean>(false);
 

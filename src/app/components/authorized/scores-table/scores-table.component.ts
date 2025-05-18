@@ -25,39 +25,35 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScoresTableComponent implements AfterViewInit {
+export class ScoresTableComponent {
   readonly appService = inject(AppService);
   readonly dashboardService = inject(DashboardService);
-  @ViewChild(MatSort) sort!: MatSort;
 
   selectedDate: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
-  dataSource = new MatTableDataSource<ScoreRecord>();
   distinctDates = computed(() => this.appService.scoresData().quizDistinctDates ?? []);
+  dataSource = new MatTableDataSource<ScoreRecord>();
+    private sort!: MatSort;          // ← declare it
+
+  @ViewChild(MatSort, { static: false })
+  set matSort(ms: MatSort) {
+    if (!ms) return;
+    this.dataSource.sort = ms;
+    this.dataSource.sortData = (data, sort) =>
+      !sort.active || !sort.direction
+        ? data
+        : data.sort((a, b) =>
+            this.compareByColumn(a, b, sort.active, sort.direction === 'asc')
+          );
+    this.dataSource.filterPredicate = (rec, filter) => rec.date === filter;
+  }
 
   constructor() {
     effect(() => {
       this.dataSource.data = this.appService.scoresData().scoresBySchool;
+      
     });
-  }
-
-  ngAfterViewInit() {
-    this.setupDataTable();
-  }
-  
-  setupDataTable() {
-    this.dataSource.sortData = (data: ScoreRecord[], sort: MatSort) => {
-      if (!sort.active || sort.direction === '') {
-        return data;
-      }
-      return data.sort((a, b) => this.compareByColumn(a, b, sort.active, sort.direction === 'asc'));
-    };
-    this.dataSource.sort = this.sort;
-
-    this.dataSource.filterPredicate = (record, filter: string) => {
-      return record.date === filter;
-    };
   }
 
   rowClicked(row: any) {

@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 import { IdentificationComponent } from './components/identification/identification.component';
 import { authGuard } from './guards/auth.guard';
 import { questionsGuard } from './guards/questions.guard';
-import { ResultsComponent } from './components/authorized/results/results.component';
+import { ManageComponent } from './components/authorized/manage/manage.component';
 import { leaveQuizGuard } from './guards/leave-quiz.guard';
+import { leaveManageGuard } from './guards/leave-manage.guard';
 
 export const routes: Routes = [
   { path: '', component: IdentificationComponent },
@@ -18,9 +19,10 @@ export const routes: Routes = [
       import('./components/login/login.component').then(m => m.LoginComponent)
   },
   {
-    path: 'results', loadComponent: () =>
-      import('./components/authorized/results/results.component').then(m => m.ResultsComponent),
-    canActivate: [authGuard]
+    path: 'manage', loadComponent: () =>
+      import('./components/authorized/manage/manage.component').then(m => m.ManageComponent),
+    canActivate: [authGuard],
+    canDeactivate: [leaveManageGuard]
   },
   {
     path: 'instructions', loadComponent: () =>
