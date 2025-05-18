@@ -5,9 +5,11 @@
         <label for="name">שם מלא:</label>
         <input autocomplete="on" [(ngModel)]="name" name="name" id="name" type="text" required>
         <label for="phone">טלפון:</label>
-        <input autocomplete="on" [(ngModel)]="phone" name="phone" id="phone" pattern="^\d{10}$" type="tel" required>
+        <input autocomplete="on" [(ngModel)]="phone" name="phone" id="phone" pattern="^\d{10}$" type="tel"
+            placeholder="0521234567" required>
         <label for="school">בחירת בית ספר:</label>
         <select [(ngModel)]="school" name="school" id="school" required>
+            <option [value]="''">בחירה מרשימה</option>
             @for(school of schools(); track school._id){
             <option [value]="school._id">{{school.name}}</option>
             }
