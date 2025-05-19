@@ -51,7 +51,7 @@ export class BackendService {
   fetchResultsBySchool(schoolId: string) {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
-  fetchAllSchools() {
+  getAllSchoolsWithData() {
     return this.http.get<School[]>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
   }
 
@@ -73,9 +73,9 @@ export class BackendService {
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
 
           if (result.role === 'admin') {
-            return this.fetchAllSchools().pipe(
+            return this.getAllSchoolsWithData().pipe(
               map((scoresResp: School[]) => {
-                this.appService.scoresDataAdmin.set(scoresResp);
+                this.dashboardService.scoresDataAdmin.set(scoresResp);
                 this.router.navigateByUrl('/manage');
               })
             );
@@ -111,9 +111,6 @@ export class BackendService {
   }
   addSchool(schoolToAdd: SchoolToAdd) {
     return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true, });
-  }
-  getSchoolSupervisors(schoolId: string) {
-    return this.http.get<Supervisor[]>(`${environment.apiUrl}school/supervisors/${schoolId}`, { withCredentials: true, });
   }
 }
 

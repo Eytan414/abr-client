@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, ViewChild } from '@angular/core';
-import { AppService } from '../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatSortModule, MatSort } from '@angular/material/sort';
@@ -26,15 +25,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScoresTableComponent {
-  readonly appService = inject(AppService);
   readonly dashboardService = inject(DashboardService);
 
   selectedDateFilter: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
-  distinctDates = computed(() => this.appService.scoresData().quizDistinctDates ?? []);
+  distinctDates = computed(() => this.dashboardService.scoresData().quizDistinctDates ?? []);
   dataSource = new MatTableDataSource<ScoreRecord>();
-    private sort!: MatSort;          // ← declare it
+  private sort!: MatSort;
 
   @ViewChild(MatSort, { static: false })
   set matSort(ms: MatSort) {
@@ -51,7 +49,7 @@ export class ScoresTableComponent {
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.appService.scoresData().scoresBySchool;
+      this.dataSource.data = this.dashboardService.scoresData().scoresBySchool;
       this.selectedDateFilter = '';
       this.dataSource.filter = '';
     });

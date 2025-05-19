@@ -24,6 +24,7 @@ export type ScoresDataAdmin = {
 export type School = {
     id: string,
     name: string,
+    supervisors: string[],
 }
 export type SchoolToAdd = {
     name: string,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, OnInit, signal, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, Type, ViewChild } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../services/app.service';
@@ -30,7 +30,10 @@ export class ManageComponent implements OnInit {
   readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
   selectedSchool = signal<string>('');
-
+  currentSchoolSupervisors = computed(() => 
+    this.dashboardService.scoresDataAdmin()
+    .filter(school => this.selectedSchool() === school.id)
+    .map(school => school.supervisors));
   @ViewChild('selectSchool') selectSchool!: ElementRef<HTMLSelectElement>;
 
   constructor() {
@@ -40,22 +43,15 @@ export class ManageComponent implements OnInit {
 
       this.dashboardService.scoresTableLoading.set(true);
 
-      const fetchTableData$ = this.backend.fetchResultsBySchool(schoolId).pipe(
-        tap(this.appService.scoresData.set),
+      this.backend.fetchResultsBySchool(schoolId).pipe(
+        tap(this.dashboardService.scoresData.set),
         catchError(err => {
           console.error(err);
           this.dashboardService.scoresTableLoading.set(false);
           return EMPTY;
         }),
         finalize(() => this.dashboardService.scoresTableLoading.set(false))
-      );
-
-      const fetchSupervisors$ = this.backend.getSchoolSupervisors(schoolId).pipe(
-        map((supervisors:Supervisor[]) => supervisors.map(supervisor => supervisor.name)),
-        tap(this.dashboardService.currentSchoolSupervisors.set)
-      );
-
-      merge(fetchTableData$, fetchSupervisors$).subscribe();
+      ).subscribe();
     });
 
   }
@@ -68,7 +64,7 @@ export class ManageComponent implements OnInit {
     this.dashboardService.scoresTableLoading.set(true);
 
     this.backend.fetchResultsBySchool(user.schoolId!).pipe(
-      tap(scores => this.appService.scoresData.set(scores)),
+      tap(scores => this.dashboardService.scoresData.set(scores)),
       catchError(err => {
         console.error(err);
         return EMPTY;

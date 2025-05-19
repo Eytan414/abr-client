@@ -35,7 +35,7 @@ main {
                     font-size: 1.5rem;
                 }
                 &:hover {
-                    color: blue;
+                    color: var(--main-color);
                 }
 
                 h2 {
@@ -82,7 +82,7 @@ main {
                 }
 
                 &:hover {
-                    background-color: #a0a0a0;
+                    background-color: #d0e5ff;
                 }
             }
         }
@@ -92,8 +92,6 @@ main {
 
 @media(max-width: 768px) {
     main {
-        grid-template-columns: 1fr;
-        // margin: 1rem;
 
         .admin {
             grid-template-columns: 1fr;

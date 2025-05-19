@@ -18,6 +18,7 @@ select {
   border-radius: 0.25rem;
   background: white;
   padding: .5rem 1rem;
+  outline-color: var(--main-color);
 }
 
 button:not(:disabled):hover {
