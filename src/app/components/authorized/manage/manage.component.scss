@@ -21,16 +21,27 @@ main {
             padding: 1rem;
         }
 
-        summary {
-            outline: 0;
-
-            :hover {
-                color: blue;
+        details {
+            &[open] {
+                summary:not(:hover)::marker {
+                    color: var(--main-color);
+                }
             }
 
-            h2 {
-                display: inline-block;
-                margin-inline-start: 0.25rem;
+            summary {
+                outline: 0;
+
+                &::marker {    
+                    font-size: 1.5rem;
+                }
+                &:hover {
+                    color: blue;
+                }
+
+                h2 {
+                    display: inline-block;
+                    margin-inline-start: 0.25rem;
+                }
             }
         }
 
@@ -41,6 +52,11 @@ main {
 
             select {
                 justify-self: flex-start;
+                display: block;
+            }
+
+            h3 {
+                display: inline-block;
             }
 
             .table-wrapper {

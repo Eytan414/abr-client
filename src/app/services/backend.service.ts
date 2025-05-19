@@ -112,6 +112,9 @@ export class BackendService {
   addSchool(schoolToAdd: SchoolToAdd) {
     return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true, });
   }
+  getSchoolSupervisors(schoolId: string) {
+    return this.http.get<Supervisor[]>(`${environment.apiUrl}school/supervisors/${schoolId}`, { withCredentials: true, });
+  }
 }
 
 type SuperPasswordsResp = {

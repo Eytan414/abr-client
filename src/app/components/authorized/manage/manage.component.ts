@@ -3,10 +3,12 @@ import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../services/app.service';
 import { BackendService } from '../../../services/backend.service';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { DashboardService } from '../../../services/dashboard.service';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { GaTrackingService } from '../../../services/ga-tracking.service';
+import { Supervisor } from '../../../shared/models/supervisor';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'manage',
@@ -33,19 +35,27 @@ export class ManageComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      if (this.appService.userDetails().role !== 'admin' || this.selectedSchool() === '') return;
+      const schoolId = this.selectedSchool();
+      if (this.appService.userDetails().role !== 'admin' || schoolId === '') return;
 
       this.dashboardService.scoresTableLoading.set(true);
 
-      this.backend.fetchResultsBySchool(this.selectedSchool()).pipe(
-        tap(scores => this.appService.scoresData.set(scores)),
+      const fetchTableData$ = this.backend.fetchResultsBySchool(schoolId).pipe(
+        tap(this.appService.scoresData.set),
         catchError(err => {
           console.error(err);
           this.dashboardService.scoresTableLoading.set(false);
           return EMPTY;
         }),
         finalize(() => this.dashboardService.scoresTableLoading.set(false))
-      ).subscribe();
+      );
+
+      const fetchSupervisors$ = this.backend.getSchoolSupervisors(schoolId).pipe(
+        map((supervisors:Supervisor[]) => supervisors.map(supervisor => supervisor.name)),
+        tap(this.dashboardService.currentSchoolSupervisors.set)
+      );
+
+      merge(fetchTableData$, fetchSupervisors$).subscribe();
     });
 
   }

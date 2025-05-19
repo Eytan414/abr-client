@@ -11,7 +11,7 @@
     <student-sheet [studentPhone]="selectedRow?.phone!" />
     }
     @else {
-    <select [(ngModel)]="selectedDate" (change)="updateFilter($event)" id="date">
+    <select [(ngModel)]="selectedDateFilter" (change)="updateFilter($event)" id="date">
         <option value='' selected>כל התאריכים</option>
         @for(date of distinctDates(); track date){
         <option [value]="date">{{date}}</option>

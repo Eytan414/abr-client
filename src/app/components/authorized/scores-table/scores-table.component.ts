@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, ViewChild } from '@angular/core';
 import { AppService } from '../../../services/app.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule, } from '@angular/material/form-field';
@@ -29,7 +29,7 @@ export class ScoresTableComponent {
   readonly appService = inject(AppService);
   readonly dashboardService = inject(DashboardService);
 
-  selectedDate: string = '';
+  selectedDateFilter: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
   distinctDates = computed(() => this.appService.scoresData().quizDistinctDates ?? []);
@@ -52,7 +52,8 @@ export class ScoresTableComponent {
   constructor() {
     effect(() => {
       this.dataSource.data = this.appService.scoresData().scoresBySchool;
-      
+      this.selectedDateFilter = '';
+      this.dataSource.filter = '';
     });
   }
 
@@ -63,8 +64,8 @@ export class ScoresTableComponent {
 
   updateFilter(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectedDate = target.value;
-    this.dataSource.filter = this.selectedDate ?? '';
+    this.selectedDateFilter = target.value;
+    this.dataSource.filter = this.selectedDateFilter ?? '';
   }
 
   private compareByColumn(a: ScoreRecord, b: ScoreRecord, column: string, isAsc: boolean): number {

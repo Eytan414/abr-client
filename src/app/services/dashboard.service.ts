@@ -8,8 +8,12 @@ export class DashboardService {
   private readonly appService = inject(AppService)
 
   passwords = signal<TablePassword[]>([]);
+  currentSchoolSupervisors = signal<any[]>([]);
   scoresTableLoading = signal<boolean>(false);
+
 }
+
+
 export type TablePassword = {
   id: string,
   password: string,

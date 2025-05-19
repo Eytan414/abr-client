@@ -4,7 +4,7 @@
     <div [class]="role">
         @if (role === 'admin'){
         <div class="scores-table">
-            <details>
+            <details open>
                 <summary>
                     <h2>צפייה בתוצאות</h2>
                 </summary>
@@ -15,12 +15,23 @@
                     }
                 </select>
                 @if(selectedSchool() !== ''){
+                <h3> רכז\ים: </h3>
+                <span>
+                    @for(supervisor of dashboardService.currentSchoolSupervisors(); track supervisor){
+                    {{supervisor}}
+                    @if(!$last){
+                    {{', '}}
+                    }
+                    } @empty {
+                    <span>אין רכזים</span>
+                    }
+                </span>
                 <ng-container *ngComponentOutlet="scoresComponent()" />
                 }
             </details>
         </div>
         <div class="passwords">
-            <details>
+            <details open>
                 <summary>
                     <h2>ניהול סיסמאות</h2>
                 </summary>
@@ -29,14 +40,12 @@
             </details>
         </div>
         <div class="add-schools">
-            <details>
+            <details open>
                 <summary>
                     <h2>הוספת בית ספר</h2>
                 </summary>
                 <ng-container *ngComponentOutlet="addSchoolComponent()" />
-
             </details>
-
         </div>
         }
         @if (role === 'supervisor'){
