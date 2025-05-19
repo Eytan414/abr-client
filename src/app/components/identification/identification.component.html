@@ -30,6 +30,6 @@
         <label for="grade">כיתה:</label>
         <input autocomplete="on" [(ngModel)]="grade" name="grade" id="grade" type="text" [required]="isStudentFlow">
         }
-        <button [disabled]="identificationForm.invalid" (click)="checkIfSupervisor()">המשך</button>
+        <button [disabled]="identificationForm.invalid" (click)="login()">המשך</button>
     </form>
 </main>

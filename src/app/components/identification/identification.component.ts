@@ -21,6 +21,7 @@ export class IdentificationComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
+  private readonly PHONE_REGEX = /^\d{10}$/;
   schools = this.appService.schools;
   name = signal<string>('');
   grade = signal<string>('');
@@ -32,49 +33,36 @@ export class IdentificationComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const val = this.phone();
-      if (/^\d{10}$/.test(val)) {
-        this.loading.set(true);
-        this.backend.checkIsSuper(this.phone()).pipe(
-          tap((s) => {
-            const schoolId = s.supervisor?.schoolId;
-            if(schoolId) {
-              this.appService.userDetails.update(u => ({ ...u, schoolId }) );
-              this.isMemberFlow.set(true);
-            }
-          }),
-          finalize(() => {debugger; this.loading.set(false)})
-        ).subscribe();
-      } else {
+      const phone = this.phone();
+      if (!this.PHONE_REGEX.test(phone)) {
         this.isMemberFlow.set(false);
+        return;
       }
+      this.loading.set(true);
+      this.backend.checkIsSuper(phone).pipe(
+        tap((s) => {
+          const schoolId = s.supervisor?.schoolId;
+          if (schoolId) {
+            this.appService.userDetails.update(u => ({ ...u, schoolId }));
+            this.isMemberFlow.set(true);
+          }
+        }),
+        finalize(() => this.loading.set(false))
+      ).subscribe();
     });
   }
 
   ngOnInit(): void {
     this.backend.getSchoolList().subscribe();
   }
-
+  
   login() {
-    this.backend.login(this.password()).subscribe();
-  }
-  checkIfSupervisor() {
     if (this.isMemberFlow()) {
-      this.login();
+      this.backend.login(this.password()).subscribe();
       return;
     }
-    this.backend.checkIsSuper(this.phone()).pipe(
-      tap((result) => {
-        if (result.supervisor) {
-          this.updateUserDetails(result.supervisor.schoolId);
-          this.router.navigateByUrl('/manage');
-        }
-        else {
-          this.updateUserDetails();
-          this.gotoInstructions();
-        }
-      })
-    ).subscribe();
+    this.updateUserDetails();
+    this.router.navigateByUrl('/instructions');
   }
 
   updateUserDetails(schoolId: string = this.school()) {
@@ -85,10 +73,6 @@ export class IdentificationComponent implements OnInit {
       grade: this.grade(),
       phone: this.phone(),
     }));
-  }
-
-  gotoInstructions() {
-    this.router.navigateByUrl('/instructions');
   }
 
   onInputChange(event: Event) {
