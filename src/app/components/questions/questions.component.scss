@@ -15,9 +15,9 @@ main {
     grid-template-rows: 1fr;
 
     .submit-wrapper {
-        align-self: end;
-        justify-self: center;
+        display: grid;
         justify-items: center;
+        align-self: end;
 
 
         button {
