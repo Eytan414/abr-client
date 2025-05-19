@@ -8,13 +8,15 @@ main {
     justify-content: center;
     gap: 1rem;
     background-color: #ffffffcc;
-    
-    h1{
+
+    h1 {
         font-size: 2rem;
     }
-    h2{
+
+    h2 {
         font-size: 1.25rem;
     }
+
     .identification-form {
         display: grid;
         gap: 0.5rem;
@@ -36,6 +38,24 @@ main {
         &[disabled] {
             opacity: .5;
             cursor: not-allowed;
+        }
+    }
+
+    .phone-wrapper {
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: .125rem;
+        display: flex;
+        position: relative;
+        width: 100%;
+        height: auto;
+        align-items: center;
+
+        mat-spinner {
+            position: absolute;
+            right: 1rem;
+            max-width: 1.5rem;
+            max-height: 1.5rem;
         }
     }
 }
