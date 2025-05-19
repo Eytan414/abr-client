@@ -61,6 +61,7 @@ main {
 
             .table-wrapper {
                 max-height: calc(100vh - 8rem);
+                min-height: fit-content;
             }
         }
     }

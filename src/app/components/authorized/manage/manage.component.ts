@@ -3,12 +3,11 @@ import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../services/app.service';
 import { BackendService } from '../../../services/backend.service';
-import { catchError, finalize, map, tap } from 'rxjs/operators';
-import { DashboardService } from '../../../services/dashboard.service';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
+import { DashboardService } from '../../../services/dashboard.service';
 import { GaTrackingService } from '../../../services/ga-tracking.service';
-import { Supervisor } from '../../../shared/models/supervisor';
-import { merge } from 'rxjs';
+
 
 @Component({
   selector: 'manage',
