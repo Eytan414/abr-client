@@ -18,7 +18,10 @@ select {
   border-radius: 0.25rem;
   background: white;
   padding: .5rem 1rem;
-  outline-color: var(--main-color);
+
+  &:focus-visible {
+    outline: 1px solid var(--main-color);
+  }
 }
 
 button:not(:disabled):hover {
@@ -29,6 +32,7 @@ button:not(:disabled):hover {
 select {
   appearance: none;
 }
+
 h1 {
   font-size: 1.75rem;
 }
@@ -48,7 +52,7 @@ h3 {
   margin-inline: auto;
 
   &:has(.admin) {
-    width: 85vw ;
+    width: 85vw;
     max-width: unset;
   }
 }
@@ -64,7 +68,7 @@ h3 {
   }
 }
 
-th{
+th {
   color: white;
   background-color: var(--main-color) !important;
 }
