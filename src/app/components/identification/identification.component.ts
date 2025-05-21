@@ -53,12 +53,16 @@ export class IdentificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backend.getSchoolList().subscribe();
+    this.backend.getSchoolList()
+      .pipe(tap(this.appService.schools.set))
+      .subscribe();
   }
-  
+
   login() {
     if (this.isMemberFlow()) {
-      this.backend.login(this.password()).subscribe();
+      this.backend.login(this.password())
+      
+      .subscribe();
       return;
     }
     this.updateUserDetails();

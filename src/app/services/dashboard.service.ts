@@ -1,12 +1,11 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { AppService } from './app.service';
+import { Injectable, signal } from '@angular/core';
 import { School, ScoresData } from '../shared/models/types';
+import { Quiz } from '../shared/models/quiz';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private readonly appService = inject(AppService)
 
   passwords = signal<TablePassword[]>([]);
   scoresTableLoading = signal<boolean>(false);
@@ -15,6 +14,9 @@ export class DashboardService {
     scoresBySchool: [],
     quizDistinctDates: [],
   });
+
+  quizzes = signal<Quiz[]>([]);
+
 }
 
 

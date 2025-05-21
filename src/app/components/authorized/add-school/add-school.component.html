@@ -7,7 +7,7 @@
         <div class="form-control-wrapper">
             <label>שיוך חידון</label>
             <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
-                @for(quiz of (quizzes | async); track quiz.id){
+                @for(quiz of (dashboardService.quizzes()); track quiz.id){
                 <option [value]="quiz.id">{{quiz.title}}</option>
                 }
             </select>

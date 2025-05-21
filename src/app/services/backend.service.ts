@@ -20,25 +20,20 @@ import { EMPTY } from 'rxjs';
 export class BackendService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  private readonly appService = inject(AppService);
   private readonly dashboardService = inject(DashboardService);
+  private readonly appService = inject(AppService);
 
   getAllQuizzes() {
     return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
   }
-  getQuizById() {
-    const id = this.appService.quizId();
+  getQuizById(id: number) {
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
-      .pipe(tap(quiz => {
-        this.appService.questions.set(quiz.questions);
-      }));
   }
   submitData(body: any) {
     return this.http.post(`${environment.apiUrl}scores`, body);
   }
   getSchoolList() {
-    return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`)
-      .pipe(tap(this.appService.schools.set));
+    return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`);
   }
   getSessionUser() {
     return this.http.get<UserDetails>(`${environment.apiUrl}session`, { withCredentials: true });
@@ -52,7 +47,7 @@ export class BackendService {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
   getAllSchoolsWithData() {
-    return this.http.get<School[]>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
+    return this.http.get<{schools: School[], quizzes: Quiz[]}>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
   }
 
   login(password: string) {
@@ -74,8 +69,9 @@ export class BackendService {
 
           if (result.role === 'admin') {
             return this.getAllSchoolsWithData().pipe(
-              map((scoresResp: School[]) => {
-                this.dashboardService.scoresDataAdmin.set(scoresResp);
+              map(scoresResp => {
+                this.dashboardService.scoresDataAdmin.set(scoresResp.schools);
+                this.dashboardService.quizzes.set(scoresResp.quizzes);
                 this.router.navigateByUrl('/manage');
               })
             );

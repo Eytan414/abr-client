@@ -22,6 +22,7 @@ export type ScoresDataAdmin = {
     allScores: ScoreRecord[];
 }
 export type School = {
+    _id?: string,
     id: string,
     name: string,
     supervisors: string[],

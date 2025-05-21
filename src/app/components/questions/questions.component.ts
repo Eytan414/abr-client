@@ -42,8 +42,12 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   showAlert = signal<boolean>(false);
 
   ngOnInit() {
-    this.backend.getQuizById().subscribe();
-    const name = this.appService.userDetails().name
+    this.backend.getQuizById(this.appService.quizId()!)
+      .pipe(tap(quiz => {
+        this.appService.questions.set(quiz.questions);
+      })).subscribe();
+
+    const { name } = this.appService.userDetails()
     const text = `${name}: started quiz at: ${new Date().toLocaleDateString('en-GB')}`;
 
     this.tracking.sendEvent(text)

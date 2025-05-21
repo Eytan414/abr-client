@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
-import { AsyncPipe } from '@angular/common';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { AlertComponent, } from '@coreui/angular';
 import { SchoolToAdd } from '../../../shared/models/types';
 import { FormsModule, NgForm } from '@angular/forms';
+import { DashboardService } from '../../../services/dashboard.service';
 
 @Component({
   selector: 'add-school',
   imports: [
-    AsyncPipe,
     FormsModule,
     AlertComponent,
   ],
@@ -21,7 +20,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class AddSchoolComponent {
   private readonly backend = inject(BackendService);
-  quizzes = this.backend.getAllQuizzes();
+  readonly dashboardService = inject(DashboardService);
+  
   schoolName = signal<string>('');
   supervisorName = signal<string>('');
   supervisorPhone = signal<string>('');
