@@ -1,4 +1,5 @@
 @let role = this.appService.userDetails().role;
+{{selectedSchool()}}
 <main>
     <h1>ניהול</h1>
     <div [class]="role">
@@ -10,7 +11,7 @@
                 </summary>
                 <select [(ngModel)]="selectedSchool" #selectSchool>
                     <option value='' selected>בחירת בית ספר</option>
-                    @for(school of dashboardService.scoresDataAdmin(); track school.id){
+                    @for(school of dashboardService.scoresDataAdmin(); track school._id){
                     <option [value]="school.id">{{school.name}}</option>
                     }
                 </select>

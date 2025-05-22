@@ -1,5 +1,5 @@
 <main>
-    <div id="carousel" class="carousel slide" data-coreui-ride="false">
+    <div id="carousel" class="carousel carousel-fade" data-coreui-ride="false">
         <div class="carousel-inner">
             @for(question of appService.questions(); track question){
             <div class="carousel-item" [class.active]="$index === activeIndex()">
@@ -14,7 +14,7 @@
             </button>
             <ol class="carousel-indicators">
                 @for(question of appService.questions(); track question){
-                <li [class]="{'active' : $index === activeIndex(), 'answered':userEntries().at($index+1)}"
+                <li [class]="calcCarouselCardClass($index)"
                     data-coreui-target="#carousel" [attr.data-coreui-slide-to]="$index">
                 </li>
                 }
@@ -43,7 +43,7 @@
             החידון נשלח בהצלחה
         </c-alert>
         }
-        @if(resp === "failure"){
+        @else{
         <c-alert visible="true" dismissible="true" color="danger" fade>
             חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
         </c-alert>

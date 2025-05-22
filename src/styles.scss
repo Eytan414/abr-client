@@ -13,6 +13,7 @@
 
 input,
 button,
+textarea,
 select {
   border: 1px solid #333;
   border-radius: 0.25rem;
@@ -33,6 +34,10 @@ button:not(:disabled):hover {
 
 select {
   appearance: none;
+}
+
+textarea{
+  resize: none
 }
 
 h1 {

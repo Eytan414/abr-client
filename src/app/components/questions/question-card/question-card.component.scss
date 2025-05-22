@@ -19,7 +19,11 @@
         gap: 1rem;
         margin-top: 1rem;
         padding-inline: 0.75rem;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
+        
+        &:has(textarea){
+            grid-template-columns: 1fr;
+        }
 
         .answer {
             display: grid;

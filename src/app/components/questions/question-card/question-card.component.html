@@ -17,13 +17,15 @@
 
         <div class="possible-answers">
             @for(answer of possible_answers(); track $index){
-            <button 
-                [disabled]="appService.quizSent()" 
-                (click)="userAnswered(answer)" 
-                [class]='highlightSelectedAnswer($index)'
-                class="answer">
+            <button [disabled]="appService.quizSent()" (click)="userAnswered(answer.id)"
+                [class]='highlightSelectedAnswer($index)' class="answer">
                 {{ answer.value }}
             </button>
+            } @empty {
+            <textarea placeholder="נא למלא את תשובתך" required 
+                [disabled]="appService.quizSent()"
+                (blur)="userAnswered($event)">
+            </textarea>
             }
         </div>
     </div>

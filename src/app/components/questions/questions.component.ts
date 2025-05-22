@@ -28,7 +28,6 @@ import { GaTrackingService } from '../../services/ga-tracking.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionsComponent implements OnInit, AfterViewInit {
-
   icons = { cilArrowCircleRight, cilArrowCircleLeft };
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
@@ -37,7 +36,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   readonly appService = inject(AppService);
   carouselInstance!: any;
   activeIndex = signal<number>(0);
-  userEntries = signal<number[]>([]);
+  userEntries = signal<(number | string)[]>([]);
   loading = signal<boolean>(false);
   showAlert = signal<boolean>(false);
 
@@ -111,4 +110,10 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   }
 
 
+  calcCarouselCardClass(index:number) {
+    return { 
+      'active': index === this.activeIndex(),
+      'answered': this.userEntries().at(index + 1)
+    }
+  }
 }
