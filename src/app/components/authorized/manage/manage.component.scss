@@ -31,9 +31,10 @@ main {
             summary {
                 outline: 0;
 
-                &::marker {    
+                &::marker {
                     font-size: 1.5rem;
                 }
+
                 &:hover {
                     color: var(--main-color);
                 }
@@ -60,8 +61,8 @@ main {
             }
 
             .table-wrapper {
-                max-height: calc(100vh - 8rem);
-                min-height: fit-content;
+                max-height: calc(90vh - 10rem);
+                min-height: 10rem;
             }
         }
     }

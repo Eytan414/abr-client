@@ -27,7 +27,9 @@
                     <span>אין רכזים</span>
                     }
                 </span>
-                <ng-container *ngComponentOutlet="scoresComponent()" />
+                @defer (on immediate) {
+                <scores-table />
+                }
                 }
             </details>
         </div>
@@ -36,7 +38,9 @@
                 <summary>
                     <h2>ניהול סיסמאות</h2>
                 </summary>
-                <ng-container *ngComponentOutlet="passwordsComponent()" />
+                @defer (on immediate) {
+                <passwords-table />
+                }
 
             </details>
         </div>
@@ -45,12 +49,19 @@
                 <summary>
                     <h2>הוספת בית ספר</h2>
                 </summary>
-                <ng-container *ngComponentOutlet="addSchoolComponent()" />
+                @defer (on immediate) {
+                <add-school/>
+                }
             </details>
         </div>
         }
+
+        @defer (on immediate) {
         @if (role === 'supervisor'){
-        <ng-container *ngComponentOutlet="scoresComponent()" />
+        <scores-table />
         }
+        }
+
+
     </div>
 </main>

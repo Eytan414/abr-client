@@ -12,8 +12,8 @@ export class AppService {
   userDetails = signal<UserDetails>({});
   quizId = computed(() => { return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId });
 
-  responseSignal = signal<Resp>({});
-  quizSent = computed(() => this.responseSignal().resp === 'success');
+  responseSignal = signal<Resp>({resp: -1});
+  quizSent = computed(() => this.responseSignal().resp !== -1);
 
 }
 
