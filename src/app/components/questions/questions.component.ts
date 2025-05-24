@@ -103,7 +103,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
       ),
       tap(this.appService.responseSignal.set),
       catchError(err => {
-        this.appService.responseSignal().resp.set(err);
+        this.appService.responseSignal.set({resp:err});
         this.loading.set(false);
         return EMPTY
       })

@@ -52,6 +52,10 @@ main {
     flex-direction: column;
     padding-bottom: 1.75rem;
 
+    .carousel-item {
+        transition: opacity .25s ease-in-out;
+    }
+
     .carousel-inner {
         height: 100%;
 
@@ -72,25 +76,6 @@ main {
             &:hover {
                 font-weight: bold;
             }
-        }
-
-        .carousel-fade .carousel-item {
-            transition: opacity 1s ease;
-            opacity: 0;
-            z-index: 0;
-            transform: none !important;/* Disable sliding */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        .carousel-fade .carousel-item.active,
-        .carousel-fade .carousel-item-next.carousel-item-start,
-        .carousel-fade .carousel-item-prev.carousel-item-end {
-            opacity: 1;
-            z-index: 1;
-            position: relative;
         }
 
         .carousel-indicators {

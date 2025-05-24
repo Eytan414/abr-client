@@ -14,8 +14,8 @@
             </button>
             <ol class="carousel-indicators">
                 @for(question of appService.questions(); track question){
-                <li [class]="calcCarouselCardClass($index)"
-                    data-coreui-target="#carousel" [attr.data-coreui-slide-to]="$index">
+                <li [class]="calcCarouselCardClass($index)" data-coreui-target="#carousel"
+                    [attr.data-coreui-slide-to]="$index">
                 </li>
                 }
             </ol>
@@ -35,7 +35,7 @@
             dismissible="true" color="warning" fade>
             לא ניתן לשלוח, יש לענות על כל השאלות
         </c-alert>
-        
+
         @let resp = appService.responseSignal().resp;
         @if(resp === "success"){
         <c-alert visible="true" dismissible="false" color="success" fade>
@@ -44,7 +44,7 @@
         }
         @else if(resp !== -1){
         <c-alert visible="true" dismissible="true" color="danger" fade>
-            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
+            {{ resp }}
         </c-alert>
         }
     </div>
