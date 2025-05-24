@@ -24,8 +24,7 @@
             } @empty {
             <textarea placeholder="נא למלא את תשובתך" required 
                 [disabled]="appService.quizSent()"
-                (blur)="userAnswered($event)">
-            </textarea>
+                (blur)="userAnswered($event)"></textarea>
             }
         </div>
     </div>

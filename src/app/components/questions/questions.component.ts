@@ -72,16 +72,12 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  alertClosed() {
-    this.showAlert.set(false)
-  }
-
   submit() {
     const userEntriesCount = this.userEntries().length;
-    const questionsCount = this.appService.questions().length;
+    const quizQuestionsCount = this.appService.questions().length;
     const emptySlots = userEntriesCount - this.userEntries().filter(e => e !== undefined).length;
 
-    if (emptySlots > 1 || questionsCount > (userEntriesCount - 1)) {
+    if (emptySlots > 1 || quizQuestionsCount > (userEntriesCount - 1)) {
       this.showAlert.set(true);
       return;
     }

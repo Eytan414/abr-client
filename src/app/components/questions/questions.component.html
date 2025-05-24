@@ -24,7 +24,6 @@
             </button>
         </div>
     </div>
-
     <div class="submit-wrapper">
         <button (click)="submit()" [disabled]="appService.quizSent()">
             סיום ושליחה
@@ -32,18 +31,18 @@
             <mat-spinner></mat-spinner>
             }
         </button>
-        <c-alert (closed)="alertClosed()" [visible]="showAlert()" (visibleChange)="showAlert.set($event)"
+        <c-alert (closed)="showAlert.set(false)" [visible]="showAlert()" (visibleChange)="showAlert.set($event)"
             dismissible="true" color="warning" fade>
             לא ניתן לשלוח, יש לענות על כל השאלות
         </c-alert>
+        
         @let resp = appService.responseSignal().resp;
-
         @if(resp === "success"){
         <c-alert visible="true" dismissible="false" color="success" fade>
             החידון נשלח בהצלחה
         </c-alert>
         }
-        @else{
+        @else if(resp !== -1){
         <c-alert visible="true" dismissible="true" color="danger" fade>
             חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לרכז
         </c-alert>

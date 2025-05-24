@@ -14,31 +14,49 @@ import { AppService } from '../../../services/app.service';
 export class QuestionCardComponent {
   readonly appService = inject(AppService);
   @Input({ required: true }) userEntries!: WritableSignal<(number | string)[]>;
-
+  MIN_ANSWER_LENGTH = 10;
   apiUrl = environment.apiUrl;
   questionIndex = input<number>(0);
   question = input.required<Question>();
 
   title = computed(() => this.question()?.title);
-  possible_answers = computed(() => this.question()?.possible_answers);
+  possible_answers = computed(() => 
+    this.shuffle(
+      this.question()?.possible_answers
+    )
+  );
 
 
   getTitle() {
     return "שאלה " + (this.questionIndex() + 1) + ": " + this.title();
   }
 
-  userAnswered(answer: Event | number | string) {
+  userAnswered(answer: Event | number) {
     const index = this.questionIndex() + 1;
     const newUserEntries = [...this.userEntries()];
-    if (answer instanceof Event)
-      newUserEntries[index] = (answer.target as HTMLTextAreaElement).value;
-    else
-      newUserEntries[index] = answer;
 
+    if (!(answer instanceof Event)) {
+      newUserEntries[index] = answer;
+      this.userEntries.set(newUserEntries);
+      return;
+    }
+
+    const textAreaValue = (answer.target as HTMLTextAreaElement).value;
+    if (textAreaValue.trim().length > this.MIN_ANSWER_LENGTH)
+      newUserEntries[index] = textAreaValue;
     this.userEntries.set(newUserEntries);
   }
 
   highlightSelectedAnswer(answerIndex: number) {
     return this.userEntries().at(this.questionIndex() + 1) === (answerIndex + 1) ? "highlight" : "";
   }
+
+  private shuffle(array:Answer[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
 }

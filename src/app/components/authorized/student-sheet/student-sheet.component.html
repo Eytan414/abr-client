@@ -26,7 +26,7 @@
                 [cPopoverVisible]="adjustedIndex === popover().answerIndex"
             >
                 <span [class]="styleAnswer(fullAnswerData[adjustedIndex])">
-                    {{ fullAnswerData[adjustedIndex].answer }}
+                    {{ fullAnswerData[adjustedIndex].answer | studentSheet }}
                 </span>
             </td>
         </ng-container>

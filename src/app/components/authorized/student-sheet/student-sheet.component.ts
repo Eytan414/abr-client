@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
 import { BackendService } from '../../../services/backend.service';
+import { StudentSheetPipe } from '../../../pipes/student-sheet.pipe';
 import { MatTableModule } from '@angular/material/table';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
@@ -12,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTableModule,
     PopoverDirective,
     MatProgressSpinnerModule,
+    StudentSheetPipe,
   ],
   templateUrl: './student-sheet.component.html',
   styleUrl: './student-sheet.component.scss',
@@ -76,7 +78,7 @@ export class StudentSheetComponent implements OnInit {
 
 }
 export type SheetData = {
-  answer?: number;
+  answer?: number | string;
   answerText?: string;
   correctAnswer?: { id: number, value: string };
   isCorrect?: boolean;
