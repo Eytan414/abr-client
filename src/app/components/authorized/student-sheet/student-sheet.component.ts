@@ -70,18 +70,14 @@ export class StudentSheetComponent implements OnInit {
       }
     });
   }
-
-  styleAnswer(answerData: any): string {
-    return answerData.isCorrect ? 'correct' : 'wrong';
-  }
-
+  
 
 }
 export type SheetData = {
   answer?: number | string;
   answerText?: string;
   correctAnswer?: { id: number, value: string };
-  isCorrect?: boolean;
+  style?: string;
   question?: string;
 }
 type PopoverData = {

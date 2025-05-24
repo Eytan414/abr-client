@@ -25,7 +25,7 @@
                 cPopoverPlacement="bottom"
                 [cPopoverVisible]="adjustedIndex === popover().answerIndex"
             >
-                <span [class]="styleAnswer(fullAnswerData[adjustedIndex])">
+                <span [class]="fullAnswerData[adjustedIndex].style">
                     {{ fullAnswerData[adjustedIndex].answer | studentSheet }}
                 </span>
             </td>
