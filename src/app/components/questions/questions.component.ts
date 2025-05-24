@@ -9,10 +9,11 @@ import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 import { QuestionCardComponent } from './question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';
-import { filter, tap } from 'rxjs/operators';
+import { catchError, filter, tap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GaTrackingService } from '../../services/ga-tracking.service';
+import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Component({
   selector: 'questions',
@@ -94,20 +95,24 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
       tap(() => {
-        const name = this.appService.userDetails().name
+        const name = this.appService.userDetails().name;
         const text = `${name}: sent quiz at: ${new Date().toLocaleDateString('en-GB')}`;
         this.tracking.sendEvent(text);
-
         this.loading.set(false);
       }
       ),
-      tap(this.appService.responseSignal.set)
+      tap(this.appService.responseSignal.set),
+      catchError(err => {
+        this.appService.responseSignal().resp.set(err);
+        this.loading.set(false);
+        return EMPTY
+      })
     ).subscribe();
   }
 
 
-  calcCarouselCardClass(index:number) {
-    return { 
+  calcCarouselCardClass(index: number) {
+    return {
       'active': index === this.activeIndex(),
       'answered': this.userEntries().at(index + 1)
     }
