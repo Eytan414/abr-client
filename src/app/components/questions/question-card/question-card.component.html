@@ -18,7 +18,7 @@
         <div class="possible-answers">
             @for(answer of possible_answers(); track $index){
             <button [disabled]="appService.quizSent()" (click)="userAnswered(answer.id)"
-                [class]='highlightSelectedAnswer($index)' class="answer">
+                [class]='highlightSelectedAnswer(answer.id)' class="answer">
                 {{ answer.value }}
             </button>
             } @empty {

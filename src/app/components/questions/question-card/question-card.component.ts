@@ -47,8 +47,8 @@ export class QuestionCardComponent {
     this.userEntries.set(newUserEntries);
   }
 
-  highlightSelectedAnswer(answerIndex: number) {
-    return this.userEntries().at(this.questionIndex() + 1) === (answerIndex + 1) ? "highlight" : "";
+  highlightSelectedAnswer(answerId: number) {
+    return this.userEntries().at(this.questionIndex() + 1) === answerId ? "highlight" : "";
   }
 
   private shuffle(array:Answer[]) {
