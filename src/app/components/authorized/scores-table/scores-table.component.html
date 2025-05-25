@@ -13,7 +13,7 @@
     @else {
     <select [(ngModel)]="selectedDateFilter" (change)="updateFilter($event)" id="date">
         <option value='' selected>כל התאריכים</option>
-        @for(date of distinctDates(); track date){
+        @for(date of distinctDates(); track $index){
         <option [value]="date">{{date}}</option>
         }
     </select>

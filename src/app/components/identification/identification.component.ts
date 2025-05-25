@@ -60,9 +60,7 @@ export class IdentificationComponent implements OnInit {
 
   login() {
     if (this.isMemberFlow()) {
-      this.backend.login(this.password())
-      
-      .subscribe();
+      this.backend.login(this.password()).subscribe();
       return;
     }
     this.updateUserDetails();
@@ -83,4 +81,5 @@ export class IdentificationComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value;
     this.phone.set(value);
   }
+  
 }

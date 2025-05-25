@@ -17,13 +17,20 @@
         </div>
         @if(!isStudentFlow){
         <input type='password' name='password' [(ngModel)]='password' minlength='8' [required]="!isStudentFlow"
-            placeholder='סיסמה'>
+            placeholder='סיסמה' autocomplete="current-password">
 
         } @else{
         <label for="school">בחירת בית ספר:</label>
+        
+        <!-- <input autocomplete="off" [(ngModel)]="school" list="school" name="school" placeholder="חיפוש מרשימה" [required]="isStudentFlow">
+        <datalist id="school">
+            @for(school of schools(); track $index){
+            <option [value]="school._id">{{school.name}}</option>
+            }
+        </datalist> -->
         <select [(ngModel)]="school" name="school" id="school" [required]="isStudentFlow">
             <option [value]="''">בחירה מרשימה</option>
-            @for(school of schools(); track school._id){
+            @for(school of schools(); track $index){
             <option [value]="school._id">{{school.name}}</option>
             }
         </select>

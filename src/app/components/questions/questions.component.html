@@ -1,7 +1,7 @@
 <main>
     <div id="carousel" class="carousel carousel-fade" data-coreui-ride="false">
         <div class="carousel-inner">
-            @for(question of appService.questions(); track question){
+            @for(question of appService.questions(); track $index){
             <div class="carousel-item" [class.active]="$index === activeIndex()">
                 <question-card [userEntries]="userEntries" [question]="question" [questionIndex]="$index">
                 </question-card>
@@ -13,7 +13,7 @@
                 <svg [cIcon]="icons.cilArrowCircleRight" width="25" title="ArrowRight"></svg>
             </button>
             <ol class="carousel-indicators">
-                @for(question of appService.questions(); track question){
+                @for(question of appService.questions(); track $index){
                 <li [class]="calcCarouselCardClass($index)" data-coreui-target="#carousel"
                     [attr.data-coreui-slide-to]="$index">
                 </li>

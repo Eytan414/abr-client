@@ -11,14 +11,14 @@
                 </summary>
                 <select [(ngModel)]="selectedSchool" #selectSchool>
                     <option value='' selected>בחירת בית ספר</option>
-                    @for(school of dashboardService.scoresDataAdmin(); track school._id){
+                    @for(school of dashboardService.scoresDataAdmin(); track school.id){
                     <option [value]="school.id">{{school.name}}</option>
                     }
                 </select>
                 @if(selectedSchool() !== ''){
                 <h3> רכז\ים: </h3>
                 <span>
-                    @for(supervisor of currentSchoolSupervisors(); track supervisor){
+                    @for(supervisor of currentSchoolSupervisors(); track $index){
                     {{supervisor}}
                     @if(!$last){
                     {{', '}}

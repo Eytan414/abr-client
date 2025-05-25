@@ -5,7 +5,7 @@
     </div>
     } @else {
     <table mat-table [dataSource]="studentTableData()">
-        @for(col of displayedColumns(); track col){
+        @for(col of displayedColumns(); track $index){
         @let adjustedIndex = (+col) - 1;
         <ng-container [matColumnDef]="col">
             <th mat-header-cell *matHeaderCellDef  color="secondary"
