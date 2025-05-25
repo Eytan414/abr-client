@@ -47,11 +47,14 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         this.appService.questions.set(quiz.questions);
       })).subscribe();
 
-    const { name } = this.appService.userDetails()
-    const text = `${name}: started quiz at: ${new Date().toLocaleDateString('en-GB')} | ${new Date().toLocaleTimeString('en-GB')}`;
+    const { name } = this.appService.userDetails();
+    const text = `${name}: started quiz at:`;
 
-    this.tracking.sendEvent(text)
-
+    this.tracking.sendEvent(text,
+          { date: new Date().toLocaleDateString('en-GB'),
+            time: new Date().toLocaleTimeString('en-GB')
+          }
+        );
   }
 
   ngAfterViewInit(): void {
@@ -96,8 +99,12 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     this.backend.submitData(data).pipe(
       tap(() => {
         const name = this.appService.userDetails().name;
-        const text = `${name}: sent quiz at: ${new Date().toLocaleDateString('en-GB')} | ${new Date().toLocaleTimeString('en-GB')}`;
-        this.tracking.sendEvent(text);
+        const text = `${name}: sent quiz at:`;
+        this.tracking.sendEvent(text,
+          { date: new Date().toLocaleDateString('en-GB'),
+            time: new Date().toLocaleTimeString('en-GB')
+          }
+        );
         this.loading.set(false);
       }
       ),
