@@ -47,10 +47,10 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         this.appService.questions.set(quiz.questions);
       })).subscribe();
 
-    const { name } = this.appService.userDetails();
-    const text = `${name}: started quiz at:`;
+    const { name: username } = this.appService.userDetails();
+    const eventName = `${username}: started quiz at:`;
 
-    this.tracking.sendEvent(text,
+    this.tracking.sendEvent(eventName,
           { date: new Date().toLocaleDateString('en-GB'),
             time: new Date().toLocaleTimeString('en-GB')
           }
@@ -98,9 +98,9 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
       tap(() => {
-        const name = this.appService.userDetails().name;
-        const text = `${name}: sent quiz at:`;
-        this.tracking.sendEvent(text,
+        const username = this.appService.userDetails().name;
+        const eventName = `${username}: sent quiz at:`;
+        this.tracking.sendEvent(eventName,
           { date: new Date().toLocaleDateString('en-GB'),
             time: new Date().toLocaleTimeString('en-GB')
           }
