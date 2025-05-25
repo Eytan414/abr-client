@@ -12,6 +12,8 @@ import { Quiz } from '../shared/models/quiz';
 import { SchoolDTO } from '../shared/models/school';
 import { environment } from '../../environments/environment';
 import { EMPTY } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { GaTrackingService } from './ga-tracking.service';
 
 
 @Injectable({
@@ -22,6 +24,18 @@ export class BackendService {
   private readonly router = inject(Router);
   private readonly dashboardService = inject(DashboardService);
   private readonly appService = inject(AppService);
+  private readonly tracking = inject(GaTrackingService);
+
+  //analytics
+  private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
+    map(res => res.ip),
+    tap(ip => {
+      const text = `user initial entery at: ${new Date().toLocaleDateString('en-GB')}`;
+      this.tracking.sendEvent('user_entered', { ip })
+    })
+  );
+  ip = toSignal(this.ip$, { initialValue: 'N/A' });
+
 
   getAllQuizzes() {
     return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
@@ -47,7 +61,7 @@ export class BackendService {
     return this.http.get<ScoresData>(`${environment.apiUrl}scores/by-supervisor/${schoolId}`, { withCredentials: true });
   }
   getAllSchoolsWithData() {
-    return this.http.get<{schools: School[], quizzes: Quiz[]}>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
+    return this.http.get<{ schools: School[], quizzes: Quiz[] }>(`${environment.apiUrl}scores/by-admin`, { withCredentials: true });
   }
 
   login(password: string) {
