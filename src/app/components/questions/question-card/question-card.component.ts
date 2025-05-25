@@ -14,7 +14,7 @@ import { AppService } from '../../../services/app.service';
 export class QuestionCardComponent {
   readonly appService = inject(AppService);
   @Input({ required: true }) userEntries!: WritableSignal<(number | string)[]>;
-  MIN_ANSWER_LENGTH = 10;
+  MIN_ANSWER_LENGTH = 5;
   apiUrl = environment.apiUrl;
   questionIndex = input<number>(0);
   question = input.required<Question>();
@@ -42,7 +42,7 @@ export class QuestionCardComponent {
     }
 
     const textAreaValue = (answer.target as HTMLTextAreaElement).value;
-    if (textAreaValue.trim().length > this.MIN_ANSWER_LENGTH)
+    if (textAreaValue.length > this.MIN_ANSWER_LENGTH)
       newUserEntries[index] = textAreaValue;
     this.userEntries.set(newUserEntries);
   }
