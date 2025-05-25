@@ -48,7 +48,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
       })).subscribe();
 
     const { name } = this.appService.userDetails()
-    const text = `${name}: started quiz at: ${new Date().toLocaleDateString('en-GB')}`;
+    const text = `${name}: started quiz at: ${new Date().toLocaleDateString('en-GB')} | ${new Date().toLocaleTimeString('en-GB')}`;
 
     this.tracking.sendEvent(text)
 
@@ -96,7 +96,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     this.backend.submitData(data).pipe(
       tap(() => {
         const name = this.appService.userDetails().name;
-        const text = `${name}: sent quiz at: ${new Date().toLocaleDateString('en-GB')}`;
+        const text = `${name}: sent quiz at: ${new Date().toLocaleDateString('en-GB')} | ${new Date().toLocaleTimeString('en-GB')}`;
         this.tracking.sendEvent(text);
         this.loading.set(false);
       }
