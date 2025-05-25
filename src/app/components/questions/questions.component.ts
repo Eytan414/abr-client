@@ -50,11 +50,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const { name: username } = this.appService.userDetails();
     const eventName = `${username}: started quiz at:`;
 
-    this.tracking.sendEvent(eventName,
-          { date: new Date().toLocaleDateString('en-GB'),
-            time: new Date().toLocaleTimeString('en-GB')
-          }
-        );
+    this.tracking.sendEvent(eventName);
   }
 
   ngAfterViewInit(): void {
@@ -100,11 +96,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
       tap(() => {
         const username = this.appService.userDetails().name;
         const eventName = `${username}: sent quiz at:`;
-        this.tracking.sendEvent(eventName,
-          { date: new Date().toLocaleDateString('en-GB'),
-            time: new Date().toLocaleTimeString('en-GB')
-          }
-        );
+        this.tracking.sendEvent(eventName);
         this.loading.set(false);
       }
       ),

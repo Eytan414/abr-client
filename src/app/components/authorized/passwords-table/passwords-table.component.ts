@@ -4,6 +4,8 @@ import { DashboardService, TablePassword } from '../../../services/dashboard.ser
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { BackendService } from '../../../services/backend.service';
+import { GaTrackingService } from '../../../services/ga-tracking.service';
+import { AppService } from '../../../services/app.service';
 
 @Component({
   selector: 'passwords-table',
@@ -20,6 +22,8 @@ import { BackendService } from '../../../services/backend.service';
 export class PasswordsTableComponent {
   private readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
+  private readonly tracking = inject(GaTrackingService);
+  readonly appService = inject(AppService);
 
   editCell(element: TablePassword) {
     element.isEditing = true;
@@ -29,6 +33,7 @@ export class PasswordsTableComponent {
     this.backend.updatePassword(element.id, element.password).subscribe();
   }
   passmepass() {
+    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage'
     this.backend.passmepass().subscribe();
   }
 }

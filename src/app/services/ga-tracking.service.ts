@@ -18,6 +18,10 @@ export class GaTrackingService {
   }
 
   sendEvent(eventName: string, params: Record<string, any> = {}): void {
+    params = {
+      ...params,
+      datetime: new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
+    }
     gtag('event', eventName, params);
   }
 }

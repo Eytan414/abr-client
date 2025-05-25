@@ -62,11 +62,7 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage',
-      {
-        date: new Date().toLocaleDateString('en-GB'),
-        time: new Date().toLocaleTimeString('en-GB')
-      });
+    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage');
     const user = this.appService.userDetails();
     if (user.role !== 'supervisor') return;
 

@@ -30,13 +30,7 @@ export class BackendService {
   private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => res.ip),
     tap(ip => {
-      this.tracking.sendEvent('user_entered',
-          { 
-            ip,
-            date: new Date().toLocaleDateString('en-GB'),
-            time: new Date().toLocaleTimeString('en-GB')
-          }
-        );
+      this.tracking.sendEvent('user_entered', { ip });
     })
   );
   ip = toSignal(this.ip$, { initialValue: 'N/A' });
