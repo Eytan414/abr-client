@@ -42,7 +42,7 @@ export class QuestionCardComponent {
     }
 
     const textAreaValue = (answer.target as HTMLTextAreaElement).value;
-    if (textAreaValue.length > this.MIN_ANSWER_LENGTH)
+    if (textAreaValue.length >= this.MIN_ANSWER_LENGTH)
       newUserEntries[index] = textAreaValue;
     this.userEntries.set(newUserEntries);
   }
