@@ -33,7 +33,7 @@ export class PasswordsTableComponent {
     this.backend.updatePassword(element.id, element.password).subscribe();
   }
   passmepass() {
-    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage'
+    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage');
     this.backend.passmepass().subscribe();
   }
 }
