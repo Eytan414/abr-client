@@ -3,6 +3,13 @@
 <main>
     <h1>ניהול</h1>
     <div [class]="role">
+        @if (role === 'webmaster'){
+        @defer (on immediate) {
+        <div class="logs-wrapper">
+            <logs />
+        </div>
+        }
+        }
         @if (role === 'admin'){
         <div class="scores-table">
             <details open>
@@ -11,7 +18,7 @@
                 </summary>
                 <select [(ngModel)]="selectedSchool" #selectSchool>
                     <option value='' selected>בחירת בית ספר</option>
-                    @for(school of dashboardService.scoresDataAdmin(); track school.id){
+                    @for(school of dashboardService.schoolsDataAdmin(); track school.id){
                     <option [value]="school.id">{{school.name}}</option>
                     }
                 </select>
@@ -50,7 +57,7 @@
                     <h2>הוספת בית ספר</h2>
                 </summary>
                 @defer (on immediate) {
-                <add-school/>
+                <add-school />
                 }
             </details>
         </div>

@@ -1,0 +1,43 @@
+main {
+    direction: ltr;
+
+    mat-table {
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        >*>:first-of-type:not(:only-of-type) {
+            padding-inline: 1.5rem 0;
+        }
+
+        mat-header-row, mat-row {
+            pre{
+                text-align: left;
+            }
+            &:has(.error) {
+                background-color: #ff000040;
+            }
+            .message {
+                flex-grow: 2.5;
+            }
+
+            .sessionid {
+                flex-grow: 1.2;
+            }
+
+            .context {
+                flex-grow: 1.5;
+            }
+
+            .level {
+                flex-grow: 1;
+            }
+
+            .timestamp {
+                flex-grow: 1.5;
+            }
+
+        }
+
+    }
+}

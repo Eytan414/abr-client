@@ -1,0 +1,34 @@
+<main>
+    <!-- <button (click)="refreshData()">רענון</button> -->
+    @let dataSource = this.dashboardService.logs();
+    @if(dataSource.length > 0) {
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="message">
+            <mat-header-cell *matHeaderCellDef class="message"> Message </mat-header-cell>
+            <mat-cell *matCellDef="let log" [style.white-space]="'pre-wrap'" class="message">
+                <pre>{{ log.message | parseJsonOrString | json }}</pre>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sessionId" class="sessionid">
+            <mat-header-cell *matHeaderCellDef class="sessionid"> SessionId </mat-header-cell>
+            <mat-cell *matCellDef="let log">{{ log.sessionId }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="context" class="context">
+            <mat-header-cell *matHeaderCellDef class="context"> context </mat-header-cell>
+            <mat-cell *matCellDef="let log">{{ log.context }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="level">
+            <mat-header-cell *matHeaderCellDef class="level"> Level </mat-header-cell>
+            <mat-cell *matCellDef="let log" [class]="log.level" class="level"> {{ log.level }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="timestamp" class="timestamp">
+            <mat-header-cell *matHeaderCellDef class="timestamp">Time </mat-header-cell>
+            <mat-cell *matCellDef="let log"> {{ log.timestamp | date:'d/M/y | HH:mm:ss' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['message', 'sessionId', 'context', 'level', 'timestamp', ]"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['message', 'sessionId', 'context', 'level', 'timestamp', ];"></mat-row>
+    </mat-table>
+
+    }
+</main>

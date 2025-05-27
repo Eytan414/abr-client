@@ -10,6 +10,7 @@ import { GaTrackingService } from '../../../services/ga-tracking.service';
 import { ScoresTableComponent } from '../scores-table/scores-table.component';
 import { AddSchoolComponent } from '../add-school/add-school.component';
 import { PasswordsTableComponent } from '../passwords-table/passwords-table.component';
+import { LogsComponent } from '../logs/logs.component';
 
 @Component({
   selector: 'manage',
@@ -18,7 +19,8 @@ import { PasswordsTableComponent } from '../passwords-table/passwords-table.comp
     // NgComponentOutlet,
     ScoresTableComponent,
     AddSchoolComponent,
-    PasswordsTableComponent
+    LogsComponent,
+    PasswordsTableComponent,
   ],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.scss',
@@ -30,13 +32,13 @@ export class ManageComponent implements OnInit {
   // scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
   // passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
   // addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
-  private readonly tracking = inject(GaTrackingService);
+  private readonly ga = inject(GaTrackingService);
   readonly appService = inject(AppService);
   readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
   selectedSchool = signal<string>('');
   currentSchoolSupervisors = computed(() =>
-    this.dashboardService.scoresDataAdmin()
+    this.dashboardService.schoolsDataAdmin()
       .filter(school => this.selectedSchool() === school.id)
       .map(school => school.supervisors));
   @ViewChild('selectSchool') selectSchool!: ElementRef<HTMLSelectElement>;
@@ -63,7 +65,7 @@ export class ManageComponent implements OnInit {
 
   ngOnInit() {
     const user = this.appService.userDetails();
-    this.handleAnalytics(user.role);
+    this.handleAnalytics();
     if (user.role !== 'supervisor') return;
 
     this.dashboardService.scoresTableLoading.set(true);
@@ -78,10 +80,13 @@ export class ManageComponent implements OnInit {
     ).subscribe();
 
   }
-  handleAnalytics(role: string | undefined) {
+  handleAnalytics() {
     const accessedManageDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-    this.tracking.sendEvent('manage_access', { accessedManageDate, role });
-    
+    this.ga.sendEvent('manage_access', { accessedManageDate });
+
+    const message = JSON.stringify(this.appService.userDetails());
+    this.backend.saveLog('info', message, 'accessed manage').subscribe();
+
   }
 
 

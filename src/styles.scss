@@ -58,7 +58,7 @@ h3 {
   max-width: 768px;
   margin-inline: auto;
 
-  &:has(.admin) {
+  &:has(.admin,.webmaster) {
     width: 85vw;
     max-width: unset;
   }

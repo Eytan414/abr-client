@@ -5,7 +5,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { AppService } from './app.service';
 import { DashboardService } from './dashboard.service';
 import { SheetData } from '../components/authorized/student-sheet/student-sheet.component';
-import { School, ScoresData, ScoresDataAdmin, UserDetails } from '../shared/models/types';
+import { Log, LogTypes, School, ScoresData, ScoresDataAdmin, UserDetails } from '../shared/models/types';
 import { SchoolToAdd } from '../shared/models/types';
 import { Supervisor } from '../shared/models/supervisor';
 import { Quiz } from '../shared/models/quiz';
@@ -24,27 +24,38 @@ export class BackendService {
   private readonly router = inject(Router);
   private readonly dashboardService = inject(DashboardService);
   private readonly appService = inject(AppService);
-  private readonly tracking = inject(GaTrackingService);
+  private readonly ga = inject(GaTrackingService);
 
-  //analytics
   private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => res.ip),
     tap(ip => {
       const userEnteredDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-      this.tracking.sendEvent('user_entered', { ip, userEnteredDate });
+      this.ga.sendEvent('user_entered', { ip, userEnteredDate });
+
+      //my logs | TODO: move to a separate service
+      const message = JSON.stringify({ ip });
+      this.saveLog('info', message, 'initial entry').subscribe();
     })
   );
   ip = toSignal(this.ip$, { initialValue: 'N/A' });
 
-
-  getAllQuizzes() {
-    return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
+  getLogs() {
+    return this.http.get<Log[]>(`${environment.apiUrl}logs`, { withCredentials: true });
   }
+  saveLog(level: LogTypes, message: string, context?: string) {
+    const sessionId = this.appService.sessionId();
+    const payload = { level, message, sessionId, context };
+
+    return this.http.post<Log[]>(`${environment.apiUrl}logs`, payload);
+  }
+  // getAllQuizzes() {
+  //   return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
+  // }
   getQuizById(id: number) {
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
   }
   submitData(body: any) {
-    return this.http.post(`${environment.apiUrl}scores`, body);
+    return this.http.post(`${environment.apiUrl}scores1`, body);
   }
   getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`);
@@ -54,7 +65,7 @@ export class BackendService {
   }
 
   checkIsSuper(phone: string) {
-    return this.http.get<{ supervisor: null | Supervisor }>(`${environment.apiUrl}supervisor/is-super/${phone}`);
+    return this.http.get<{ supervisor: null | Supervisor }>(`${environment.apiUrl}identification/is-super/${phone}`);
   }
 
   fetchResultsBySchool(schoolId: string) {
@@ -71,7 +82,7 @@ export class BackendService {
       return EMPTY;
     }
 
-    return this.http.post<{ role: string }>(`${environment.apiUrl}supervisor/login`, { password }, { withCredentials: true })
+    return this.http.post<{ role: string }>(`${environment.apiUrl}identification/login`, { password }, { withCredentials: true })
       .pipe(
         switchMap(result => {
           if (result.role === 'unidentified') {
@@ -81,10 +92,10 @@ export class BackendService {
 
           this.appService.userDetails.update(ud => ({ ...ud, role: result.role }));
 
-          if (result.role === 'admin') {
+          if (result.role === 'admin' || result.role === 'webmaster') {
             return this.getAllSchoolsWithData().pipe(
               map(scoresResp => {
-                this.dashboardService.scoresDataAdmin.set(scoresResp.schools);
+                this.dashboardService.schoolsDataAdmin.set(scoresResp.schools);
                 this.dashboardService.quizzes.set(scoresResp.quizzes);
                 this.router.navigateByUrl('/manage');
               })
