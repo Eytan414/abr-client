@@ -55,7 +55,7 @@ export class BackendService {
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
   }
   submitData(body: any) {
-    return this.http.post(`${environment.apiUrl}scores1`, body);
+    return this.http.post(`${environment.apiUrl}scores`, body);
   }
   getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`);
