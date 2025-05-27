@@ -15,7 +15,10 @@ main {
                 text-align: left;
             }
             &:has(.error) {
-                background-color: #ff000040;
+                background-color: #f004;
+            }
+            &:has(.success) {
+                background-color: #0f04;
             }
             .message {
                 flex-grow: 2.5;
