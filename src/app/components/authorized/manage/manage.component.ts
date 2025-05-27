@@ -62,8 +62,8 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage');
     const user = this.appService.userDetails();
+    this.handleAnalytics(user.role);
     if (user.role !== 'supervisor') return;
 
     this.dashboardService.scoresTableLoading.set(true);
@@ -77,6 +77,11 @@ export class ManageComponent implements OnInit {
       finalize(() => this.dashboardService.scoresTableLoading.set(false))
     ).subscribe();
 
+  }
+  handleAnalytics(role: string | undefined) {
+    const accessedManageDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
+    this.tracking.sendEvent('manage_access', { accessedManageDate, role });
+    
   }
 
 

@@ -33,7 +33,9 @@ export class PasswordsTableComponent {
     this.backend.updatePassword(element.id, element.password).subscribe();
   }
   passmepass() {
-    this.tracking.sendEvent(this.appService.userDetails().role + ' accessed manage');
+    const retrievePasswordsDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
+    const { role } = this.appService.userDetails();
+    this.tracking.sendEvent('retrieve_passwords', { retrievePasswordsDate, role });
     this.backend.passmepass().subscribe();
   }
 }

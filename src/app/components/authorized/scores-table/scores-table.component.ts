@@ -30,6 +30,7 @@ export class ScoresTableComponent {
   selectedDateFilter: string = '';
   selectedRow: ScoreRecord | null = null;
   showQuizForm: boolean = false;
+  recordCount = this.dashboardService.recordCount;
   distinctDates = computed(() => this.dashboardService.scoresData().quizDistinctDates ?? []);
   dataSource = new MatTableDataSource<ScoreRecord>();
   private sort!: MatSort;

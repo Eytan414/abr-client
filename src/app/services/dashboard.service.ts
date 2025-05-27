@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { School, ScoresData } from '../shared/models/types';
 import { Quiz } from '../shared/models/quiz';
 
@@ -14,7 +14,7 @@ export class DashboardService {
     scoresBySchool: [],
     quizDistinctDates: [],
   });
-
+  recordCount = computed(() => this.scoresData().scoresBySchool.length)
   quizzes = signal<Quiz[]>([]);
 
 }

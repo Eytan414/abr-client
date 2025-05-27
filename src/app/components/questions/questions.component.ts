@@ -47,10 +47,9 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         this.appService.questions.set(quiz.questions);
       })).subscribe();
 
-    const { name: username } = this.appService.userDetails();
-    const eventName = `${username}: started quiz at:`;
-
-    this.tracking.sendEvent(eventName);
+    const { name } = this.appService.userDetails();
+    const quizStartedDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
+    this.tracking.sendEvent("quiz_started", { name, quizStartedDate });
   }
 
   ngAfterViewInit(): void {
@@ -73,6 +72,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
+    if (this.appService.quizSent()) return;
     const userEntriesCount = this.userEntries().length;
     const quizQuestionsCount = this.appService.questions().length;
     const emptySlots = userEntriesCount - this.userEntries().filter(e => e !== undefined).length;
@@ -94,15 +94,15 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const data = { userDetails, userEntries: [...this.userEntries()] };
     this.backend.submitData(data).pipe(
       tap(() => {
-        const username = this.appService.userDetails().name;
-        const eventName = `${username}: sent quiz at:`;
-        this.tracking.sendEvent(eventName);
+        const { name } = this.appService.userDetails();
+        const quizSentDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
+        this.tracking.sendEvent("quiz_sent", { name, quizSentDate });
         this.loading.set(false);
       }
       ),
       tap(this.appService.responseSignal.set),
       catchError(err => {
-        this.appService.responseSignal.set({resp: `${err.status}: ${err.statusText}`});
+        this.appService.responseSignal.set({ resp: `${err.status}: ${err.statusText}` });
         this.loading.set(false);
         return EMPTY
       })

@@ -48,6 +48,7 @@
             <tr (click)="rowClicked(row)" mat-row *matRowDef="let row; columns: ['name','grade','score']"></tr>
         </table>
     </div>
+    <div class="record-count">{{"סך הרשומות: " + recordCount()}}</div>
     }
 
 </main>
