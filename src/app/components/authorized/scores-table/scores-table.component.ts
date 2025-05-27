@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatFormFieldModule, } from '@angular/material/form-field';
 import { ScoreRecord } from '../../../shared/models/types';
 import { StudentSheetComponent } from '../student-sheet/student-sheet.component';
 import { FormsModule } from '@angular/forms';
@@ -43,8 +43,8 @@ export class ScoresTableComponent {
       !sort.active || !sort.direction
         ? data
         : data.sort((a, b) =>
-            this.compareByColumn(a, b, sort.active, sort.direction === 'asc')
-          );
+          this.compareByColumn(a, b, sort.active, sort.direction === 'asc')
+        );
     this.dataSource.filterPredicate = (rec, filter) => rec.date === filter;
   }
 
@@ -73,11 +73,13 @@ export class ScoresTableComponent {
       case 'score':
         comparison = a.score - b.score;
         break;
-
       case 'name':
-        comparison = a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+        comparison = a.name.localeCompare(b.name);
         break;
-
+      case 'grade':
+        if (!a.grade || !b.grade) return 0;
+        comparison = a.grade.localeCompare(b.grade);
+        break;
       default:
         comparison = 0;
     }

@@ -8,7 +8,7 @@ export const authGuard: CanActivateFn = route => {
   const router = inject(Router);
   const role = appService.userDetails().role;
 
-  if (role === 'supervisor' || role === 'admin') {
+  if (role === 'supervisor' || role === 'admin'|| role === 'webmaster') {
     return true;
   } else {
     router.navigateByUrl('/');
