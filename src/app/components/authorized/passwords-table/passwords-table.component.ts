@@ -22,7 +22,7 @@ import { AppService } from '../../../services/app.service';
 export class PasswordsTableComponent {
   private readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
-  private readonly tracking = inject(GaTrackingService);
+  private readonly ga = inject(GaTrackingService);
   readonly appService = inject(AppService);
 
   editCell(element: TablePassword) {
@@ -34,8 +34,12 @@ export class PasswordsTableComponent {
   }
   passmepass() {
     const retrievePasswordsDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-    const { role } = this.appService.userDetails();
-    this.tracking.sendEvent('retrieve_passwords', { retrievePasswordsDate, role });
+    const user = this.appService.userDetails();
     this.backend.passmepass().subscribe();
+    this.ga.sendEvent('retrieve_passwords', { retrievePasswordsDate, role: user.role });
+
+    const message = JSON.stringify(user);
+    this.backend.saveLog('info', message, 'retrieve_passwords').subscribe();
+
   }
 }

@@ -5,6 +5,7 @@ import { finalize, tap } from 'rxjs/operators';
 import { AppService } from '../../services/app.service';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GaTrackingService } from '../../services/ga-tracking.service';
 
 @Component({
   selector: 'identification',
@@ -18,10 +19,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdentificationComponent implements OnInit {
+  private readonly PHONE_REGEX = /^\d{10}$/;
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
-  private readonly PHONE_REGEX = /^\d{10}$/;
+  private readonly ga = inject(GaTrackingService);
   schools = this.appService.schools;
   name = signal<string>('');
   grade = signal<string>('');
@@ -58,6 +60,7 @@ export class IdentificationComponent implements OnInit {
       .subscribe();
   }
 
+  
   login() {
     if (this.isMemberFlow()) {
       this.backend.login(this.password()).subscribe();
@@ -65,6 +68,9 @@ export class IdentificationComponent implements OnInit {
     }
     this.updateUserDetails();
     this.router.navigateByUrl('/instructions');
+
+    const message = JSON.stringify(this.appService.userDetails());
+    this.backend.saveLog('info', message, 'student clicks instruc\'s page').subscribe();
   }
 
   updateUserDetails(schoolId: string = this.school()) {
@@ -81,5 +87,5 @@ export class IdentificationComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value;
     this.phone.set(value);
   }
-  
+
 }

@@ -8,6 +8,7 @@ export type TableData = {
 export type ScoreRecord = {
     name: string;
     phone?: string;
+    grade?: string;
     quizId: number;
     school: string;
     score: number;
@@ -41,4 +42,12 @@ export type UserDetails = {
     readonly grade?: string;
     readonly role?: string;
     readonly schoolId?: string;
+}
+
+export type LogTypes = 'info' | 'error' | 'debug' | 'warning' | 'success';
+export type Log = {
+    timestamp: Date;
+    message: string;
+    context?: string;
+    type: LogTypes;
 }

@@ -33,7 +33,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
   private readonly backend = inject(BackendService);
-  private readonly tracking = inject(GaTrackingService);
+  private readonly ga = inject(GaTrackingService);
   readonly appService = inject(AppService);
   carouselInstance!: any;
   activeIndex = signal<number>(0);
@@ -47,9 +47,14 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         this.appService.questions.set(quiz.questions);
       })).subscribe();
 
+
+    //handle logs/analytics | TODO: make it cleaner
     const { name } = this.appService.userDetails();
     const quizStartedDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-    this.tracking.sendEvent("quiz_started", { name, quizStartedDate });
+    this.ga.sendEvent("quiz_started", { name, quizStartedDate });
+
+    const message = JSON.stringify({ name });
+    this.backend.saveLog('info', message, 'started quiz').subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -92,16 +97,15 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     const userDetails = { ...this.appService.userDetails(), quizId: this.appService.quizId() };
 
     const data = { userDetails, userEntries: [...this.userEntries()] };
+    const message = JSON.stringify(data);
+    this.backend.saveLog('info', message, 'sent quiz').subscribe();
+
     this.backend.submitData(data).pipe(
-      tap(() => {
-        const { name } = this.appService.userDetails();
-        const quizSentDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-        this.tracking.sendEvent("quiz_sent", { name, quizSentDate });
-        this.loading.set(false);
-      }
-      ),
+      tap(r => this.loading.set(false)),
       tap(this.appService.responseSignal.set),
+      tap(resp => this.backend.saveLog('success', JSON.stringify(resp), 'quiz response').subscribe()),
       catchError(err => {
+        this.backend.saveLog('error', JSON.stringify(err), 'quiz response').subscribe();
         this.appService.responseSignal.set({ resp: `${err.status}: ${err.statusText}` });
         this.loading.set(false);
         return EMPTY

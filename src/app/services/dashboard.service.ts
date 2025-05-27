@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { School, ScoresData } from '../shared/models/types';
+import { Log, School, ScoresData } from '../shared/models/types';
 import { Quiz } from '../shared/models/quiz';
 
 @Injectable({
@@ -7,9 +7,11 @@ import { Quiz } from '../shared/models/quiz';
 })
 export class DashboardService {
 
+
+  logs = signal<Log[]>([]);
   passwords = signal<TablePassword[]>([]);
   scoresTableLoading = signal<boolean>(false);
-  scoresDataAdmin = signal<School[]>([]);
+  schoolsDataAdmin = signal<School[]>([]);
   scoresData = signal<ScoresData>({
     scoresBySchool: [],
     quizDistinctDates: [],

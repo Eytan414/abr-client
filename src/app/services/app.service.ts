@@ -14,7 +14,12 @@ export class AppService {
 
   responseSignal = signal<Resp>({resp: -1});
   quizSent = computed(() => this.responseSignal().resp !== -1);
+  sessionId = signal<string>('no_session');
 
+  constructor() {
+    window.name = window.name ||= Math.random().toString(36).slice(2); //generate pseudo-random session ID
+    this.sessionId.set(window.name);
+  }
 }
 
 
