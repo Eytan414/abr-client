@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, NgZone, OnInit, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef,
+  inject, NgZone, OnInit, signal, ViewChild } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // @ts-ignore
 import { Carousel } from '@coreui/coreui';
@@ -9,7 +10,7 @@ import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 import { QuestionCardComponent } from './question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
 import { AppService } from '../../services/app.service';
-import { catchError, filter, tap } from 'rxjs/operators';
+import { catchError, debounceTime, filter, tap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GaTrackingService } from '../../services/ga-tracking.service';
@@ -40,6 +41,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   userEntries = signal<(number | string)[]>([]);
   loading = signal<boolean>(false);
   showAlert = signal<boolean>(false);
+  @ViewChild('submitBtn', { static: true }) submitBtn!: ElementRef<HTMLButtonElement>;
 
   ngOnInit() {
     this.backend.getQuizById(this.appService.quizId()!)
@@ -58,6 +60,19 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.setupCarousel();
+    this.setupSubmitBtn();
+  }
+
+  setupSubmitBtn() {
+    fromEvent(this.submitBtn.nativeElement, 'click')
+      .pipe(
+        debounceTime(1000),
+        tap(() => this.submit()),
+      ).subscribe();
+  }
+
+  setupCarousel() {
     const el = document.getElementById('carousel')!;
     this.ngZone.runOutsideAngular(() => {
       this.carouselInstance = new Carousel(el, { interval: 5000 });
@@ -76,7 +91,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  submit() { //add debounce
+  submit() {
     if (this.appService.quizSent()) return;
     const userEntriesCount = this.userEntries().length;
     const quizQuestionsCount = this.appService.questions().length;

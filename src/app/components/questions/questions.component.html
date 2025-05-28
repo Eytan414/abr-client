@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="submit-wrapper">
-        <button (click)="submit()" [disabled]="appService.quizSent()">
+        <button #submitBtn [disabled]="appService.quizSent()">
             סיום ושליחה
             @if(loading()){
             <mat-spinner></mat-spinner>
