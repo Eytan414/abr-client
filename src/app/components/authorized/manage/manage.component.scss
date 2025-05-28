@@ -11,6 +11,10 @@ main {
     overflow-y: auto;
     width: 100%;
 
+    .webmaster{
+        overflow-x: auto;
+    }
+
     ::ng-deep .admin {
         display: grid;
         grid-template-columns: 2fr 1fr;

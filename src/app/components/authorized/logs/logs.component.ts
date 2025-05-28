@@ -7,6 +7,7 @@ import { DatePipe, JsonPipe } from '@angular/common';
 import { BackendService } from '../../../services/backend.service';
 import { finalize, tap } from 'rxjs';
 import { Log } from '../../../shared/models/types';
+import { LogMessageComponent } from './log-message/log-message.component';
 
 @Component({
   selector: 'logs',
@@ -15,9 +16,8 @@ import { Log } from '../../../shared/models/types';
     MatSortModule,
     MatSort,
     ParseJsonOrStringPipe,
-    JsonPipe,
     DatePipe,
-
+    LogMessageComponent,
   ],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.scss',
@@ -30,10 +30,10 @@ export class LogsComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Log>();
   refresh = signal<boolean>(false);
-  
+
   constructor() {
     //TODO: finish impl for refresh
-    
+
     /* effect(() => {
       this.dataSource.data = this.dashboardService.logs();
 
@@ -52,7 +52,7 @@ export class LogsComponent implements OnInit {
     ).subscribe();
   }
 
-  refreshData(){
+  refreshData() {
 
   }
 }

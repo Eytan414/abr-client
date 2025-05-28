@@ -76,7 +76,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  submit() {
+  submit() { //add debounce
     if (this.appService.quizSent()) return;
     const userEntriesCount = this.userEntries().length;
     const quizQuestionsCount = this.appService.questions().length;

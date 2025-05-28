@@ -5,9 +5,7 @@
     <div [class]="role">
         @if (role === 'webmaster'){
         @defer (on immediate) {
-        <div class="logs-wrapper">
-            <logs />
-        </div>
+        <logs />
         }
         }
         @if (role === 'admin'){

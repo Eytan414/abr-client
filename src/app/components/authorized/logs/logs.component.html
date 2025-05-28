@@ -5,8 +5,10 @@
     <mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="message">
             <mat-header-cell *matHeaderCellDef class="message"> Message </mat-header-cell>
-            <mat-cell *matCellDef="let log" [style.white-space]="'pre-wrap'" class="message">
-                <pre>{{ log.message | parseJsonOrString | json }}</pre>
+            <mat-cell *matCellDef="let log" class="message">
+                <div [style.width.%]="100">
+                    <log-message [message]="log.message | parseJsonOrString"/>
+                </div>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="sessionId" class="sessionid">
