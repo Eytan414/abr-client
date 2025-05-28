@@ -3,6 +3,9 @@ main {
     button{
         padding: .25rem .5rem;
     }
+    mat-paginator{
+        background-color: var(--main-color) !important;
+    }
     mat-table {
         text-overflow: ellipsis;
         overflow: hidden;

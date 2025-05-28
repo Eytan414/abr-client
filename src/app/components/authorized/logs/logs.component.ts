@@ -41,7 +41,7 @@ export class LogsComponent implements OnInit {
   });
 
   confirming = signal<string | null>(null);
-  pageSize = signal(25);
+  pageSize = signal(10);
   pageIndex = signal(0);
 
   refresh = signal<boolean>(false);
