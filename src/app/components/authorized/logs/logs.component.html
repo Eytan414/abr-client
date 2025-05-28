@@ -1,13 +1,11 @@
 <main>
-    <!-- <button (click)="refreshData()">רענון</button> -->
-    @let dataSource = this.dashboardService.logs();
-    @if(dataSource.length > 0) {
-    <mat-table [dataSource]="dataSource">
+    <button (click)="refreshData()">רענון</button>
+    <mat-table [dataSource]="pagedData()">
         <ng-container matColumnDef="message">
             <mat-header-cell *matHeaderCellDef class="message"> Message </mat-header-cell>
             <mat-cell *matCellDef="let log" class="message">
                 <div [style.width.%]="100">
-                    <log-message [message]="log.message | parseJsonOrString"/>
+                    <log-message [message]="log.message | parseJsonOrString" />
                 </div>
             </mat-cell>
         </ng-container>
@@ -27,10 +25,30 @@
             <mat-header-cell *matHeaderCellDef class="timestamp">Time </mat-header-cell>
             <mat-cell *matCellDef="let log"> {{ log.timestamp | date:'d/M/y | HH:mm:ss' }} </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="delete" class="delete">
+            <mat-header-cell mat-header-cell *matHeaderCellDef class="delete">Delete</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let row">
+                @if (confirming() !== row._id) {
+                <button mat-icon-button (click)="confirming.set(row._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                } @else {
+                <button mat-button color="warn" (click)="deleteRow(row._id)">Confirm?</button>
+                <button mat-button (click)="confirming.set(null)">Cancel</button>
+                }
+            </mat-cell>
+        </ng-container>
 
-        <mat-header-row *matHeaderRowDef="['message', 'sessionId', 'context', 'level', 'timestamp', ]"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['message', 'sessionId', 'context', 'level', 'timestamp', ];"></mat-row>
+        <mat-header-row
+            *matHeaderRowDef="['message', 'sessionId', 'context', 'level', 'timestamp', 'delete' ]"></mat-header-row>
+        <mat-row
+            *matRowDef="let row; columns: ['message', 'sessionId', 'context', 'level', 'timestamp', 'delete'];"></mat-row>
     </mat-table>
-
-    }
+    <mat-paginator
+        [attr.dir]="'rtl'"
+        [length]="dashboardService.logs().length"
+        [pageSize]="pageSize()"
+        [pageSizeOptions]="[10, 25, 50, 100]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
 </main>

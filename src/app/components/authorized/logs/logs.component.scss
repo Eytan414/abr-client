@@ -1,8 +1,9 @@
 main {
     direction: ltr;
-
+    button{
+        padding: .25rem .5rem;
+    }
     mat-table {
-
         text-overflow: ellipsis;
         overflow: hidden;
 
@@ -33,6 +34,10 @@ main {
             }
 
             .level {
+                flex-grow: 1;
+            }
+            .delete {
+                user-select: none;
                 flex-grow: 1;
             }
 

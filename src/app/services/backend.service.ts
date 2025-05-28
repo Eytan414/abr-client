@@ -42,6 +42,13 @@ export class BackendService {
   getLogs() {
     return this.http.get<Log[]>(`${environment.apiUrl}logs`, { withCredentials: true });
   }
+
+  deleteLogRecord(logRecordId: string) {
+    return this.http.request('DELETE', `${environment.apiUrl}logs`, {
+      body: { logRecordId },
+      withCredentials: true
+    });
+  }
   saveLog(level: LogTypes, message: string, context?: string) {
     const sessionId = this.appService.sessionId();
     const payload = { level, message, sessionId, context };

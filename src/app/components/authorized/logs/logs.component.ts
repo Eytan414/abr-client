@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { DashboardService } from '../../../services/dashboard.service';
@@ -8,7 +8,9 @@ import { BackendService } from '../../../services/backend.service';
 import { finalize, tap } from 'rxjs';
 import { Log } from '../../../shared/models/types';
 import { LogMessageComponent } from './log-message/log-message.component';
-
+import { MatIcon } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'logs',
   imports: [
@@ -18,6 +20,9 @@ import { LogMessageComponent } from './log-message/log-message.component';
     ParseJsonOrStringPipe,
     DatePipe,
     LogMessageComponent,
+    MatIcon,
+    MatPaginatorModule,
+    MatSelectModule
   ],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.scss',
@@ -29,20 +34,29 @@ export class LogsComponent implements OnInit {
   readonly dashboardService = inject(DashboardService);
 
   dataSource = new MatTableDataSource<Log>();
+  pagedData = computed(() => {
+    const data = this.dashboardService.logs();
+    const start = this.pageIndex() * this.pageSize();
+    return data.slice(start, start + this.pageSize());
+  });
+
+  confirming = signal<string | null>(null);
+  pageSize = signal(25);
+  pageIndex = signal(0);
+
   refresh = signal<boolean>(false);
-
   constructor() {
-    //TODO: finish impl for refresh
 
-    /* effect(() => {
-      this.dataSource.data = this.dashboardService.logs();
+    effect(() => {
+      if (!this.refresh()) return;
 
-      const refresh = this.refresh();
       this.backend.getLogs().pipe(
         tap(this.dashboardService.logs.set),
-        finalize(() => this.refresh.set(true))
+        finalize(() => this.refresh.set(false))
       ).subscribe();
-    }); */
+    });
+
+
   }
 
   ngOnInit(): void {
@@ -53,6 +67,16 @@ export class LogsComponent implements OnInit {
   }
 
   refreshData() {
+    this.refresh.set(true);
+  }
 
+  deleteRow(rowId: string) {
+    this.backend.deleteLogRecord(rowId).subscribe();
+    this.dashboardService.logs.update(logs => logs.filter((log: Log) => log._id !== rowId));
+    this.confirming.set(null)
+  }
+  onPageChange(event: PageEvent) {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
   }
 }

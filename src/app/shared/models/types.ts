@@ -46,6 +46,7 @@ export type UserDetails = {
 
 export type LogTypes = 'info' | 'error' | 'debug' | 'warning' | 'success';
 export type Log = {
+    _id?: string;
     timestamp: Date;
     message: string;
     context?: string;
