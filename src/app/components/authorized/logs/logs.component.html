@@ -12,7 +12,7 @@
             <mat-header-cell *matHeaderCellDef class="message"> Message </mat-header-cell>
             <mat-cell *matCellDef="let log" class="message">
                 <div [style.width.%]="100">
-                    <log-message [message]="log.message | parseJsonOrString" />
+                    <log-message [message]="log.message | jsonify | schoolidToSchoolname" />
                 </div>
             </mat-cell>
         </ng-container>

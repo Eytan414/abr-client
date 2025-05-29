@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { DashboardService } from '../../../services/dashboard.service';
-import { ParseJsonOrStringPipe } from '../../../pipes/parse-json-or-string.pipe';
+import { Jsonify } from '../../../pipes/jsonify.pipe';
+import { SchoolidToSchoolnamePipe } from '../../../pipes/schoolid-to-schoolname.pipe';
 import { DatePipe } from '@angular/common';
 import { BackendService } from '../../../services/backend.service';
 import { finalize, tap } from 'rxjs';
@@ -16,12 +17,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     MatTableModule,
     MatSortModule,
-    ParseJsonOrStringPipe,
+    Jsonify,
     DatePipe,
     LogMessageComponent,
     MatIcon,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SchoolidToSchoolnamePipe
   ],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.scss',
@@ -43,7 +45,7 @@ export class LogsComponent implements OnInit {
   pageIndex = signal(0);
   refresh = signal<boolean>(false);
   loading = computed(() => this.refresh())
-  
+
   constructor() {
     effect(() => {
       if (!this.refresh()) return;
