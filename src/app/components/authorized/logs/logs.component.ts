@@ -10,7 +10,7 @@ import { Log } from '../../../shared/models/types';
 import { LogMessageComponent } from './log-message/log-message.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'logs',
   imports: [
@@ -22,7 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
     LogMessageComponent,
     MatIcon,
     MatPaginatorModule,
-    MatSelectModule
+    MatProgressSpinnerModule
   ],
   templateUrl: './logs.component.html',
   styleUrl: './logs.component.scss',
@@ -32,7 +32,6 @@ import { MatSelectModule } from '@angular/material/select';
 export class LogsComponent implements OnInit {
   private readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
-
   dataSource = new MatTableDataSource<Log>();
   pagedData = computed(() => {
     const data = this.dashboardService.logs();
@@ -40,13 +39,13 @@ export class LogsComponent implements OnInit {
     return data.slice(start, start + this.pageSize());
   });
 
-  confirming = signal<string | null>(null);
+  confirmDeleteRow = signal<string | null>(null);
   pageSize = signal(10);
   pageIndex = signal(0);
-
   refresh = signal<boolean>(false);
+  loading = computed(() => this.refresh())
+  
   constructor() {
-
     effect(() => {
       if (!this.refresh()) return;
 
@@ -73,7 +72,7 @@ export class LogsComponent implements OnInit {
   deleteRow(rowId: string) {
     this.backend.deleteLogRecord(rowId).subscribe();
     this.dashboardService.logs.update(logs => logs.filter((log: Log) => log._id !== rowId));
-    this.confirming.set(null)
+    this.confirmDeleteRow.set(null)
   }
   onPageChange(event: PageEvent) {
     this.pageIndex.set(event.pageIndex);
