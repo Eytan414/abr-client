@@ -41,30 +41,26 @@ export class ManageComponent implements OnInit {
   constructor() {
     effect(() => {
       const schoolId = this.selectedSchool();
-      if (this.appService.userDetails().role !== 'admin' || schoolId === '') return;
-
-      this.dashboardService.scoresTableLoading.set(true);
-
-      this.backend.fetchResultsBySchool(schoolId).pipe(
-        tap(this.dashboardService.scoresData.set),
-        catchError(err => {
-          console.error(err);
-          this.dashboardService.scoresTableLoading.set(false);
-          return EMPTY;
-        }),
-        finalize(() => this.dashboardService.scoresTableLoading.set(false))
-      ).subscribe();
+      if (this.appService.userDetails().role === 'supervisor' || schoolId === '' ) return;
+      
+      this.fetchScoresTable(schoolId);
     });
 
   }
 
   ngOnInit() {
+    const message = JSON.stringify(this.appService.userDetails());
+    this.backend.saveLog('info', message, 'accessed manage').subscribe();
+
     const user = this.appService.userDetails();
-    if (user.role !== 'supervisor') return;
-
+    if (!user.schoolId || user.role === 'admin') return;
+    
+    this.fetchScoresTable(user.schoolId);
+  }
+  
+  fetchScoresTable(schoolId: string) {
     this.dashboardService.scoresTableLoading.set(true);
-
-    this.backend.fetchResultsBySchool(user.schoolId!).pipe(
+    this.backend.fetchResultsBySchool(schoolId).pipe(
       tap(scores => this.dashboardService.scoresData.set(scores)),
       catchError(err => {
         console.error(err);
@@ -72,10 +68,5 @@ export class ManageComponent implements OnInit {
       }),
       finalize(() => this.dashboardService.scoresTableLoading.set(false))
     ).subscribe();
-
-  }
-  handleAnalytics() {
-    const message = JSON.stringify(this.appService.userDetails());
-    this.backend.saveLog('info', message, 'accessed manage').subscribe();
   }
 }

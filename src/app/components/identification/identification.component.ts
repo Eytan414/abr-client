@@ -40,10 +40,10 @@ export class IdentificationComponent implements OnInit {
       }
       this.loading.set(true);
       this.backend.checkIsSuper(phone).pipe(
-        tap((s) => {
-          const schoolId = s.supervisor?.schoolId;
-          if (schoolId) {
-            this.appService.userDetails.update(u => ({ ...u, schoolId }));
+        tap((resp) => {
+          if (resp.supervisor) {
+            const { schoolId, phone, name } = resp.supervisor;
+            this.appService.userDetails.update(u => ({ ...u, schoolId, phone, name }));
             this.isMemberFlow.set(true);
           }
         }),
@@ -58,9 +58,10 @@ export class IdentificationComponent implements OnInit {
       .subscribe();
   }
 
-  
+
   login() {
     if (this.isMemberFlow()) {
+
       this.backend.login(this.password()).subscribe();
       return;
     }

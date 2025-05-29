@@ -49,9 +49,7 @@ export class BackendService {
 
     return this.http.post<Log[]>(`${environment.apiUrl}logs`, payload);
   }
-  // getAllQuizzes() {
-  //   return this.http.get<Quiz[]>(`${environment.apiUrl}quiz/`, { withCredentials: true });
-  // }
+  
   getQuizById(id: number) {
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
   }
