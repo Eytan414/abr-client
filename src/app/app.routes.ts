@@ -15,10 +15,6 @@ export const routes: Routes = [
     canDeactivate: [leaveQuizGuard]
   },
   {
-    path: 'login', loadComponent: () =>
-      import('./components/login/login.component').then(m => m.LoginComponent)
-  },
-  {
     path: 'manage', loadComponent: () =>
       import('./components/authorized/manage/manage.component').then(m => m.ManageComponent),
     canActivate: [authGuard],

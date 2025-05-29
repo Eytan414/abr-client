@@ -5,7 +5,6 @@ import { finalize, tap } from 'rxjs/operators';
 import { AppService } from '../../services/app.service';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { GaTrackingService } from '../../services/ga-tracking.service';
 
 @Component({
   selector: 'identification',
@@ -23,7 +22,6 @@ export class IdentificationComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
-  private readonly ga = inject(GaTrackingService);
   schools = this.appService.schools;
   name = signal<string>('');
   grade = signal<string>('');

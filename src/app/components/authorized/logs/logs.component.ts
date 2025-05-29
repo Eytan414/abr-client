@@ -3,7 +3,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { DashboardService } from '../../../services/dashboard.service';
 import { ParseJsonOrStringPipe } from '../../../pipes/parse-json-or-string.pipe';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { BackendService } from '../../../services/backend.service';
 import { finalize, tap } from 'rxjs';
 import { Log } from '../../../shared/models/types';
@@ -16,7 +16,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     MatTableModule,
     MatSortModule,
-    MatSort,
     ParseJsonOrStringPipe,
     DatePipe,
     LogMessageComponent,

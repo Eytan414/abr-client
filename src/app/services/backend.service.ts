@@ -13,7 +13,6 @@ import { SchoolDTO } from '../shared/models/school';
 import { environment } from '../../environments/environment';
 import { EMPTY } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { GaTrackingService } from './ga-tracking.service';
 
 
 @Injectable({
@@ -24,15 +23,10 @@ export class BackendService {
   private readonly router = inject(Router);
   private readonly dashboardService = inject(DashboardService);
   private readonly appService = inject(AppService);
-  private readonly ga = inject(GaTrackingService);
 
   private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => res.ip),
     tap(ip => {
-      const userEnteredDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-      this.ga.sendEvent('user_entered', { ip, userEnteredDate });
-
-      //my logs | TODO: move to a separate service
       const message = JSON.stringify({ ip });
       this.saveLog('info', message, 'initial entry').subscribe();
     })

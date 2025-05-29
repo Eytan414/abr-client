@@ -13,7 +13,6 @@ import { AppService } from '../../services/app.service';
 import { catchError, debounceTime, filter, tap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { GaTrackingService } from '../../services/ga-tracking.service';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Component({
@@ -34,7 +33,6 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
   private readonly backend = inject(BackendService);
-  private readonly ga = inject(GaTrackingService);
   readonly appService = inject(AppService);
   carouselInstance!: any;
   activeIndex = signal<number>(0);
@@ -52,9 +50,6 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
 
     //handle logs/analytics | TODO: make it cleaner
     const { name } = this.appService.userDetails();
-    const quizStartedDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-    this.ga.sendEvent("quiz_started", { name, quizStartedDate });
-
     const message = JSON.stringify({ name });
     this.backend.saveLog('info', message, 'started quiz').subscribe();
   }

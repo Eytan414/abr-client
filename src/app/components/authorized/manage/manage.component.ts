@@ -6,7 +6,6 @@ import { BackendService } from '../../../services/backend.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { DashboardService } from '../../../services/dashboard.service';
-import { GaTrackingService } from '../../../services/ga-tracking.service';
 import { ScoresTableComponent } from '../scores-table/scores-table.component';
 import { AddSchoolComponent } from '../add-school/add-school.component';
 import { PasswordsTableComponent } from '../passwords-table/passwords-table.component';
@@ -29,10 +28,6 @@ import { LogsComponent } from '../logs/logs.component';
 })
 export class ManageComponent implements OnInit {
 
-  // scoresComponent = this.injectComponent(() => import('../scores-table/scores-table.component').then(m => m.ScoresTableComponent));
-  // passwordsComponent = this.injectComponent(() => import('../passwords-table/passwords-table.component').then(m => m.PasswordsTableComponent));
-  // addSchoolComponent = this.injectComponent(() => import('../add-school/add-school.component').then(m => m.AddSchoolComponent));
-  private readonly ga = inject(GaTrackingService);
   readonly appService = inject(AppService);
   readonly backend = inject(BackendService);
   readonly dashboardService = inject(DashboardService);
@@ -65,7 +60,6 @@ export class ManageComponent implements OnInit {
 
   ngOnInit() {
     const user = this.appService.userDetails();
-    this.handleAnalytics();
     if (user.role !== 'supervisor') return;
 
     this.dashboardService.scoresTableLoading.set(true);
@@ -81,19 +75,7 @@ export class ManageComponent implements OnInit {
 
   }
   handleAnalytics() {
-    const accessedManageDate = new Date().toLocaleDateString('en-GB') + " | " + new Date().toLocaleTimeString('en-GB')
-    this.ga.sendEvent('manage_access', { accessedManageDate });
-
     const message = JSON.stringify(this.appService.userDetails());
     this.backend.saveLog('info', message, 'accessed manage').subscribe();
-
   }
-
-
-  // injectComponent<T>(loader: () => Promise<Type<T>>) {
-  //   const comp = signal<Type<T> | null>(null);
-  //   loader().then(comp.set);
-  //   return comp;
-  // }
-
 }

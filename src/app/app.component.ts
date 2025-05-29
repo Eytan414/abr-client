@@ -4,7 +4,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { AsyncPipe } from '@angular/common';
-import { GaTrackingService } from './services/ga-tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,6 @@ import { GaTrackingService } from './services/ga-tracking.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  private analytics = inject(GaTrackingService);
   bgUrl = `${environment.apiUrl}webp-image/bg`;
   bgLoaded = signal<boolean>(false);
 
