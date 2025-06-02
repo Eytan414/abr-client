@@ -62,7 +62,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
   setupSubmitBtn() {
     fromEvent(this.submitBtn.nativeElement, 'click')
       .pipe(
-        debounceTime(1000),
+        debounceTime(400),
         tap(() => this.submit()),
       ).subscribe();
   }

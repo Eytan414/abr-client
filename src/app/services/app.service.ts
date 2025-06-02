@@ -8,11 +8,16 @@ import { UserDetails } from '../shared/models/types';
 })
 export class AppService {
   questions = signal<Question[]>([]);
+  readonly indicatorsArray = computed<undefined[]>(() => { //idc about type, just need an array of the same length as questions
+    const count = this.questions().length;
+    return Array.from({ length: count });
+  });
+
   schools = signal<SchoolDTO[]>([]);
   userDetails = signal<UserDetails>({});
   quizId = computed(() => { return this.schools().find(s => s._id === this.userDetails().schoolId)?.quizId });
 
-  responseSignal = signal<Resp>({resp: -1});
+  responseSignal = signal<Resp>({ resp: -1 });
   quizSent = computed(() => this.responseSignal().resp !== -1);
   sessionId = signal<string>('no_session');
 
