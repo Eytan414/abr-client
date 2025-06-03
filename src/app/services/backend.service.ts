@@ -27,7 +27,7 @@ export class BackendService {
   private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => res.ip),
     tap(ip => {
-      const message = JSON.stringify({ ip });
+      const message = JSON.stringify({...this.getBrowserInfo(), ip});
       this.saveLog('info', message, 'initial entry').subscribe();
     })
   );
@@ -49,7 +49,7 @@ export class BackendService {
 
     return this.http.post<Log[]>(`${environment.apiUrl}logs`, payload);
   }
-  
+
   getQuizById(id: number) {
     return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
   }
@@ -131,6 +131,27 @@ export class BackendService {
   }
   addSchool(schoolToAdd: SchoolToAdd) {
     return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true, });
+  }
+
+  private getBrowserInfo() {
+    const ua = navigator.userAgent;
+
+    const browsers = [
+      { browserName: 'Edge', regex: /Edg\/(\d+)/ },
+      { browserName: 'Opera', regex: /OPR\/(\d+)/ },
+      { browserName: 'Chrome', regex: /Chrome\/(\d+)/, exclude: /Edg\/|OPR\// },
+      { browserName: 'Safari', regex: /Version\/(\d+).*Safari/, exclude: /Chrome\// },
+      { browserName: 'Firefox', regex: /Firefox\/(\d+)/ },
+    ];
+
+    for (const { browserName, regex, exclude } of browsers) {
+      if (regex.test(ua) && (!exclude || !exclude.test(ua))) {
+        const match = ua.match(regex);
+        return { browserName, version: match ? match[1] : 'Unknown' };
+      }
+    }
+
+    return { browserName: 'Unknown', version: 'Unknown' };
   }
 }
 
