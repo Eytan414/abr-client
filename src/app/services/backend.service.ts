@@ -51,7 +51,7 @@ export class BackendService {
   }
 
   getQuizById(id: number) {
-    return this.http.get<Quiz>(`${environment.apiUrl}quiz/${id}`)
+    return this.http.get<Quiz>(`${environment.apiUrl}quizzes/${id}`)
   }
   submitData(body: any) {
     return this.http.post(`${environment.apiUrl}scores`, body);
@@ -64,7 +64,7 @@ export class BackendService {
   }
 
   checkIsSuper(phone: string) {
-    return this.http.get<{ supervisor: null | Supervisor }>(`${environment.apiUrl}identification/is-super/${phone}`);
+    return this.http.get<{ supervisor: null | Supervisor }>(`${environment.apiUrl}supervisors/is-super/${phone}`);
   }
 
   fetchResultsBySchool(schoolId: string) {
@@ -81,7 +81,7 @@ export class BackendService {
       return EMPTY;
     }
 
-    return this.http.post<{ role: string }>(`${environment.apiUrl}identification/login`, { password }, { withCredentials: true })
+    return this.http.post<{ role: string }>(`${environment.apiUrl}auth/login`, { password }, { withCredentials: true })
       .pipe(
         switchMap(result => {
           if (result.role === 'unidentified') {
