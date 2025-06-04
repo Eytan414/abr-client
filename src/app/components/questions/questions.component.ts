@@ -1,5 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef,
-  inject, NgZone, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef,
+  inject, NgZone, OnInit, signal, ViewChild
+} from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // @ts-ignore
 import { Carousel } from '@coreui/coreui';
@@ -9,7 +11,7 @@ import { cilArrowCircleRight, cilArrowCircleLeft } from '@coreui/icons';
 
 import { QuestionCardComponent } from './question-card/question-card.component'
 import { BackendService } from '../../services/backend.service';
-import { AppService } from '../../services/app.service';
+import { AppService, Resp } from '../../services/app.service';
 import { catchError, debounceTime, filter, tap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -111,18 +113,30 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     this.backend.saveLog('info', message, 'sent quiz').subscribe();
 
     this.backend.submitData(data).pipe(
-      tap(r => this.loading.set(false)),
+      tap(_ => this.loading.set(false)),
       tap(this.appService.responseSignal.set),
-      tap(resp => this.backend.saveLog('success', JSON.stringify(resp), 'quiz response').subscribe()),
+      tap(resp => this.onSubmitLog(resp)),
       catchError(err => {
         this.backend.saveLog('error', JSON.stringify(err), 'quiz response').subscribe();
-        this.appService.responseSignal.set({ resp: `${err.status}: ${err.statusText}` });
+        const errorMessage = err.status
+          ? `Error: ${err.status}: ${err.statusText}`
+          : err.message;
+        this.appService.responseSignal.set({ resp: errorMessage });
         this.loading.set(false);
-        return EMPTY
+        return EMPTY;
       })
     ).subscribe();
   }
-
+  // test() {
+  //   this.userEntries.set(
+  //     [-5,3, 4, 4, 2, 3, 2, 2, 3, 2, 3, 1, 1, 2, 4, 4, 1, 4, 2, 1, 1, 3, 1, 3, 'gfddsfgdfgdfg']
+  //   )
+  // }
+  onSubmitLog(response: Resp) {
+    response.resp === 'success'
+      ? this.backend.saveLog('success', JSON.stringify(response), 'quiz response').subscribe()
+      : this.backend.saveLog('warn', JSON.stringify(response), 'quiz response').subscribe()
+  }
 
   calcCarouselCardClass(index: number) {
     return {

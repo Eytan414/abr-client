@@ -44,7 +44,7 @@ export type UserDetails = {
     readonly schoolId?: string;
 }
 
-export type LogTypes = 'info' | 'error' | 'debug' | 'warning' | 'success';
+export type LogTypes = 'info' | 'error' | 'debug' | 'warn' | 'success';
 export type Log = {
     _id?: string;
     timestamp: Date;

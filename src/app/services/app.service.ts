@@ -30,7 +30,7 @@ export class AppService {
 
 
 
-type Resp = {
+export type Resp = {
   resp?: any;
   savedQuiz?: any;
 };

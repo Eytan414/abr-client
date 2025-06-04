@@ -45,6 +45,9 @@ main {
             &:has(.success) {
                 background-color: #0f03;
             }
+            &:has(.warn) {
+                background-color: #ff03;
+            }
 
             button {
                 display: flex;
