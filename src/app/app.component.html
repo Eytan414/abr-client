@@ -3,7 +3,7 @@
     <div class="background">
         @let src = preloadedBackgroundUrl$ | async;
         @if(src){
-        <img [src]="src" [class]="bgLoaded() ? 'show' : ''" alt="background image" />
+        <img [src]="src" [class]="bgLoaded() ? 'show' : ''" width="1280" height="720" alt="background image" />
         }
     </div>
     <div class="main-content">
