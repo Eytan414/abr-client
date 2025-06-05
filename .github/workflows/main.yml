@@ -1,0 +1,34 @@
+name: Build and deploy to firebase
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Install Angular CLI globally
+        run: npm install -g @angular/cli
+
+      - name: Build Angular app
+        run: ng b -c=production
+
+      - name: Run deploy command
+        run: firebase deploy
