@@ -1,0 +1,20 @@
+name: Build and deploy to firebase
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run build command
+        run: ng b -c=production
+
+      - name: Run deploy command
+        run: firebase deploy
