@@ -143,11 +143,11 @@ export class BackendService {
       { browserName: 'Safari', regex: /Version\/(\d+).*Safari/, exclude: /Chrome\// },
       { browserName: 'Firefox', regex: /Firefox\/(\d+)/ },
     ];
-
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
     for (const { browserName, regex, exclude } of browsers) {
       if (regex.test(ua) && (!exclude || !exclude.test(ua))) {
         const match = ua.match(regex);
-        return { browserName, version: match ? match[1] : 'Unknown' };
+        return { platform: isMobile ? 'Mobile' : 'Pc', browserName, version: match ? match[1] : 'Unknown' };
       }
     }
 
