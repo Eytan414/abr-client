@@ -10,11 +10,10 @@ export class SchoolidToSchoolnamePipe implements PipeTransform {
   readonly appService = inject(AppService);
 
   transform(value: any): string {
-    if(!value.schoolId) return value;
-    
+    if (!value.schoolId) return value;
+
     const school = this.appService.schools().find(s => s._id === value.schoolId);
-    value.schoolName = school?.name;
-    return value;
+    return { ...value, schoolName: school?.name };
   }
 
 }
