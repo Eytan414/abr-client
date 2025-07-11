@@ -111,6 +111,9 @@ main {
         button {
             background: none;
             border: none;
+            &:hover {
+                color: var(--main-color)
+            }
         }
     }
 }

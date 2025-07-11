@@ -20,17 +20,19 @@ import { AppService } from '../../../services/app.service';
 })
 export class PasswordsTableComponent {
   private readonly backend = inject(BackendService);
-  readonly dashboardService = inject(DashboardService);
-  readonly appService = inject(AppService);
+  protected readonly dashboardService = inject(DashboardService);
+  protected readonly appService = inject(AppService);
 
-  editCell(element: TablePassword) {
+  protected editCell(element: TablePassword) {
     element.isEditing = true;
   }
-  saveCell(element: TablePassword) {
+
+  protected saveCell(element: TablePassword) {
     element.isEditing = false;
     this.backend.updatePassword(element.id, element.password).subscribe();
   }
-  passmepass() {
+
+  protected retrievePasswords() {
     this.backend.passmepass().subscribe();
     
     const user = this.appService.userDetails();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
 import { finalize, tap } from 'rxjs/operators';
@@ -22,15 +22,15 @@ export class IdentificationComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly backend = inject(BackendService);
   private readonly appService = inject(AppService);
-  schools = this.appService.schools;
-  name = signal<string>('');
-  grade = signal<string>('');
-  phone = signal<string>('');
-  school = signal<string>('');
-  password = signal<string>('');
-  isMemberFlow = signal<boolean>(false);
-  loginCheckLoading = signal<boolean>(false);
-  phoneCheckLoading = signal<boolean>(false);
+  protected readonly schools = this.appService.schools;
+  protected readonly name = signal<string>('');
+  protected readonly grade = signal<string>('');
+  protected readonly phone = signal<string>('');
+  protected readonly school = signal<string>('');
+  protected readonly password = signal<string>('');
+  protected readonly isMemberFlow = signal<boolean>(false);
+  protected readonly loginCheckLoading = signal<boolean>(false);
+  protected readonly phoneCheckLoading = signal<boolean>(false);
 
   constructor() {
     effect(() => {
@@ -60,7 +60,7 @@ export class IdentificationComponent implements OnInit {
   }
 
 
-  login() {
+  protected login() {
     this.loginCheckLoading.set(true);
     if (this.isMemberFlow()) {
       this.backend.login(this.password()).pipe(
@@ -75,7 +75,7 @@ export class IdentificationComponent implements OnInit {
     this.backend.saveLog('info', message, 'student clicks instruc\'s page').subscribe();
   }
 
-  updateUserDetails(schoolId: string = this.school()) {
+  private updateUserDetails(schoolId: string = this.school()) {
     this.appService.userDetails.update(u => ({
       ...u,
       schoolId,
@@ -85,7 +85,7 @@ export class IdentificationComponent implements OnInit {
     }));
   }
 
-  onInputChange(event: Event) {
+  protected onInputChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.phone.set(value);
   }

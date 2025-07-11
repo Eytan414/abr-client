@@ -10,7 +10,5 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogMessageComponent {
-
-  message = input.required<string>()
-
+  readonly message = input.required<string>();
 }

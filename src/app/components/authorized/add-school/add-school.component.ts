@@ -20,13 +20,13 @@ import { DashboardService } from '../../../services/dashboard.service';
 })
 export class AddSchoolComponent {
   private readonly backend = inject(BackendService);
-  readonly dashboardService = inject(DashboardService);
+  protected readonly dashboardService = inject(DashboardService);
   
-  schoolName = signal<string>('');
-  supervisorName = signal<string>('');
-  supervisorPhone = signal<string>('');
-  assignedQuiz = signal<number>(-1);
-  submitionStatus = signal<number>(-1);
+  protected readonly schoolName = signal<string>('');
+  protected readonly supervisorName = signal<string>('');
+  protected readonly supervisorPhone = signal<string>('');
+  protected readonly assignedQuiz = signal<number>(-1);
+  protected readonly submitionStatus = signal<number>(-1);
   @ViewChild('addSchoolForm') addSchoolForm!: NgForm;
 
   onSubmit() {

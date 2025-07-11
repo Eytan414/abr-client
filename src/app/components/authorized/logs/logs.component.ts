@@ -32,19 +32,20 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class LogsComponent implements OnInit {
   private readonly backend = inject(BackendService);
-  readonly dashboardService = inject(DashboardService);
-  dataSource = new MatTableDataSource<Log>();
-  pagedData = computed(() => {
+  protected readonly dashboardService = inject(DashboardService);
+
+  protected dataSource = new MatTableDataSource<Log>();
+  protected readonly pagedData = computed(() => {
     const data = this.dashboardService.logs();
     const start = this.pageIndex() * this.pageSize();
     return data.slice(start, start + this.pageSize());
   });
 
-  confirmDeleteRow = signal<string | null>(null);
-  pageSize = signal(10);
-  pageIndex = signal(0);
-  refresh = signal<boolean>(false);
-  loading = computed(() => this.refresh())
+  protected readonly confirmDeleteRow = signal<string | null>(null);
+  protected readonly pageSize = signal(10);
+  protected readonly pageIndex = signal(0);
+  protected readonly refresh = signal<boolean>(false);
+  protected readonly loading = computed(() => this.refresh())
 
   constructor() {
     effect(() => {
@@ -66,16 +67,17 @@ export class LogsComponent implements OnInit {
     ).subscribe();
   }
 
-  refreshData() {
+  protected refreshData() {
     this.refresh.set(true);
   }
 
-  deleteRow(rowId: string) {
+  protected deleteRow(rowId: string) {
     this.backend.deleteLogRecord(rowId).subscribe();
     this.dashboardService.logs.update(logs => logs.filter((log: Log) => log._id !== rowId));
     this.confirmDeleteRow.set(null)
   }
-  onPageChange(event: PageEvent) {
+
+  protected onPageChange(event: PageEvent) {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
   }

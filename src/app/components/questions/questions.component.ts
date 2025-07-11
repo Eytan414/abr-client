@@ -31,16 +31,16 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionsComponent implements OnInit, AfterViewInit {
-  icons = { cilArrowCircleRight, cilArrowCircleLeft };
+  protected icons = { cilArrowCircleRight, cilArrowCircleLeft };
   private readonly destroyRef = inject(DestroyRef);
   private readonly ngZone = inject(NgZone);
   private readonly backend = inject(BackendService);
-  readonly appService = inject(AppService);
-  carouselInstance!: any;
-  activeIndex = signal<number>(0);
-  userEntries = signal<(number | string)[]>([]);
-  loading = signal<boolean>(false);
-  showAlert = signal<boolean>(false);
+  protected readonly appService = inject(AppService);
+  private carouselInstance!: any;
+  protected readonly activeIndex = signal<number>(0);
+  protected readonly userEntries = signal<(number | string)[]>([]);
+  protected readonly loading = signal<boolean>(false);
+  protected readonly showAlert = signal<boolean>(false);
   @ViewChild('submitBtn', { static: true }) submitBtn!: ElementRef<HTMLButtonElement>;
 
   ngOnInit() {
@@ -49,8 +49,6 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
         this.appService.questions.set(quiz.questions);
       })).subscribe();
 
-
-    //handle logs/analytics | TODO: make it cleaner
     const { name } = this.appService.userDetails();
     const message = JSON.stringify({ name });
     this.backend.saveLog('info', message, 'started quiz').subscribe();
@@ -61,7 +59,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     this.setupSubmitBtn();
   }
 
-  setupSubmitBtn() {
+  private setupSubmitBtn() {
     fromEvent(this.submitBtn.nativeElement, 'click')
       .pipe(
         debounceTime(400),
@@ -69,7 +67,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
       ).subscribe();
   }
 
-  setupCarousel() {
+  private setupCarousel() {
     const el = document.getElementById('carousel')!;
     this.ngZone.runOutsideAngular(() => {
       this.carouselInstance = new Carousel(el, { interval: 5000 });
@@ -88,7 +86,7 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  submit() {
+  protected submit() {
     if (this.appService.quizSent()) return;
     const userEntriesCount = this.userEntries().length;
     const quizQuestionsCount = this.appService.questions().length;
@@ -127,18 +125,14 @@ export class QuestionsComponent implements OnInit, AfterViewInit {
       })
     ).subscribe();
   }
-  // test() {
-  //   this.userEntries.set(
-  //     [-5,3, 4, 4, 2, 3, 2, 2, 3, 2, 3, 1, 1, 2, 4, 4, 1, 4, 2, 1, 1, 3, 1, 3, 'gfddsfgdfgdfg']
-  //   )
-  // }
-  onSubmitLog(response: Resp) {
+  
+  protected onSubmitLog(response: Resp) {
     response.resp === 'success'
       ? this.backend.saveLog('success', JSON.stringify(response), 'quiz response').subscribe()
       : this.backend.saveLog('warn', JSON.stringify(response), 'quiz response').subscribe()
   }
 
-  calcCarouselCardClass(index: number) {
+  protected calcCarouselCardClass(index: number) {
     return {
       'active': index === this.activeIndex(),
       'answered': this.userEntries().at(index + 1)

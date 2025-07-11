@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Input, input, Signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, WritableSignal } from '@angular/core';
 import { Answer, Question } from '../../../shared/models/question';
 import { environment } from '../../../../environments/environment';
 import { AppService } from '../../../services/app.service';
@@ -12,43 +12,45 @@ import { AppService } from '../../../services/app.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionCardComponent {
-  readonly appService = inject(AppService);
-  @Input({ required: true }) userEntries!: WritableSignal<(number | string)[]>;
-  MIN_ANSWER_LENGTH = 5;
-  apiUrl = environment.apiUrl;
-  questionIndex = input<number>(0);
-  question = input.required<Question>();
+  protected readonly appService = inject(AppService);
+  
+  readonly userEntries = input.required<WritableSignal<(number | string)[]>>();
+  readonly questionIndex = input<number>(0);
+  readonly question = input.required<Question>();
 
-  title = computed(() => this.question()?.title);
-  possible_answers = computed(() =>
+  private MIN_ANSWER_LENGTH = 5;
+  protected apiUrl = environment.apiUrl;
+
+  protected readonly title = computed(() => this.question()?.title);
+  protected readonly possible_answers = computed(() =>
     this.shuffle(
       this.question()?.possible_answers
     )
   );
 
 
-  getTitle() {
+  protected getTitle() {
     return "שאלה " + (this.questionIndex() + 1) + ": " + this.title();
   }
 
-  userAnswered(answer: Event | number) {
+  protected userAnswered(answer: Event | number) {
     const index = this.questionIndex() + 1;
-    const newUserEntries = [...this.userEntries()];
+    const newUserEntries = [...this.userEntries()()];
 
     if (!(answer instanceof Event)) {
       newUserEntries[index] = answer;
-      this.userEntries.set(newUserEntries);
+      this.userEntries().set(newUserEntries);
       return;
     }
 
     const textAreaValue = (answer.target as HTMLTextAreaElement).value;
     if (textAreaValue.length >= this.MIN_ANSWER_LENGTH)
       newUserEntries[index] = textAreaValue;
-    this.userEntries.set(newUserEntries);
+    this.userEntries().set(newUserEntries);
   }
 
-  highlightSelectedAnswer(answerId: number) {
-    return this.userEntries().at(this.questionIndex() + 1) === answerId ? "highlight" : "";
+  protected highlightSelectedAnswer(answerId: number) {
+    return this.userEntries()().at(this.questionIndex() + 1) === answerId ? "highlight" : "";
   }
 
   private shuffle(array: Answer[]) {

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class InstructionsComponent {
   private readonly router = inject(Router);
 
-  startQuiz() {
+  protected startQuiz() {
     this.router.navigateByUrl('/questions');
   }
 

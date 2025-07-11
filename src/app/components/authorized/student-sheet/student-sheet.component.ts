@@ -22,13 +22,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class StudentSheetComponent implements OnInit {
   private readonly backend = inject(BackendService);
-  studentPhone = input<string>('');
+  readonly studentPhone = input<string>('');
 
-  studentTableData = signal<unknown[]>([]);
-  displayedColumns = signal<string[]>([]);
-  fullAnswerData!: SheetData[];
-  popover = signal<PopoverData>({});
-  showPopover = signal<boolean>(false);
+  protected readonly studentTableData = signal<unknown[]>([]);
+  protected readonly displayedColumns = signal<string[]>([]);
+  protected readonly popover = signal<PopoverData>({});
+  protected readonly showPopover = signal<boolean>(false);
+  protected fullAnswerData!: SheetData[];
 
   ngOnInit(): void {
     this.backend.getScoresByPhone(this.studentPhone()).pipe(
@@ -47,7 +47,8 @@ export class StudentSheetComponent implements OnInit {
     ).subscribe();
 
   }
-  showTextualQuestion(questionIndex: number, rowAnswerData: SheetData) {
+
+  protected showTextualQuestion(questionIndex: number, rowAnswerData: SheetData) {
     this.popover.update(p => {
       const isSame = p.questionIndex === questionIndex;
       return {
@@ -59,7 +60,7 @@ export class StudentSheetComponent implements OnInit {
     });
   }
 
-  showTextualAnswer(answerIndex: number, rowAnswerData: SheetData) {
+  protected showTextualAnswer(answerIndex: number, rowAnswerData: SheetData) {
     this.popover.update(p => {
       const isSame = p.answerIndex === answerIndex;
       return {

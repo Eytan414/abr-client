@@ -7,7 +7,7 @@ import { AppService } from '../services/app.service';
   pure: true,
 })
 export class SchoolidToSchoolnamePipe implements PipeTransform {
-  readonly appService = inject(AppService);
+  private readonly appService = inject(AppService);
 
   transform(value: any): string {
     if (!value.schoolId) return value;

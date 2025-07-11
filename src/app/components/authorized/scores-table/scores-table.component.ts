@@ -25,14 +25,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScoresTableComponent {
-  readonly dashboardService = inject(DashboardService);
+  protected readonly dashboardService = inject(DashboardService);
 
-  selectedDateFilter: string = '';
-  selectedRow: ScoreRecord | null = null;
-  showQuizForm: boolean = false;
-  recordCount = this.dashboardService.recordCount;
-  distinctDates = computed(() => this.dashboardService.scoresData().quizDistinctDates ?? []);
-  dataSource = new MatTableDataSource<ScoreRecord>();
+  protected selectedDateFilter: string = '';
+  protected selectedRow: ScoreRecord | null = null;
+  protected showQuizForm: boolean = false;
+  protected readonly recordCount = this.dashboardService.recordCount;
+  protected readonly distinctDates = computed(() => this.dashboardService.scoresData().quizDistinctDates ?? []);
+  protected dataSource = new MatTableDataSource<ScoreRecord>();
   private sort!: MatSort;
 
   @ViewChild(MatSort, { static: false })
@@ -56,12 +56,12 @@ export class ScoresTableComponent {
     });
   }
 
-  rowClicked(row: any) {
+  protected rowClicked(row: any) {
     this.selectedRow = row;
     this.showQuizForm = true;
   }
 
-  updateFilter(event: Event) {
+  protected updateFilter(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.selectedDateFilter = target.value;
     this.dataSource.filter = this.selectedDateFilter ?? '';

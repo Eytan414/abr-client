@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, Type, ViewChild } from '@angular/core';
-// import { NgComponentOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../../../services/app.service';
 import { BackendService } from '../../../services/backend.service';
@@ -15,7 +14,6 @@ import { LogsComponent } from '../logs/logs.component';
   selector: 'manage',
   imports: [
     FormsModule,
-    // NgComponentOutlet,
     ScoresTableComponent,
     AddSchoolComponent,
     LogsComponent,
@@ -27,12 +25,12 @@ import { LogsComponent } from '../logs/logs.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ManageComponent implements OnInit {
-
-  readonly appService = inject(AppService);
-  readonly backend = inject(BackendService);
-  readonly dashboardService = inject(DashboardService);
-  selectedSchool = signal<string>('');
-  currentSchoolSupervisors = computed(() =>
+  protected readonly appService = inject(AppService);
+  protected readonly backend = inject(BackendService);
+  protected readonly dashboardService = inject(DashboardService);
+  
+  protected readonly selectedSchool = signal<string>('');
+  protected readonly currentSchoolSupervisors = computed(() =>
     this.dashboardService.schoolsDataAdmin()
       .filter(school => this.selectedSchool() === school.id)
       .map(school => school.supervisors));
@@ -58,7 +56,7 @@ export class ManageComponent implements OnInit {
     this.fetchScoresTable(user.schoolId);
   }
   
-  fetchScoresTable(schoolId: string) {
+  private fetchScoresTable(schoolId: string) {
     this.dashboardService.scoresTableLoading.set(true);
     this.backend.fetchResultsBySchool(schoolId).pipe(
       tap(scores => this.dashboardService.scoresData.set(scores)),

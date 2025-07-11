@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { RouterModule } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-header',
   imports: [RouterModule],
@@ -11,6 +10,6 @@ import { AsyncPipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  logoUrl = `${environment.apiUrl}webp-image/logo`;
-  whatsappUrl = `${environment.apiUrl}webp-image/whatsapp`;  
+  protected logoUrl = `${environment.apiUrl}webp-image/logo`;
+  protected whatsappUrl = `${environment.apiUrl}webp-image/whatsapp`;  
 }
