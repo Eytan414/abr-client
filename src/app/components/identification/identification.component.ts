@@ -29,7 +29,8 @@ export class IdentificationComponent implements OnInit {
   school = signal<string>('');
   password = signal<string>('');
   isMemberFlow = signal<boolean>(false);
-  loading = signal<boolean>(false);
+  loginCheckLoading = signal<boolean>(false);
+  phoneCheckLoading = signal<boolean>(false);
 
   constructor() {
     effect(() => {
@@ -38,7 +39,7 @@ export class IdentificationComponent implements OnInit {
         this.isMemberFlow.set(false);
         return;
       }
-      this.loading.set(true);
+      this.phoneCheckLoading.set(true);
       this.backend.checkIsSuper(phone).pipe(
         tap((resp) => {
           if (resp.supervisor) {
@@ -47,7 +48,7 @@ export class IdentificationComponent implements OnInit {
             this.isMemberFlow.set(true);
           }
         }),
-        finalize(() => this.loading.set(false))
+        finalize(() => this.phoneCheckLoading.set(false))
       ).subscribe();
     });
   }
@@ -60,9 +61,11 @@ export class IdentificationComponent implements OnInit {
 
 
   login() {
+    this.loginCheckLoading.set(true);
     if (this.isMemberFlow()) {
-
-      this.backend.login(this.password()).subscribe();
+      this.backend.login(this.password()).pipe(
+        finalize(() => this.loginCheckLoading.set(false)))
+        .subscribe();
       return;
     }
     this.updateUserDetails();

@@ -20,42 +20,49 @@ main {
     .identification-form {
         display: grid;
         gap: 0.5rem;
-    }
 
-    button {
-        justify-self: center;
-        margin-bottom: 1rem;
-        background: green;
-        color: white;
-        padding: .5rem;
-        align-self: center;
-        border: navajowhite;
-        border-radius: .25rem;
-        font-weight: bold;
-        font-size: 1.25rem;
-        cursor: pointer;
+        button {
+            justify-self: center;
+            margin-bottom: 1rem;
+            background: green;
+            color: white;
+            padding: .5rem;
+            align-self: center;
+            border: navajowhite;
+            border-radius: .25rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            cursor: pointer;
 
-        &[disabled] {
-            opacity: .5;
-            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            mat-spinner {
+                height: 1rem !important;
+                width: 1rem !important;
+            }
+            &[disabled] {
+                opacity: .5;
+                cursor: not-allowed;
+            }
         }
-    }
 
-    .phone-wrapper {
-        width: 1.5rem;
-        height: 1.5rem;
-        padding: .125rem;
-        display: flex;
-        position: relative;
-        width: 100%;
-        height: auto;
-        align-items: center;
+        .phone-wrapper {
+            width: 1.5rem;
+            height: 1.5rem;
+            padding: .125rem;
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: auto;
+            align-items: center;
 
-        mat-spinner {
-            position: absolute;
-            right: 1rem;
-            max-width: 1.5rem;
-            max-height: 1.5rem;
+            mat-spinner {
+                position: absolute;
+                right: 1rem;
+                max-width: 1.5rem;
+                max-height: 1.5rem;
+            }
         }
     }
 }

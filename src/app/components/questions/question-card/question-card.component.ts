@@ -20,7 +20,7 @@ export class QuestionCardComponent {
   question = input.required<Question>();
 
   title = computed(() => this.question()?.title);
-  possible_answers = computed(() => 
+  possible_answers = computed(() =>
     this.shuffle(
       this.question()?.possible_answers
     )
@@ -51,7 +51,7 @@ export class QuestionCardComponent {
     return this.userEntries().at(this.questionIndex() + 1) === answerId ? "highlight" : "";
   }
 
-  private shuffle(array:Answer[]) {
+  private shuffle(array: Answer[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
