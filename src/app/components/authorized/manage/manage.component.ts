@@ -62,6 +62,7 @@ export class ManageComponent implements OnInit {
       tap(scores => this.dashboardService.scoresData.set(scores)),
       catchError(err => {
         console.error(err);
+        this.backend.saveLog('error', JSON.stringify(err), 'superV scores').subscribe();
         return EMPTY;
       }),
       finalize(() => this.dashboardService.scoresTableLoading.set(false))
