@@ -59,8 +59,16 @@ export class BackendService {
   getSchoolList() {
     return this.http.get<SchoolDTO[]>(`${environment.apiUrl}school/all`);
   }
+
   getSessionUser() {
     return this.http.get<UserDetails>(`${environment.apiUrl}session`, { withCredentials: true });
+  }
+
+  getSupervisorBySchool(schoolId: string) {
+    return this.http.get<Supervisor>(`${environment.apiUrl}supervisors/by-school/${schoolId}`, { withCredentials: true });
+  }
+  updateSupervisorAndSchool(data: Supervisor & {schoolId: string, schoolName: string}) {
+    return this.http.patch(`${environment.apiUrl}school/with-supervisor/${data._id}`, data, { withCredentials: true });
   }
 
   checkIsSuper(phone: string) {

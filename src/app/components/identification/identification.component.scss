@@ -56,7 +56,9 @@ main {
             width: 100%;
             height: auto;
             align-items: center;
-
+            input{
+                width: 100%;
+            }
             mat-spinner {
                 position: absolute;
                 right: 1rem;

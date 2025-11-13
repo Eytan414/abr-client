@@ -1,0 +1,31 @@
+<select [(ngModel)]="selectedSchool" #selectSchool>
+    <option value='' selected>בחירת בית ספר</option>
+    @for(school of dashboardService.schoolsDataAdmin(); track school.id){
+    <option [value]="school.id">{{school.name}}</option>
+    }
+</select>
+
+<form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-control-wrapper">
+        <label>שם בית ספר</label>
+        <input type="text" name="schoolName" [(ngModel)]="formData().schoolName" required placeholder="שם בית ספר">
+    </div>
+    <!-- <div class="form-control-wrapper">
+        <label>שיוך חידון</label>
+        <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
+            @for(quiz of (dashboardService.quizzes()); track quiz.id){
+            <option [value]="quiz.id">{{quiz.title}}</option>
+            }
+        </select>
+    </div> -->
+    <div class="form-control-wrapper">
+        <label>שם רכז</label>
+        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required="true" placeholder="שם רכז">
+    </div>
+    <div class="form-control-wrapper">
+        <label>טלפון רכז</label>
+        <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="formData().supervisorPhone" required
+            placeholder="0521234567">
+    </div>
+    <button type="submit" [disabled]="selectedSchool() === '' || addSchoolForm.invalid">שמירה</button>
+</form>

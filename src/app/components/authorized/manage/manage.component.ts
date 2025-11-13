@@ -7,6 +7,7 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
 import { DashboardService } from '../../../services/dashboard.service';
 import { ScoresTableComponent } from '../scores-table/scores-table.component';
 import { AddSchoolComponent } from '../add-school/add-school.component';
+import { EditSchoolComponent } from '../edit-school/edit-school.component';
 import { PasswordsTableComponent } from '../passwords-table/passwords-table.component';
 import { LogsComponent } from '../logs/logs.component';
 
@@ -18,6 +19,7 @@ import { LogsComponent } from '../logs/logs.component';
     AddSchoolComponent,
     LogsComponent,
     PasswordsTableComponent,
+    EditSchoolComponent
   ],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.scss',
