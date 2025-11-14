@@ -5,22 +5,15 @@
     }
 </select>
 
-<form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
+<form #addSchoolForm="ngForm" (ngSubmit)="onSubmit(addSchoolForm)">
     <div class="form-control-wrapper">
         <label>שם בית ספר</label>
         <input type="text" name="schoolName" [(ngModel)]="formData().schoolName" required placeholder="שם בית ספר">
     </div>
-    <!-- <div class="form-control-wrapper">
-        <label>שיוך חידון</label>
-        <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
-            @for(quiz of (dashboardService.quizzes()); track quiz.id){
-            <option [value]="quiz.id">{{quiz.title}}</option>
-            }
-        </select>
-    </div> -->
     <div class="form-control-wrapper">
         <label>שם רכז</label>
-        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required="true" placeholder="שם רכז">
+        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required="true"
+            placeholder="שם רכז">
     </div>
     <div class="form-control-wrapper">
         <label>טלפון רכז</label>
@@ -28,4 +21,9 @@
             placeholder="0521234567">
     </div>
     <button type="submit" [disabled]="selectedSchool() === '' || addSchoolForm.invalid">שמירה</button>
+    @if(updateResponse() !== ''){
+    <c-alert visible="true" dismissible="true" color="warning" fade>
+        {{updateResponse()}}
+    </c-alert>
+    }
 </form>

@@ -68,7 +68,7 @@ export class BackendService {
     return this.http.get<Supervisor>(`${environment.apiUrl}supervisors/by-school/${schoolId}`, { withCredentials: true });
   }
   updateSupervisorAndSchool(data: Supervisor & {schoolId: string, schoolName: string}) {
-    return this.http.patch(`${environment.apiUrl}school/with-supervisor/${data._id}`, data, { withCredentials: true });
+    return this.http.patch<{result:string}>(`${environment.apiUrl}school/with-supervisor/${data._id}`, data, { withCredentials: true });
   }
 
   checkIsSuper(phone: string) {
