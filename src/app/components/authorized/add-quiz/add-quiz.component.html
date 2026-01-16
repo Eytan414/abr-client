@@ -1,0 +1,68 @@
+<main>
+    <!-- <span style="direction: ltr;unicode-bidi: bidi-override;">
+
+        {{ newQuiz | json }}
+    </span> -->
+    <form #addQuizForm="ngForm" (ngSubmit)="onSubmit(addQuizForm)">
+        <!-- Quiz title -->
+        <div class="form-control-wrapper">
+            <label>שם חידון
+                <input type="text" name="quizName" [(ngModel)]="newQuiz.title" required placeholder="שם חידון" />
+            </label>
+        </div>
+
+        <!-- Add question button -->
+        <div class="question-wrapper form-control-wrapper">
+            <label>הוספת שאלה
+                <button type="button" (click)="addQuestion()">הוספה</button>
+            </label>
+
+            <!-- Questions loop -->
+            @for(question of newQuiz.questions; track $index) {
+            @let questionIndex = $index + 1;
+            <div class="question">
+                <!-- Question title -->
+                <div class="question-title">
+                    <label>שאלה {{questionIndex}}
+                        <input type="text" name="title_{{questionIndex}}" [(ngModel)]="question.title" required
+                            placeholder="שאלה {{questionIndex}}" />
+                    </label>
+                    <button>+</button>
+                </div>
+                <div class="question-possible-answers">
+                    <!-- Answers loop -->
+                    @for(answer of question.possible_answers; track $index) {
+                    @let answerIndex = $index + 1;
+
+                    <!-- Hidden input for answer ID -->
+                    <!-- <input type="number" name="answerid_{{questionIndex}}_{{answerIndex}}" [(ngModel)]="answer.id"
+                        [value]="answerIndex" hidden /> -->
+                    <span class="answer-and-radio">
+                        <!-- Radio for correct answer -->
+                        <input type="radio" name="correctAnswer_{{questionIndex}}"
+                            [(ngModel)]="newQuiz.answers[questionIndex - 1]" [value]="answer.id"
+                            required /><!-- Answer text -->
+                        <input type="text" name="answer_{{questionIndex}}_{{answerIndex}}" [(ngModel)]="answer.value"
+                            required placeholder="תשובה {{answerIndex}}" />
+
+                    </span>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+        <button type="submit" [disabled]="addQuizForm.invalid || newQuiz.questions.length < 6">שמירת חידון</button>
+
+        @if(submitionStatus() === 200){
+        <c-alert visible="true" dismissible="true" color="success" fade>
+            החידון נוסף בהצלחה
+        </c-alert>
+        }
+        @else if(submitionStatus() !== -1){
+        <c-alert visible="true" dismissible="true" color="danger" fade>
+            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לתמיכה
+        </c-alert>
+        }
+    </form>
+
+</main>

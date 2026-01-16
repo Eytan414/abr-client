@@ -1,0 +1,38 @@
+form {
+    display: grid;
+    gap: 1rem;
+    :nth-child(n+2){
+        justify-self: start;
+    }
+    .form-control-wrapper {
+
+        &.question-wrapper {
+            display: grid;
+            gap: 1.5rem;
+
+            .question {
+                display: grid;
+                gap: 1rem;
+
+                .question-possible-answers {
+                    display: flex;
+                    gap: 1rem;
+
+                    .answer-and-radio {
+                        display: inline-flex;
+                        gap: 0.25rem;
+
+                        input[type=radio] {
+                            accent-color: var(--main-color);
+                            width: 1.5rem;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    button {
+    }
+}

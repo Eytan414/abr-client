@@ -59,7 +59,7 @@ h3 {
   margin-inline: auto;
 
   &:has(.admin,.webmaster) {
-    width: 85vw;
+    width: 90vw;
     max-width: unset;
   }
 }
@@ -68,12 +68,7 @@ h3 {
   width: 100%;
 }
 
-@media (min-width: 768px) {
-  .main-content {
-    width: 85vw;
-    padding: 0;
-  }
-}
+
 
 th {
   color: white;

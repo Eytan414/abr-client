@@ -10,6 +10,7 @@ import { AddSchoolComponent } from '../add-school/add-school.component';
 import { EditSchoolComponent } from '../edit-school/edit-school.component';
 import { PasswordsTableComponent } from '../passwords-table/passwords-table.component';
 import { LogsComponent } from '../logs/logs.component';
+import { AddQuizComponent } from '../add-quiz/add-quiz.component';
 
 @Component({
   selector: 'manage',
@@ -19,7 +20,8 @@ import { LogsComponent } from '../logs/logs.component';
     AddSchoolComponent,
     LogsComponent,
     PasswordsTableComponent,
-    EditSchoolComponent
+    EditSchoolComponent,
+    AddQuizComponent
   ],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.scss',

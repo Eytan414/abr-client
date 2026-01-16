@@ -27,7 +27,7 @@ export class BackendService {
   private readonly ip$ = this.http.get<{ ip: string }>('https://api.ipify.org?format=json').pipe(
     map(res => res.ip),
     tap(ip => {
-      const message = JSON.stringify({...this.getBrowserInfo(), ip});
+      const message = JSON.stringify({ ...this.getBrowserInfo(), ip });
       this.saveLog('info', message, 'initial entry').subscribe();
     })
   );
@@ -67,8 +67,8 @@ export class BackendService {
   getSupervisorBySchool(schoolId: string) {
     return this.http.get<Supervisor>(`${environment.apiUrl}supervisors/by-school/${schoolId}`, { withCredentials: true });
   }
-  updateSupervisorAndSchool(data: Supervisor & {schoolId: string, schoolName: string}) {
-    return this.http.patch<{result:string}>(`${environment.apiUrl}school/with-supervisor/${data._id}`, data, { withCredentials: true });
+  updateSupervisorAndSchool(data: Supervisor & { schoolId: string, schoolName: string }) {
+    return this.http.patch<{ result: string }>(`${environment.apiUrl}school/with-supervisor/${data._id}`, data, { withCredentials: true });
   }
 
   checkIsSuper(phone: string) {
@@ -117,7 +117,7 @@ export class BackendService {
       )
   }
 
-  passmepass() {
+  loadPasswords() {
     return this.http.get<SuperPasswordsResp>(`${environment.apiUrl}passwords/supervisor`,
       { withCredentials: true }).pipe(
         tap((resp: SuperPasswordsResp) => {
@@ -138,7 +138,11 @@ export class BackendService {
     return this.http.get<SheetData[]>(`${environment.apiUrl}scores/${phone}`, { withCredentials: true });
   }
   addSchool(schoolToAdd: SchoolToAdd) {
-    return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true, });
+    return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true });
+  }
+
+  createQuiz(newQuiz: Quiz) {
+    return this.http.post(`${environment.apiUrl}quizzes/create`, newQuiz, { withCredentials: true });
   }
 
   private getBrowserInfo() {

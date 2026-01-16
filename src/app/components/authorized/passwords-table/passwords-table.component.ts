@@ -33,8 +33,8 @@ export class PasswordsTableComponent {
   }
 
   protected retrievePasswords() {
-    this.backend.passmepass().subscribe();
-    
+    this.backend.loadPasswords().subscribe();
+
     const user = this.appService.userDetails();
     const message = JSON.stringify(user);
     this.backend.saveLog('info', message, 'retrieve_passwords').subscribe();
