@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@
 import { BackendService } from '../../../services/backend.service';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-import { AlertComponent, PlaceholderDirective } from '@coreui/angular';
+import { AlertComponent } from '@coreui/angular';
 import { SchoolToAdd } from '../../../shared/models/types';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DashboardService } from '../../../services/dashboard.service';
@@ -12,7 +12,6 @@ import { DashboardService } from '../../../services/dashboard.service';
   imports: [
     FormsModule,
     AlertComponent,
-    PlaceholderDirective
 ],
   templateUrl: './add-school.component.html',
   styleUrl: './add-school.component.scss',

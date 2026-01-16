@@ -6,13 +6,18 @@
         }
     </select>
     <button (click)="loadSchools()">
-        רענון
-        @if(loading()){
+        <mat-icon>refresh</mat-icon>
+        <!-- @if(loading()){
         <mat-spinner></mat-spinner>
-        }
+        } -->
+    </button>
+    <button (click)="deleteSchool()" [disabled]="selectedSchool() === ''" title="מחיקת בית ספר ורכז">
+        <mat-icon>delete</mat-icon>
     </button>
 </div>
-
+@if(loading()){
+<mat-spinner></mat-spinner>
+}
 <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit(addSchoolForm)">
     <div class="form-control-wrapper">
         <label>שם בית ספר</label>

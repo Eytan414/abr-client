@@ -7,6 +7,9 @@ import { Supervisor } from '../../../shared/models/supervisor';
 import { AlertComponent } from '@coreui/angular';
 import { AppService } from '../../../services/app.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteSchoolDialogComponent } from './delete-school-dialog/delete-school-dialog.component';
 
 @Component({
   selector: 'edit-school',
@@ -14,6 +17,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FormsModule,
     AlertComponent,
     MatProgressSpinnerModule,
+    MatIcon,
+    DeleteSchoolDialogComponent,
+    // MatDialog
   ],
   templateUrl: './edit-school.component.html',
   styleUrl: './edit-school.component.scss'
@@ -22,6 +28,7 @@ export class EditSchoolComponent {
   private readonly backend = inject(BackendService);
   protected readonly dashboardService = inject(DashboardService);
   protected readonly appService = inject(AppService);
+  protected readonly dialog = inject(MatDialog);
 
   protected readonly selectedSchool = signal<string>('');
   protected readonly activeSupervisor = signal<Supervisor>({} as Supervisor);
@@ -71,6 +78,18 @@ export class EditSchoolComponent {
 
   }
 
+
+  deleteSchool() {
+    const dialogRef = this.dialog.open(DeleteSchoolDialogComponent);
+    dialogRef.afterClosed().subscribe(confirmedDeletion => {
+      if (!confirmedDeletion) return;
+      
+      this.backend.deleteSchool(this.activeSchool()!._id).pipe(
+        tap(() => this.updateResponse.set),
+        tap(() => this.loadSchools()),
+      ).subscribe();
+    });
+  }
 
   loadSchools() {
     this.loading.set(true);

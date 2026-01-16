@@ -1,0 +1,21 @@
+main{
+    font-family: 'Times New Roman', Times, serif, arial !important;
+    padding: 1rem;
+    background-color: #888;
+
+    mat-dialog-actions{
+        display: flex;
+        justify-content: space-between;
+
+        button{
+            border: 1px solid;
+            color: white;
+            &.confirm{
+                background-color: red;
+            }
+            &.cancel{
+
+            }
+        }
+    }
+}

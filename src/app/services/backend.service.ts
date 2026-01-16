@@ -149,6 +149,10 @@ export class BackendService {
     return this.http.get<Quiz[]>(`${environment.apiUrl}quizzes/all`, { withCredentials: true });
   }
 
+  deleteSchool(schoolId:string) {
+    return this.http.delete(`${environment.apiUrl}school/${schoolId}`, { withCredentials: true });
+  }
+
   private getBrowserInfo() {
     const ua = navigator.userAgent;
 

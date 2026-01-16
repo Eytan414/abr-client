@@ -68,9 +68,11 @@ h3 {
   width: 100%;
 }
 
-
-
 th {
   color: white;
   background-color: var(--main-color) !important;
+}
+
+.cdk-overlay-container * * {
+  font-family: system-ui !important;
 }
