@@ -5,30 +5,39 @@ import { BackendService } from '../../../services/backend.service';
 import { tap } from 'rxjs';
 import { Supervisor } from '../../../shared/models/supervisor';
 import { AlertComponent } from '@coreui/angular';
+import { AppService } from '../../../services/app.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'edit-school',
-  imports: [FormsModule, AlertComponent],
+  imports: [
+    FormsModule,
+    AlertComponent,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './edit-school.component.html',
   styleUrl: './edit-school.component.scss'
 })
 export class EditSchoolComponent {
   private readonly backend = inject(BackendService);
   protected readonly dashboardService = inject(DashboardService);
-  
+  protected readonly appService = inject(AppService);
+
   protected readonly selectedSchool = signal<string>('');
   protected readonly activeSupervisor = signal<Supervisor>({} as Supervisor);
   protected readonly activeSchool = computed(() => {
-    const schools = untracked(() => this.dashboardService.schoolsDataAdmin());
-    return schools.find(school => school.id === this.selectedSchool());
+    const schools = untracked(() => this.appService.schools());
+    return schools.find(school => school._id === this.selectedSchool());
   });
-  
+
   protected updateResponse = signal<string>('');
+  protected readonly loading = signal<boolean>(false);
 
   protected formData = computed(() => {
     return {
-      schoolId: this.activeSchool()?.id,
+      schoolId: this.activeSchool()?._id,
       schoolName: this.activeSchool()?.name,
+      quizId: this.activeSchool()?.quizId,
       supervisorName: this.activeSupervisor()?.name,
       supervisorPhone: this.activeSupervisor()?.phone,
     }
@@ -36,30 +45,40 @@ export class EditSchoolComponent {
 
   private superEffect = effect(() => {
     const schoolId = this.selectedSchool();
-    if(!schoolId) return;
+    if (!schoolId) return;
     this.backend.getSupervisorBySchool(schoolId).pipe(
       tap(this.activeSupervisor.set)
     ).subscribe()
   });
-  
-  
-  onSubmit(addSchoolForm: NgForm){
+
+
+  onSubmit(addSchoolForm: NgForm) {
     const payload = {
       _id: this.activeSupervisor()._id,
       name: this.formData().supervisorName,
       phone: this.formData().supervisorPhone,
-      schoolId: this.formData().schoolId ?? this.activeSchool()!.id,
+      quizId: this.formData().quizId,
+      schoolId: this.formData().schoolId ?? this.activeSchool()!._id,
       schoolName: this.formData().schoolName ?? this.activeSchool()!.name,
     };
     this.backend.updateSupervisorAndSchool(payload)
-    .pipe(
-      tap( resp => this.updateResponse.set(resp.result) ),
-      tap( _ => this.selectedSchool.set('') ),
-      tap( _ => addSchoolForm.resetForm() )
-    )
-    .subscribe();
-    
+      .pipe(
+        tap(resp => this.updateResponse.set(resp.result)),
+        tap(_ => this.selectedSchool.set('')),
+        tap(_ => addSchoolForm.resetForm())
+      )
+      .subscribe();
+
   }
-  
-  
+
+
+  loadSchools() {
+    this.loading.set(true);
+    this.backend.getSchoolList()
+      .pipe(
+        tap(this.appService.schools.set),
+        tap(() => this.loading.set(false))
+      )
+      .subscribe();
+  }
 }

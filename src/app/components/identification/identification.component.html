@@ -10,7 +10,7 @@
         <label for="phone">טלפון:</label>
         <div class="phone-wrapper">
             <input autocomplete="on" [(ngModel)]="phone" name="phone" id="phone" pattern="^\d{10}$" type="tel"
-                placeholder="0521234567" (input)="onInputChange($event)" required>
+                placeholder="0501234567" (input)="onInputChange($event)" required>
             @if(phoneCheckLoading()){
             <mat-spinner></mat-spinner>
             }

@@ -7,6 +7,8 @@
         <div class="form-control-wrapper">
             <label>שיוך חידון</label>
             <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
+                <option value="-1" selected>- בחירת חידון -</option>
+
                 @for(quiz of (dashboardService.quizzes()); track quiz.id){
                 <option [value]="quiz.id">{{quiz.title}}</option>
                 }
@@ -19,7 +21,7 @@
         <div class="form-control-wrapper">
             <label>טלפון רכז</label>
             <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="supervisorPhone" required
-                placeholder="0521234567">
+                placeholder="0501234567">
         </div>
         <button type="submit" [disabled]="addSchoolForm.invalid">הוספה</button>
     </form>

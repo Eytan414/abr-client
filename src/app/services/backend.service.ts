@@ -102,7 +102,7 @@ export class BackendService {
           if (result.role === 'admin' || result.role === 'webmaster') {
             return this.getAllSchoolsWithData().pipe(
               map(scoresResp => {
-                this.dashboardService.schoolsDataAdmin.set(scoresResp.schools);
+                this.dashboardService.schoolsWithScoresForAdmin.set(scoresResp.schools);
                 this.dashboardService.quizzes.set(scoresResp.quizzes);
                 this.router.navigateByUrl('/manage');
               })
@@ -143,6 +143,10 @@ export class BackendService {
 
   createQuiz(newQuiz: Quiz) {
     return this.http.post(`${environment.apiUrl}quizzes/create`, newQuiz, { withCredentials: true });
+  }
+
+  getAllquizzes() {
+    return this.http.get<Quiz[]>(`${environment.apiUrl}quizzes/all`, { withCredentials: true });
   }
 
   private getBrowserInfo() {

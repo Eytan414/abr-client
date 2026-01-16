@@ -11,7 +11,8 @@ export class DashboardService {
   logs = signal<Log[]>([]);
   passwords = signal<TablePassword[]>([]);
   scoresTableLoading = signal<boolean>(false);
-  schoolsDataAdmin = signal<School[]>([]);
+  schoolsWithScoresForAdmin = signal<School[]>([]);
+  allschoolsForAdmin = signal<School[]>([]);
   scoresData = signal<ScoresData>({
     scoresBySchool: [],
     quizDistinctDates: [],
@@ -26,9 +27,4 @@ export type TablePassword = {
   id: string,
   password: string,
   isEditing: boolean,
-}
-type studentSheetData = {
-  studentAnswer: string,
-  question: string,
-  correctAnswer: string,
 }

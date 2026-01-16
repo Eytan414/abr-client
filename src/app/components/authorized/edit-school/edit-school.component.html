@@ -1,9 +1,17 @@
-<select [(ngModel)]="selectedSchool" #selectSchool>
-    <option value='' selected>בחירת בית ספר</option>
-    @for(school of dashboardService.schoolsDataAdmin(); track school.id){
-    <option [value]="school.id">{{school.name}}</option>
-    }
-</select>
+<div class="heading">
+    <select [(ngModel)]="selectedSchool" #selectSchool>
+        <option value='' selected>- בחירת בית ספר -</option>
+        @for(school of appService.schools(); track school._id){
+        <option [value]="school._id">{{school.name}}</option>
+        }
+    </select>
+    <button (click)="loadSchools()">
+        רענון
+        @if(loading()){
+        <mat-spinner></mat-spinner>
+        }
+    </button>
+</div>
 
 <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit(addSchoolForm)">
     <div class="form-control-wrapper">
@@ -11,14 +19,21 @@
         <input type="text" name="schoolName" [(ngModel)]="formData().schoolName" required placeholder="שם בית ספר">
     </div>
     <div class="form-control-wrapper">
+        <label>חידון משויך</label>
+        <select name="quiz" id="quiz" [(ngModel)]="formData().quizId" required>
+            @for(quiz of (dashboardService.quizzes()); track quiz.id){
+            <option [value]="quiz.id">{{quiz.title}}</option>
+            }
+        </select>
+    </div>
+    <div class="form-control-wrapper">
         <label>שם רכז</label>
-        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required="true"
-            placeholder="שם רכז">
+        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required placeholder="שם רכז">
     </div>
     <div class="form-control-wrapper">
         <label>טלפון רכז</label>
         <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="formData().supervisorPhone" required
-            placeholder="0521234567">
+            placeholder="0501234567">
     </div>
     <button type="submit" [disabled]="selectedSchool() === '' || addSchoolForm.invalid">שמירה</button>
     @if(updateResponse() !== ''){

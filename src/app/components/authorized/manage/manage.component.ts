@@ -32,10 +32,10 @@ export class ManageComponent implements OnInit {
   protected readonly appService = inject(AppService);
   protected readonly backend = inject(BackendService);
   protected readonly dashboardService = inject(DashboardService);
-  
+
   protected readonly selectedSchool = signal<string>('');
   protected readonly currentSchoolSupervisors = computed(() =>
-    this.dashboardService.schoolsDataAdmin()
+    this.dashboardService.schoolsWithScoresForAdmin()
       .filter(school => this.selectedSchool() === school.id)
       .map(school => school.supervisors));
   @ViewChild('selectSchool') selectSchool!: ElementRef<HTMLSelectElement>;
@@ -43,8 +43,8 @@ export class ManageComponent implements OnInit {
   constructor() {
     effect(() => {
       const schoolId = this.selectedSchool();
-      if (this.appService.userDetails().role === 'supervisor' || schoolId === '' ) return;
-      
+      if (this.appService.userDetails().role === 'supervisor' || schoolId === '') return;
+
       this.fetchScoresTable(schoolId);
     });
 
@@ -56,10 +56,10 @@ export class ManageComponent implements OnInit {
 
     const user = this.appService.userDetails();
     if (!user.schoolId || user.role === 'admin') return;
-    
+
     this.fetchScoresTable(user.schoolId);
   }
-  
+
   private fetchScoresTable(schoolId: string) {
     this.dashboardService.scoresTableLoading.set(true);
     this.backend.fetchResultsBySchool(schoolId).pipe(

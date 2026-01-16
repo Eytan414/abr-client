@@ -1,18 +1,55 @@
 form {
     display: grid;
     gap: 1rem;
-    :nth-child(n+2){
+
+    :nth-child(n+2) {
         justify-self: start;
     }
+
     .form-control-wrapper {
 
         &.question-wrapper {
             display: grid;
             gap: 1.5rem;
 
+            hr {
+                margin: 0 auto;
+                width: 90%;
+                border-radius: 1rem;
+                color: var(--main-color);
+                opacity: 1;
+            }
+
             .question {
                 display: grid;
                 gap: 1rem;
+                padding: .5rem;
+                border-radius: 1rem;
+                box-sizing: border-box;
+                border: 1px solid #fff;
+
+                &:has(button.remove:hover) {
+                    border-color: #f00;
+                    background-color: #ff000010;
+                }
+
+                .question-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    button.remove {
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        padding: 0;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        color: white;
+                        background: red;
+                    }
+                }
 
                 .question-possible-answers {
                     display: flex;
@@ -33,6 +70,4 @@ form {
         }
     }
 
-    button {
-    }
 }

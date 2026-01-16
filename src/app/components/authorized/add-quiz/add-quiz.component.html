@@ -17,38 +17,35 @@
                 <button type="button" (click)="addQuestion()">הוספה</button>
             </label>
 
-            <!-- Questions loop -->
             @for(question of newQuiz.questions; track $index) {
             @let questionIndex = $index + 1;
             <div class="question">
-                <!-- Question title -->
                 <div class="question-title">
+                    <button class="remove" type="button" (click)="deleteQuestion($index)">
+                        <mat-icon>remove</mat-icon>
+                    </button>
                     <label>שאלה {{questionIndex}}
                         <input type="text" name="title_{{questionIndex}}" [(ngModel)]="question.title" required
                             placeholder="שאלה {{questionIndex}}" />
                     </label>
-                    <button>+</button>
+                    <!-- <button>+</button> -->
                 </div>
                 <div class="question-possible-answers">
-                    <!-- Answers loop -->
                     @for(answer of question.possible_answers; track $index) {
                     @let answerIndex = $index + 1;
-
-                    <!-- Hidden input for answer ID -->
-                    <!-- <input type="number" name="answerid_{{questionIndex}}_{{answerIndex}}" [(ngModel)]="answer.id"
-                        [value]="answerIndex" hidden /> -->
+                    
                     <span class="answer-and-radio">
-                        <!-- Radio for correct answer -->
-                        <input type="radio" name="correctAnswer_{{questionIndex}}"
-                            [(ngModel)]="newQuiz.answers[questionIndex - 1]" [value]="answer.id"
-                            required /><!-- Answer text -->
+                        <input type="radio" name="correctAnswer_{{questionIndex}}" required 
+                            [(ngModel)]="newQuiz.answers[questionIndex - 1]" [value]="answer.id" />
                         <input type="text" name="answer_{{questionIndex}}_{{answerIndex}}" [(ngModel)]="answer.value"
                             required placeholder="תשובה {{answerIndex}}" />
-
                     </span>
                     }
                 </div>
             </div>
+            @if(!$last){
+            <hr />
+            }
             }
         </div>
         <button type="submit" [disabled]="addQuizForm.invalid || newQuiz.questions.length < 6">שמירת חידון</button>

@@ -16,7 +16,7 @@
                 </summary>
                 <select [(ngModel)]="selectedSchool" #selectSchool>
                     <option value='' selected>בחירת בית ספר</option>
-                    @for(school of dashboardService.schoolsDataAdmin(); track school.id){
+                    @for(school of dashboardService.schoolsWithScoresForAdmin(); track school.id){
                     <option [value]="school.id">{{school.name}}</option>
                     }
                 </select>
