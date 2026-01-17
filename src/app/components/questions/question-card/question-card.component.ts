@@ -2,18 +2,19 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, WritableSi
 import { Answer, Question } from '../../../shared/models/question';
 import { environment } from '../../../../environments/environment';
 import { AppService } from '../../../services/app.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'question-card',
-  imports: [],
+  imports: [MatIcon],
   templateUrl: './question-card.component.html',
   styleUrl: './question-card.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionCardComponent {
+export class QuestionCardComponent{
   protected readonly appService = inject(AppService);
-  
+
   readonly userEntries = input.required<WritableSignal<(number | string)[]>>();
   readonly questionIndex = input<number>(0);
   readonly question = input.required<Question>();
@@ -28,6 +29,11 @@ export class QuestionCardComponent {
     )
   );
 
+  checkMediaType(fileUrl: string){
+    return fileUrl.match(/\.(jpg|jpeg|png|gif)$/i) ? 'image' :
+    fileUrl.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'unknwon';
+
+  }
 
   protected getTitle() {
     return "שאלה " + (this.questionIndex() + 1) + ": " + this.title();

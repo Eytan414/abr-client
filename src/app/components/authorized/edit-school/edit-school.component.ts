@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { DashboardService } from '../../../services/dashboard.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BackendService } from '../../../services/backend.service';
@@ -22,7 +22,9 @@ import { DeleteSchoolDialogComponent } from './delete-school-dialog/delete-schoo
     // MatDialog
   ],
   templateUrl: './edit-school.component.html',
-  styleUrl: './edit-school.component.scss'
+  styleUrl: './edit-school.component.scss',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditSchoolComponent {
   private readonly backend = inject(BackendService);

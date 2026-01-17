@@ -2,16 +2,33 @@
 
     <div class="card">
         @let hasImage = question().imageUrl?.length;
-        @let imageUrl = apiUrl + question().imageUrl;
+        @let fileUrl = apiUrl + question().imageUrl;
+        @let mediaType = checkMediaType(fileUrl);
+
         <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
             {{getTitle()}}
             @if(hasImage){
             <button [attr.popovertarget]="'popover' + question().imageUrl">
                 <span>
-                    <img loading="lazy" fetchpriority="low" [src]="imageUrl">
+                    @if(mediaType === 'image'){
+                    <img loading="lazy" fetchpriority="low" [src]="fileUrl">
+                    } @else if(mediaType === 'video'){
+                        <mat-icon>video_file</mat-icon>
+                    }
                 </span>
             </button>
-            <div class="popover-wrapper" [id]="'popover' + question().imageUrl" popover><img [src]="imageUrl"></div>
+            <div class="popover-wrapper" [id]="'popover' + question().imageUrl" popover>
+                <!-- <img [src]="fileUrl"> -->
+                @if(mediaType === 'image'){
+                <img [src]="fileUrl">
+                } @else if(mediaType === 'video'){
+                <video controls>
+                    <source [src]="fileUrl" type="video/mp4">
+                    הדפדפן שלך לא תומך בתג וידאו.
+                </video>
+                }
+
+            </div>
             }
         </div>
 
@@ -22,8 +39,7 @@
                 {{ answer.value }}
             </button>
             } @empty {
-            <textarea placeholder="נא למלא את תשובתך" required 
-                [disabled]="appService.quizSent()"
+            <textarea placeholder="נא למלא את תשובתך" required [disabled]="appService.quizSent()"
                 (blur)="userAnswered($event)"></textarea>
             }
         </div>

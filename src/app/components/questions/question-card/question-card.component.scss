@@ -20,8 +20,8 @@
         margin-top: 1rem;
         padding-inline: 0.75rem;
         grid-template-columns: 1fr 1fr;
-        
-        &:has(textarea){
+
+        &:has(textarea) {
             grid-template-columns: 1fr;
         }
 
@@ -78,6 +78,22 @@
             }
         }
 
+        .popover-wrapper {
+            max-width: 60vw;
+            max-height: 60vh;
+            aspect-ratio: 16 / 9;
+            overflow: clip;
+
+            video {
+                width: 100%;
+                aspect-ratio: 16 / 9;
+            }
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
     }
 }
 

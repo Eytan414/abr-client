@@ -152,6 +152,9 @@ export class BackendService {
   deleteSchool(schoolId:string) {
     return this.http.delete(`${environment.apiUrl}school/${schoolId}`, { withCredentials: true });
   }
+  up(payload:any) {
+    return this.http.post<{path: string}>(`${environment.apiUrl}quizzes/upload`, payload, { withCredentials: true });
+  }
 
   private getBrowserInfo() {
     const ua = navigator.userAgent;
