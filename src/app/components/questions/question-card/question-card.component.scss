@@ -70,10 +70,14 @@
                 cursor: pointer;
                 vertical-align: middle;
 
-                img {
+                img, .video {
                     aspect-ratio: 1 / 1;
                     height: 100%;
                     border: 1px dashed;
+                    color: black;
+                    &:hover{
+                        color: var(--main-color);
+                    }
                 }
             }
         }

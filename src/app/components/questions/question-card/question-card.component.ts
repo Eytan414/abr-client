@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestionCardComponent{
+export class QuestionCardComponent {
   protected readonly appService = inject(AppService);
 
   readonly userEntries = input.required<WritableSignal<(number | string)[]>>();
@@ -29,10 +29,20 @@ export class QuestionCardComponent{
     )
   );
 
-  checkMediaType(fileUrl: string){
+  checkMediaType(hasImage: boolean) {
+    if(!hasImage) return;
+    const fileUrl = this.getURL(hasImage);
+    
     return fileUrl.match(/\.(jpg|jpeg|png|gif)$/i) ? 'image' :
-    fileUrl.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'unknwon';
+      fileUrl.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'unknown';
+  }
 
+  getURL(hasImage: boolean = true):string { 
+    if(!hasImage) return '';
+
+    return this.question().imageUrl?.startsWith('image') 
+      ? 'api/' + this.question().imageUrl!
+      : this.apiUrl + this.question().imageUrl;
   }
 
   protected getTitle() {

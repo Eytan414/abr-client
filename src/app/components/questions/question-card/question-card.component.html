@@ -1,31 +1,33 @@
 <div class="wrapper">
 
     <div class="card">
-        @let hasImage = question().imageUrl?.length;
-        @let fileUrl = apiUrl + question().imageUrl;
-        @let mediaType = checkMediaType(fileUrl);
+        @let hasImage = !!question().imageUrl?.length;
+        <!-- @let fileUrl =  question().imageUrl ??'' ; -->
+        @let mediaType = checkMediaType(hasImage);
+
 
         <div class="title" [class]="{'bonus' : question().weight === 1.5, 'has-img': hasImage}">
             {{getTitle()}}
             @if(hasImage){
             <button [attr.popovertarget]="'popover' + question().imageUrl">
                 <span>
-                    @if(mediaType === 'image'){
-                    <img loading="lazy" fetchpriority="low" [src]="fileUrl">
-                    } @else if(mediaType === 'video'){
-                        <mat-icon>video_file</mat-icon>
+                    @if(mediaType === 'video'){
+                    <mat-icon class="video">video_file</mat-icon>
+                    } @else{
+                    <img loading="lazy" fetchpriority="low" [src]="getURL()">
                     }
                 </span>
             </button>
             <div class="popover-wrapper" [id]="'popover' + question().imageUrl" popover>
-                <!-- <img [src]="fileUrl"> -->
-                @if(mediaType === 'image'){
-                <img [src]="fileUrl">
-                } @else if(mediaType === 'video'){
+                @if(mediaType === 'video'){
                 <video controls>
-                    <source [src]="fileUrl" type="video/mp4">
+                    <source [src]="getURL()" type="video/mp4">
                     הדפדפן שלך לא תומך בתג וידאו.
                 </video>
+                } @else if(mediaType === 'image'){
+                    <img [src]="getURL()">
+                } @else {
+                    <img [src]="getURL()">
                 }
 
             </div>
