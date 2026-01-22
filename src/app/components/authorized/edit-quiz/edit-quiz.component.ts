@@ -8,6 +8,8 @@ import { BackendService } from '../../../services/backend.service';
 import { catchError, concatMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Quiz } from '../../../shared/models/quiz';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteQuizDialogComponent } from './delete-quiz-dialog/delete-quiz-dialog.component';
 
 @Component({
   selector: 'edit-quiz',
@@ -34,7 +36,9 @@ export class EditQuizComponent {
   protected readonly submitionStatus = signal<number>(-1);
   protected readonly fileSubmitionStatus = signal<number>(-1);
   protected readonly loading = signal<boolean>(false);
-  file: File | null = null;
+  private file: File | null = null;
+  protected readonly dialog = inject(MatDialog);
+  protected updateResponse = signal<string>('');
 
 
   protected formData = computed(() => {
@@ -48,8 +52,8 @@ export class EditQuizComponent {
   checkMediaType(fileUrl: string | undefined) {
     if (!fileUrl) return;
     if (fileUrl.match(/\.(jpg|jpeg|png|gif)$/i)
-        || fileUrl.match(/image/)) return 'image';
-    if(fileUrl.match(/\.(mp4|webm|ogg)$/i)) return 'video';
+      || fileUrl.match(/image/)) return 'image';
+    if (fileUrl.match(/\.(mp4|webm|ogg)$/i)) return 'video';
     return 'unknown';
   }
 
@@ -67,14 +71,19 @@ export class EditQuizComponent {
   }
 
   deleteQuiz() {
-    this.backend.deleteQuiz(this.selectedQuiz()).pipe(
-      concatMap(() => this.backend.getAllquizzes()
-        .pipe(
-          tap((quizzes: Quiz[]) => this.dashboardService.quizzes.set(quizzes))
-        )
-      ),
-    ).subscribe();
-    this.selectedQuiz.set(-1);
+    const dialogRef = this.dialog.open(DeleteQuizDialogComponent);
+    dialogRef.afterClosed().subscribe(confirmedDeletion => {
+      if (!confirmedDeletion) return;
+
+      this.backend.deleteQuiz(this.selectedQuiz()).pipe(
+        concatMap(() => this.backend.getAllquizzes()
+          .pipe(
+            tap((quizzes: Quiz[]) => this.dashboardService.quizzes.set(quizzes))
+          )
+        ),
+      ).subscribe();
+      this.selectedQuiz.set(-1);
+    });
   }
 
   upload(index: number) {
@@ -100,7 +109,7 @@ export class EditQuizComponent {
   }
 
 
-  onSubmit(addQuizForm: NgForm) {
+  submitQuiz(addQuizForm: NgForm) {
     this.backend.createQuiz(this.formData()).pipe(
       tap(() => {
         this.submitionStatus.set(200);
@@ -118,4 +127,5 @@ export class EditQuizComponent {
       })
     ).subscribe();
   }
+
 }

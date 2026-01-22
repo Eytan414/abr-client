@@ -10,7 +10,7 @@
             <mat-icon>delete</mat-icon>
         </button>
     </div>
-    <form #addQuizForm="ngForm" (ngSubmit)="onSubmit(addQuizForm)">
+    <form #addQuizForm="ngForm" (ngSubmit)="submitQuiz(addQuizForm)">
         <div class="form-control-wrapper">
             <label>שם חידון
                 <input type="text" name="quizName" [(ngModel)]="formData().title" required placeholder="שם חידון" />
