@@ -1,0 +1,126 @@
+main {
+    .heading {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    form {
+        display: grid;
+        gap: 1rem;
+
+        :nth-child(n+2) {
+            justify-self: start;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-control-wrapper {
+
+            &.question-wrapper {
+                display: grid;
+                gap: 1.5rem;
+
+                hr {
+                    margin: 0 auto;
+                    width: 90%;
+                    border-radius: 1rem;
+                    color: var(--main-color);
+                    opacity: 1;
+                }
+
+                .question {
+                    display: grid;
+                    gap: 1rem;
+                    padding: .5rem;
+                    border-radius: 1rem;
+                    box-sizing: border-box;
+                    border: 1px solid #fff;
+
+                    &:has(button.remove:hover) {
+                        border-color: #f00;
+                        background-color: #ff000020;
+                    }
+
+                    .question-title {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                        button.remove {
+                            display: inline-flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                            padding: 0;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            color: white;
+                            background: red;
+                        }
+                    }
+
+                    .question-possible-answers {
+                        display: flex;
+                        gap: 1rem;
+
+                        .answer-and-radio {
+                            display: inline-flex;
+                            gap: 0.25rem;
+
+                            input[type=radio] {
+                                accent-color: var(--main-color);
+                                width: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .attach {
+                        display: flex;
+                        gap: 1rem;
+
+                        .has-url {
+                            display: inline-block;
+
+                            button {
+                                height: 3rem;
+                                width: 3rem;
+                                padding: 0;
+                            }
+
+                            .popover-wrapper {
+                                max-width: 60vw;
+                                min-width: 30vw;
+                                max-height: 60vh;
+                                min-height: 30vh;
+                                aspect-ratio: 16 / 9;
+                                overflow: clip;
+
+                                video {
+                                    width: 100%;
+                                    aspect-ratio: 16 / 9;
+                                }
+
+                                img {
+                                    height: 100%;
+                                    width: 100%;
+                                    object-fit: contain;
+                                }
+                            }
+
+                            img {
+                                height: 100%;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+}

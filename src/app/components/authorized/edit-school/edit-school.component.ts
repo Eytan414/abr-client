@@ -36,7 +36,7 @@ export class EditSchoolComponent {
   protected readonly activeSupervisor = signal<Supervisor>({} as Supervisor);
   protected readonly activeSchool = computed(() => {
     const schools = untracked(() => this.appService.schools());
-    return schools.find(school => school._id === this.selectedSchool());
+    return schools.find(school => school._id === this.selectedSchool())!;
   });
 
   protected updateResponse = signal<string>('');
@@ -47,8 +47,8 @@ export class EditSchoolComponent {
       schoolId: this.activeSchool()?._id,
       schoolName: this.activeSchool()?.name,
       quizId: this.activeSchool()?.quizId,
-      supervisorName: this.activeSupervisor()?.name,
-      supervisorPhone: this.activeSupervisor()?.phone,
+      supervisorName: this.activeSupervisor().name,
+      supervisorPhone: this.activeSupervisor().phone,
     }
   });
 

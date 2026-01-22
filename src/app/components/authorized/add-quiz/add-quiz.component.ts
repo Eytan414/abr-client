@@ -72,19 +72,18 @@ export class AddQuizComponent {
   }
 
   upload(index: number) {
-    debugger;
     if (!this.file) return;
 
     const fd = new FormData();
     fd.append('file', this.file);
-    this.backend.up(fd).pipe(
+    this.backend.uploadFile(fd).pipe(
       tap(resp => this.newQuiz.questions[index].imageUrl = resp.path),
       tap(_ => this.fileSubmitionStatus.set(200)),
       catchError(err => {
         this.fileSubmitionStatus.set(err.status);
         return of(err);
       }
-    )
+      )
     ).subscribe();
 
     this.file = null

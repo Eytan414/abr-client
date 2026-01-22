@@ -144,16 +144,19 @@ export class BackendService {
   createQuiz(newQuiz: Quiz) {
     return this.http.post(`${environment.apiUrl}quizzes/create`, newQuiz, { withCredentials: true });
   }
+  deleteQuiz(id: number) {
+    return this.http.delete(`${environment.apiUrl}quizzes/delete`, { body: { id }, withCredentials: true });
+  }
 
   getAllquizzes() {
     return this.http.get<Quiz[]>(`${environment.apiUrl}quizzes/all`, { withCredentials: true });
   }
 
-  deleteSchool(schoolId:string) {
+  deleteSchool(schoolId: string) {
     return this.http.delete(`${environment.apiUrl}school/${schoolId}`, { withCredentials: true });
   }
-  up(payload:any) {
-    return this.http.post<{path: string}>(`${environment.apiUrl}quizzes/upload`, payload, { withCredentials: true });
+  uploadFile(payload: any) {
+    return this.http.post<{ path: string }>(`${environment.apiUrl}quizzes/upload`, payload, { withCredentials: true });
   }
 
   private getBrowserInfo() {

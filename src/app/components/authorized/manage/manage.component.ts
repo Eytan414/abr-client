@@ -11,6 +11,7 @@ import { EditSchoolComponent } from '../edit-school/edit-school.component';
 import { PasswordsTableComponent } from '../passwords-table/passwords-table.component';
 import { LogsComponent } from '../logs/logs.component';
 import { AddQuizComponent } from '../add-quiz/add-quiz.component';
+import { EditQuizComponent } from '../edit-quiz/edit-quiz.component';
 
 @Component({
   selector: 'manage',
@@ -21,6 +22,7 @@ import { AddQuizComponent } from '../add-quiz/add-quiz.component';
     LogsComponent,
     PasswordsTableComponent,
     EditSchoolComponent,
+    EditQuizComponent,
     AddQuizComponent
   ],
   templateUrl: './manage.component.html',

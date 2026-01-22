@@ -11,7 +11,7 @@ main {
     overflow-y: auto;
     width: 100%;
 
-    .webmaster{
+    .webmaster {
         overflow-x: auto;
     }
 
@@ -69,8 +69,14 @@ main {
                 min-height: 10rem;
             }
         }
-        .add-quiz {
+
+        .add-quiz,
+        .edit-quiz {
             grid-column: span 2;
+        }
+
+        .edit-quiz {
+            background-color: #888;
         }
     }
 
