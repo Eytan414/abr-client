@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { Quiz } from '../../../shared/models/quiz';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteQuizDialogComponent } from './delete-quiz-dialog/delete-quiz-dialog.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'edit-quiz',
@@ -39,6 +40,7 @@ export class EditQuizComponent {
   private files: Record<number, File | null> = {};
   protected readonly dialog = inject(MatDialog);
   protected readonly updateResponse = signal<string>('');
+  protected readonly apiUrl = environment.apiUrl;
 
 
   protected formData = computed(() => {
@@ -51,7 +53,7 @@ export class EditQuizComponent {
   });
 
   checkMediaType(fileUrl: string | undefined) {
-    if (!fileUrl) return;
+    if (!fileUrl) return 'unknown';
     if (fileUrl.match(/\.(jpg|jpeg|png|gif)$/i)
       || fileUrl.match(/image/)) return 'image';
     if (fileUrl.match(/\.(mp4|webm|ogg)$/i)) return 'video';
@@ -184,5 +186,10 @@ export class EditQuizComponent {
 
   removeFile(question: any){
     question.imageUrl = '';
+  }
+  
+  getURL(fileUrl: string = ''): string {
+    if (!fileUrl) return '';
+    return this.apiUrl + fileUrl;
   }
 }

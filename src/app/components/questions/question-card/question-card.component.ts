@@ -20,7 +20,7 @@ export class QuestionCardComponent {
   readonly question = input.required<Question>();
 
   private MIN_ANSWER_LENGTH = 5;
-  protected apiUrl = environment.apiUrl;
+  protected readonly apiUrl = environment.apiUrl;
 
   protected readonly title = computed(() => this.question()?.title);
   protected readonly possible_answers = computed(() =>
@@ -39,10 +39,7 @@ export class QuestionCardComponent {
 
   getURL(hasImage: boolean = true):string { 
     if(!hasImage) return '';
-
-    return this.question().imageUrl?.startsWith('image') 
-      ? 'api/' + this.question().imageUrl!
-      : this.apiUrl + this.question().imageUrl;
+    return this.apiUrl + this.question().imageUrl;
   }
 
   protected getTitle() {

@@ -7,6 +7,7 @@ import { AlertComponent } from '@coreui/angular';
 import { DashboardService } from '../../../services/dashboard.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIcon } from '@angular/material/icon';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'add-quiz',
@@ -32,6 +33,7 @@ export class AddQuizComponent {
   private files = signal<Record<number, File | null>>({});
 
   protected readonly loading = signal<boolean>(false);
+  protected readonly apiUrl = environment.apiUrl;
 
 
   addQuestion() {
@@ -95,7 +97,7 @@ export class AddQuizComponent {
   }
 
   checkMediaType(fileUrl: string | undefined) {
-    if (!fileUrl) return;
+    if (!fileUrl) return 'unknown';
     if (fileUrl.match(/\.(jpg|jpeg|png|gif)$/i)
       || fileUrl.match(/image/)) return 'image';
     if (fileUrl.match(/\.(mp4|webm|ogg)$/i)) return 'video';
@@ -163,4 +165,8 @@ export class AddQuizComponent {
     this.files.update(f => ({ ...f, [index]: file }));
   }
 
+  getURL(fileUrl: string = ''): string {
+    if (!fileUrl) return '';
+    return this.apiUrl + fileUrl;
+  }
 }

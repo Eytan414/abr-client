@@ -63,8 +63,8 @@
                             }
                         </div>
 
-                        @let attachedFileUrl = '/api/' + question.imageUrl;
-                        @let mediaType = checkMediaType(attachedFileUrl);
+                        @let attachedFileUrl = getURL(question.imageUrl);
+                        @let mediaType = checkMediaType(question.imageUrl);
                         @if(mediaType !== 'unknown'){
                         <div class="media-preview">
                             <button type="button" class="media-preview-btn"
@@ -76,7 +76,7 @@
                                     @if(mediaType === 'video'){
                                     <mat-icon class="video-icon">play_circle</mat-icon>
                                     } @else{
-                                    <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                    <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="קובץ מצורף">
                                     }
                                 </div>
                             </button>
@@ -86,7 +86,7 @@
                                     <source [src]="attachedFileUrl" type="video/mp4">
                                 </video>
                                 } @else {
-                                <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="קובץ מצורף">
                                 }
                             </div>
                         </div>
@@ -102,7 +102,8 @@
                         <div class="answer-item">
                             <label class="answer-radio-label">
                                 <input type="radio" name="correctAnswer_{{visibleQuestionIndex}}" required
-                                    [(ngModel)]="formData().answers[visibleQuestionIndex-1]" [value]="answer.id" class="answer-radio" />
+                                    [(ngModel)]="formData().answers[visibleQuestionIndex-1]" [value]="answer.id"
+                                    class="answer-radio" />
                                 <span class="radio-custom"></span>
                             </label>
                             <input type="text" name="answer_{{visibleQuestionIndex}}_{{answerIndex}}"
@@ -126,18 +127,18 @@
                 <span>עדכון חידון</span>
             </button>
         </div>
-        <div class="response">
-            @if(submitionStatus() === 200){
-            <c-alert visible="true" dismissible="true" color="success" fade>
-                החידון עודכן בהצלחה
-            </c-alert>
-            }
-            @else if(submitionStatus() !== -1){
-            <c-alert visible="true" dismissible="true" color="danger" fade>
-                חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לתמיכה
-            </c-alert>
-            }
-        </div>
     </form>
+    <div class="response">
+        @if(submitionStatus() === 200){
+        <c-alert visible="true" dismissible="true" color="success" fade>
+            החידון עודכן בהצלחה
+        </c-alert>
+        }
+        @else if(submitionStatus() !== -1){
+        <c-alert visible="true" dismissible="true" color="danger" fade>
+            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לתמיכה
+        </c-alert>
+        }
+    </div>
     }
 </main>

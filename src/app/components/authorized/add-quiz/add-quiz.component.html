@@ -46,8 +46,8 @@
                             }
                         </div>
 
-                        @let attachedFileUrl = '/api/' + question.imageUrl;
-                        @let mediaType = checkMediaType(attachedFileUrl);
+                        @let attachedFileUrl = getURL(question.imageUrl);
+                        @let mediaType = checkMediaType(question.imageUrl);
                         @if(mediaType !== 'unknown'){
                         <div class="media-preview">
                             <button type="button" class="media-preview-btn"
@@ -59,7 +59,7 @@
                                     @if(mediaType === 'video'){
                                     <mat-icon class="video-icon">play_circle</mat-icon>
                                     } @else{
-                                    <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                    <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="קובץ מצורף">
                                     }
                                 </div>
                             </button>
@@ -69,7 +69,7 @@
                                     <source [src]="attachedFileUrl" type="video/mp4">
                                 </video>
                                 } @else {
-                                <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="קובץ מצורף">
                                 }
                             </div>
                         </div>
