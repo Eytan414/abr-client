@@ -34,16 +34,17 @@ export class EditQuizComponent {
   );
 
   protected readonly submitionStatus = signal<number>(-1);
-  protected readonly fileSubmitionStatus = signal<number>(-1);
-  protected readonly loading = signal<boolean>(false);
-  private file: File | null = null;
+  protected readonly fileSubmitionStatus = signal<number[]>([]);
+  protected readonly loading = signal<Record<number, boolean>>({});
+  private files: Record<number, File | null> = {};
   protected readonly dialog = inject(MatDialog);
-  protected updateResponse = signal<string>('');
+  protected readonly updateResponse = signal<string>('');
 
 
   protected formData = computed(() => {
     return {
       title: this.activeQuiz()?.title,
+      _id: this.activeQuiz()?._id,
       questions: this.activeQuiz()?.questions,
       answers: this.activeQuiz()?.answers,
     }
@@ -86,35 +87,88 @@ export class EditQuizComponent {
     });
   }
 
-  upload(index: number) {
-    if (!this.file) return;
-
-    const fd = new FormData();
-    fd.append('file', this.file);
-    this.backend.uploadFile(fd).pipe(
-      tap(resp => this.formData().questions[index].imageUrl = resp.path),
-      tap(_ => this.fileSubmitionStatus.set(200)),
-      catchError(err => {
-        this.fileSubmitionStatus.set(err.status);
-        return of(err);
-      }
-      )
-    ).subscribe();
-
-    this.file = null
+  triggerFileInput(index: number) {
+    const fileInput = document.getElementById(`file-input-${index}`) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
   }
-  onFile(e: Event) {
+
+  hasFileForQuestion(index: number): boolean {
+    return !!this.files[index];
+  }
+
+  isLoadingForQuestion(index: number): boolean {
+    return !!this.loading()[index];
+  }
+
+  getFileStatus(index: number): number {
+    const statuses = this.fileSubmitionStatus();
+    return statuses[index] ?? -1;
+  }
+
+  upload(index: number) {
+    const file = this.files[index];
+    if (!file) return;
+
+    this.loading.update(loading => ({ ...loading, [index]: true }));
+    
+    const fd = new FormData();
+    fd.append('file', file);
+    
+    this.backend.uploadFile(fd).pipe(
+      tap(resp => {
+        if (this.formData().questions[index]) {
+          this.formData().questions[index].imageUrl = resp.path;
+        }
+      }),
+      tap(_ => {
+        this.fileSubmitionStatus.update(arr => {
+          const newArr = [...(arr || [])];
+          while (newArr.length <= index) {
+            newArr.push(-1);
+          }
+          newArr[index] = 200;
+          return newArr;
+        });
+      }),
+      catchError(err => {
+        this.fileSubmitionStatus.update(arr => {
+          const newArr = [...(arr || [])];
+          while (newArr.length <= index) {
+            newArr.push(-1);
+          }
+          newArr[index] = err.status || 500;
+          return newArr;
+        });
+        return of(err);
+      })
+    ).subscribe({
+      complete: () => {
+        this.loading.update(loading => ({ ...loading, [index]: false }));
+        this.files[index] = null;
+        // Reset the file input
+        const fileInput = document.getElementById(`file-input-${index}`) as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
+      }
+    });
+  }
+
+  onFile(e: Event, index: number) {
     const input = e.target as HTMLInputElement;
-    this.file = input.files?.[0] ?? null;
+    this.files[index] = input.files?.[0] ?? null;
   }
 
 
   submitQuiz(addQuizForm: NgForm) {
-    this.backend.createQuiz(this.formData()).pipe(
+    this.backend.updateQuiz(this.formData()).pipe(
       tap(() => {
         this.submitionStatus.set(200);
         this.formData().questions = [];
         addQuizForm.resetForm();
+        this.selectedQuiz.set(-1);
       }),
       concatMap(() => this.backend.getAllquizzes()
         .pipe(
@@ -128,4 +182,7 @@ export class EditQuizComponent {
     ).subscribe();
   }
 
+  removeFile(question: any){
+    question.imageUrl = '';
+  }
 }

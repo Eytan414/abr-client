@@ -6,12 +6,14 @@ import { AlertComponent } from '@coreui/angular';
 import { SchoolToAdd } from '../../../shared/models/types';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DashboardService } from '../../../services/dashboard.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'add-school',
   imports: [
     FormsModule,
     AlertComponent,
+    MatIcon,
 ],
   templateUrl: './add-school.component.html',
   styleUrl: './add-school.component.scss',

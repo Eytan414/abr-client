@@ -1,29 +1,45 @@
 <main>
     <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit()">
-        <div class="form-control-wrapper">
-            <label>שם בית ספר</label>
-            <input type="text" name="schoolName" [(ngModel)]="schoolName" required placeholder="שם בית ספר">
+        <div class="form-grid">
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">שם בית ספר</span>
+                    <input type="text" name="schoolName" [(ngModel)]="schoolName" required 
+                        placeholder="הכנס שם בית ספר" class="form-input" />
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">שיוך חידון</span>
+                    <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required class="form-input">
+                        <option value="-1" selected>- בחירת חידון -</option>
+                        @for(quiz of (dashboardService.quizzes()); track quiz.id){
+                        <option [value]="quiz.id">{{quiz.title}}</option>
+                        }
+                    </select>
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">שם רכז</span>
+                    <input type="text" name="supervisor" [(ngModel)]="supervisorName" required 
+                        placeholder="הכנס שם רכז" class="form-input" />
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">טלפון רכז</span>
+                    <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="supervisorPhone" required
+                        placeholder="0501234567" class="form-input" />
+                </label>
+            </div>
         </div>
-        <div class="form-control-wrapper">
-            <label>שיוך חידון</label>
-            <select name="quiz" id="quiz" [(ngModel)]="assignedQuiz" required>
-                <option value="-1" selected>- בחירת חידון -</option>
-
-                @for(quiz of (dashboardService.quizzes()); track quiz.id){
-                <option [value]="quiz.id">{{quiz.title}}</option>
-                }
-            </select>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="addSchoolForm.invalid">
+                <mat-icon>add</mat-icon>
+                <span>הוספה</span>
+            </button>
         </div>
-        <div class="form-control-wrapper">
-            <label>שם רכז</label>
-            <input type="text" name="supervisor" [(ngModel)]="supervisorName" required="true" placeholder="שם רכז">
-        </div>
-        <div class="form-control-wrapper">
-            <label>טלפון רכז</label>
-            <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="supervisorPhone" required
-                placeholder="0501234567">
-        </div>
-        <button type="submit" [disabled]="addSchoolForm.invalid">הוספה</button>
     </form>
 
     @if(submitionStatus() === 200){

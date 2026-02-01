@@ -141,6 +141,9 @@ export class BackendService {
     return this.http.post(`${environment.apiUrl}school`, schoolToAdd, { withCredentials: true });
   }
 
+  updateQuiz(updatedQuiz: Quiz) {
+    return this.http.patch(`${environment.apiUrl}quizzes/update`, updatedQuiz, { withCredentials: true });
+  }
   createQuiz(newQuiz: Quiz) {
     return this.http.post(`${environment.apiUrl}quizzes/create`, newQuiz, { withCredentials: true });
   }

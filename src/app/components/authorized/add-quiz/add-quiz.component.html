@@ -1,70 +1,128 @@
 <main>
     <form #addQuizForm="ngForm" (ngSubmit)="onSubmit(addQuizForm)">
-        <div class="form-control-wrapper">
-            <label>שם חידון
-                <input type="text" name="quizName" [(ngModel)]="newQuiz.title" required placeholder="שם חידון" />
+        <div class="quiz-title-card">
+            <label class="form-label">
+                <span class="label-text">שם חידון</span>
+                <input type="text" name="quizName" [(ngModel)]="newQuiz().title" required placeholder="הכנס שם חידון"
+                    class="form-input" />
             </label>
         </div>
 
-        <div class="question-wrapper form-control-wrapper">
-            <label>הוספת שאלה
-                <button type="button" (click)="addQuestion()">הוספה</button>
-            </label>
-
-            @for(question of newQuiz.questions; track $index) {
+        <div class="questions-container">
+            @for(question of newQuiz().questions; track question.imageUrl) {
             @let questionIndex = $index + 1;
-            <div class="question">
-                <div class="question-title">
-                    <button class="remove" type="button" (click)="deleteQuestion($index)">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <label>שאלה {{questionIndex}}
-                        <input type="text" name="title_{{questionIndex}}" [(ngModel)]="question.title" required
-                            placeholder="שאלה {{questionIndex}}" />
-                    </label>
-                    <div class="attach">
-                        <input type="file" (change)="onFile($event)" name="file" accept="video/*,image/*">
-                        <button type="button" (click)="upload($index)">העלאה</button>
-                        @if(loading()){
-                        <mat-spinner></mat-spinner>
-                        }
-                        @if(fileSubmitionStatus() === 200){
-                        <mat-icon>check</mat-icon>
-                        } @else if(fileSubmitionStatus() !== -1){
+            <div class="question-card">
+                <div class="question-card-header">
+                    <div class="question-number-badge">שאלה {{questionIndex}}</div>
+                    <button class="remove-question-btn" type="button" (click)="deleteQuestion($index)"
+                        title="מחיקת שאלה">
                         <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+
+                <div class="question-content">
+                    <label class="question-label">
+                        <span class="label-text">כותרת השאלה</span>
+                        <input type="text" name="title_{{questionIndex}}" [(ngModel)]="question.title" required
+                            placeholder="הכנס את השאלה כאן" class="question-input" />
+                    </label>
+
+                    <div class="media-attachment-section">
+                        <div class="attachment-controls">
+                            <input type="file" [id]="'file-input-' + $index" (change)="onFile($event, $index)"
+                                name="file" accept="video/*,image/*" class="file-input">
+                            <button type="button" class="upload-btn" (click)="triggerFileInput($index)">
+                                <mat-icon>attach_file</mat-icon>
+                                <span>בחירת קובץ</span>
+                            </button>
+                            <button type="button" class="upload-submit-btn" (click)="upload($index)"
+                                [disabled]="!hasFileForQuestion($index)">
+                                <mat-icon>cloud_upload</mat-icon>
+                                <span>העלאה</span>
+                            </button>
+
+                            @if(loading()){
+                            <mat-spinner class="upload-spinner"></mat-spinner>
+                            }
+                        </div>
+
+                        @let attachedFileUrl = '/api/' + question.imageUrl;
+                        @let mediaType = checkMediaType(attachedFileUrl);
+                        @if(mediaType !== 'unknown'){
+                        <div class="media-preview">
+                            <button type="button" class="media-preview-btn"
+                                [attr.popovertarget]="'popover' + question.imageUrl">
+                                <button type="button" class="remove-media-btn" (click)="removeFile(question, $index)">
+                                    <mat-icon class="remove-media-icon">close</mat-icon>
+                                </button>
+                                <div class="media-thumbnail">
+                                    @if(mediaType === 'video'){
+                                    <mat-icon class="video-icon">play_circle</mat-icon>
+                                    } @else{
+                                    <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                    }
+                                </div>
+                            </button>
+                            <div class="popover-wrapper" [id]="'popover' + question.imageUrl" popover>
+                                @if(mediaType === 'video'){
+                                <video controls>
+                                    <source [src]="attachedFileUrl" type="video/mp4">
+                                </video>
+                                } @else {
+                                <img loading="lazy" fetchpriority="low" [src]="attachedFileUrl" alt="תמונה מצורפת">
+                                }
+                            </div>
+                        </div>
                         }
                     </div>
                 </div>
-                <div class="question-possible-answers">
-                    @for(answer of question.possible_answers; track $index) {
-                    @let answerIndex = $index + 1;
 
-                    <span class="answer-and-radio">
-                        <input type="radio" name="correctAnswer_{{questionIndex}}" required
-                            [(ngModel)]="newQuiz.answers[questionIndex - 1]" [value]="answer.id" />
-                        <input type="text" name="answer_{{questionIndex}}_{{answerIndex}}" [(ngModel)]="answer.value"
-                            required placeholder="תשובה {{answerIndex}}" />
-                    </span>
-                    }
+                <div class="answers-section">
+                    <div class="answers-label">תשובות אפשריות</div>
+                    <div class="answers-list">
+                        @for(answer of question.possible_answers; track $index) {
+                        @let answerIndex = $index + 1;
+                        <div class="answer-item">
+                            <label class="answer-radio-label">
+                                <input type="radio" name="correctAnswer_{{questionIndex}}" required
+                                    [(ngModel)]="newQuiz().answers[questionIndex - 1]" [value]="answer.id"
+                                    class="answer-radio" />
+                                <span class="radio-custom"></span>
+                            </label>
+                            <input type="text" name="answer_{{questionIndex}}_{{answerIndex}}"
+                                [(ngModel)]="answer.value" required placeholder="תשובה {{answerIndex}}"
+                                class="answer-input" />
+                        </div>
+                        }
+                    </div>
                 </div>
             </div>
-            @if(!$last){
-            <hr />
-            }
             }
         </div>
-        <button type="submit" [disabled]="addQuizForm.invalid || newQuiz.questions.length < 1">שמירת חידון</button>
 
-        @if(submitionStatus() === 200){
-        <c-alert visible="true" dismissible="true" color="success" fade>
-            החידון נוסף בהצלחה
-        </c-alert>
-        }
-        @else if(submitionStatus() !== -1){
-        <c-alert visible="true" dismissible="true" color="danger" fade>
-            חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לתמיכה
-        </c-alert>
-        }
+        <div class="form-actions">
+            <button type="button" class="btn add-question" (click)="addQuestion()">
+                <mat-icon>add</mat-icon>
+                <span>הוספת שאלה</span>
+            </button>
+
+            <button type="submit" class="btn btn-primary"
+                [disabled]="addQuizForm.invalid || newQuiz().questions.length < 1">
+                <mat-icon>save</mat-icon>
+                <span>שמירת חידון</span>
+            </button>
+        </div>
+        <div class="response">
+            @if(submitionStatus() === 200){
+            <c-alert visible="true" dismissible="true" color="success" fade>
+                החידון נוסף בהצלחה
+            </c-alert>
+            }
+            @else if(submitionStatus() !== -1){
+            <c-alert visible="true" dismissible="true" color="danger" fade>
+                חלה תקלה, יש לנסות שוב, אם הבעיה ממשיכה נא לפנות לתמיכה
+            </c-alert>
+            }
+        </div>
     </form>
-
 </main>

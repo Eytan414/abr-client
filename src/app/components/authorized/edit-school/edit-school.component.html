@@ -1,49 +1,72 @@
-<div class="heading">
-    <select [(ngModel)]="selectedSchool" #selectSchool>
-        <option value='' selected>- בחירת בית ספר -</option>
-        @for(school of appService.schools(); track school._id){
-        <option [value]="school._id">{{school.name}}</option>
-        }
-    </select>
-    <button (click)="loadSchools()">
-        <mat-icon>refresh</mat-icon>
-        <!-- @if(loading()){
+<main>
+    <div class="heading">
+        <div class="heading-content">
+            <select [(ngModel)]="selectedSchool" #selectSchool class="school-select">
+                <option value='' selected>- בחירת בית ספר -</option>
+                @for(school of appService.schools(); track school._id){
+                <option [value]="school._id">{{school.name}}</option>
+                }
+            </select>
+            <button class="refresh-btn" (click)="loadSchools()" title="רענון">
+                <mat-icon>refresh</mat-icon>
+            </button>
+            <button class="delete-school-btn" (click)="deleteSchool()" [disabled]="selectedSchool() === ''" title="מחיקת בית ספר ורכז">
+                <mat-icon>delete</mat-icon>
+                <span>מחיקה</span>
+            </button>
+        </div>
+    </div>
+    
+    @if(loading()){
+    <div class="loading-wrapper">
         <mat-spinner></mat-spinner>
-        } -->
-    </button>
-    <button (click)="deleteSchool()" [disabled]="selectedSchool() === ''" title="מחיקת בית ספר ורכז">
-        <mat-icon>delete</mat-icon>
-    </button>
-</div>
-@if(loading()){
-<mat-spinner></mat-spinner>
-}
-<form #addSchoolForm="ngForm" (ngSubmit)="onSubmit(addSchoolForm)">
-    <div class="form-control-wrapper">
-        <label>שם בית ספר</label>
-        <input type="text" name="schoolName" [(ngModel)]="formData().schoolName" required placeholder="שם בית ספר">
     </div>
-    <div class="form-control-wrapper">
-        <label>חידון משויך</label>
-        <select name="quiz" id="quiz" [(ngModel)]="formData().quizId" required>
-            @for(quiz of (dashboardService.quizzes()); track quiz.id){
-            <option [value]="quiz.id">{{quiz.title}}</option>
-            }
-        </select>
-    </div>
-    <div class="form-control-wrapper">
-        <label>שם רכז</label>
-        <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required placeholder="שם רכז">
-    </div>
-    <div class="form-control-wrapper">
-        <label>טלפון רכז</label>
-        <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="formData().supervisorPhone" required
-            placeholder="0501234567">
-    </div>
-    <button type="submit" [disabled]="selectedSchool() === '' || addSchoolForm.invalid">שמירה</button>
-    @if(updateResponse() !== ''){
-    <c-alert visible="true" dismissible="true" color="warning" fade>
-        {{updateResponse()}}
-    </c-alert>
     }
-</form>
+    
+    <form #addSchoolForm="ngForm" (ngSubmit)="onSubmit(addSchoolForm)">
+        <div class="form-grid">
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">שם בית ספר</span>
+                    <input type="text" name="schoolName" [(ngModel)]="formData().schoolName" required 
+                        placeholder="הכנס שם בית ספר" class="form-input" />
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">חידון משויך</span>
+                    <select name="quiz" id="quiz" [(ngModel)]="formData().quizId" required class="form-input">
+                        @for(quiz of (dashboardService.quizzes()); track quiz.id){
+                        <option [value]="quiz.id">{{quiz.title}}</option>
+                        }
+                    </select>
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">שם רכז</span>
+                    <input type="text" name="supervisor" [(ngModel)]="formData().supervisorName" required 
+                        placeholder="הכנס שם רכז" class="form-input" />
+                </label>
+            </div>
+            <div class="form-control-wrapper">
+                <label class="form-label">
+                    <span class="label-text">טלפון רכז</span>
+                    <input type="tel" name="supervisor-phone" pattern="\d{10}" [(ngModel)]="formData().supervisorPhone" required
+                        placeholder="0501234567" class="form-input" />
+                </label>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="selectedSchool() === '' || addSchoolForm.invalid">
+                <mat-icon>save</mat-icon>
+                <span>שמירה</span>
+            </button>
+        </div>
+        @if(updateResponse() !== ''){
+        <c-alert visible="true" dismissible="true" color="warning" fade>
+            {{updateResponse()}}
+        </c-alert>
+        }
+    </form>
+</main>

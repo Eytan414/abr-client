@@ -21,17 +21,16 @@
                     }
                 </select>
                 @if(selectedSchool() !== ''){
-                <h3> רכז\ים: </h3>
-                <span>
-                    @for(supervisor of currentSchoolSupervisors(); track $index){
-                    {{supervisor}}
-                    @if(!$last){
-                    {{', '}}
-                    }
-                    } @empty {
-                    <span>אין רכזים</span>
-                    }
-                </span>
+                    <div>
+                        <h3> רכז\ת: </h3>
+                        <span>
+                            @for(supervisor of currentSchoolSupervisors(); track $index){
+                            {{supervisor}}
+                            } @empty {
+                            <span>אין רכזים</span>
+                            }
+                        </span>
+                    </div>
                 @defer (on immediate) {
                 <scores-table />
                 }

@@ -1,15 +1,17 @@
 main {
-    display: grid;
-    grid-template-columns: 1fr;
-    margin-block: 1rem;
-    padding: 1rem;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 2.5rem 0.5rem;
-    justify-content: center;
-    gap: 1rem;
-    background-color: #ffffffcc;
-    overflow-y: auto;
-    width: 100%;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #ffffffcc;
+    min-height: 100vh;
+
+    h1 {
+        color: #333;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
 
     .webmaster {
         overflow-x: auto;
@@ -17,12 +19,19 @@ main {
 
     ::ng-deep .admin {
         display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 1.5rem;
 
         >* {
-            border: 1px dashed var(--main-color);
-            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+
+            &:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
         }
 
         details {
@@ -34,9 +43,16 @@ main {
 
             summary {
                 outline: 0;
+                cursor: pointer;
+                font-weight: 600;
+                color: #333;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+                border-bottom: 1px solid #e0e0e0;
 
                 &::marker {
-                    font-size: 1.5rem;
+                    font-size: 1.2rem;
                 }
 
                 &:hover {
@@ -45,7 +61,9 @@ main {
 
                 h2 {
                     display: inline-block;
-                    margin-inline-start: 0.25rem;
+                    margin-inline-start: 0.5rem;
+                    font-size: 1.1rem;
+                    font-weight: 600;
                 }
             }
         }
@@ -56,12 +74,30 @@ main {
             grid-auto-rows: min-content;
 
             select {
-                justify-self: flex-start;
-                display: block;
+                padding: 0.75rem 1rem;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 1rem;
+                background: white;
+                transition: all 0.3s ease;
+                cursor: pointer;
+
+                &:hover {
+                    border-color: var(--main-color);
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: var(--main-color);
+                    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+                }
             }
 
             h3 {
                 display: inline-block;
+                font-weight: 500;
+                color: #333;
+                font-size: 0.95rem;
             }
 
             .table-wrapper {
@@ -72,17 +108,29 @@ main {
 
         .add-quiz,
         .edit-quiz {
-            grid-column: span 2;
+            grid-column: 1 / -1;
         }
-
         .edit-quiz {
-            background-color: #888;
+            background: #c3cfe2;
         }
     }
 
     ::ng-deep table {
+        width: 100%;
+        border-collapse: collapse;
+
         td {
             text-align: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            padding: 1rem 0.75rem;
+            background: #f8f9fa;
+            font-weight: 600;
+            color: white;
+            border-bottom: 2px solid #e0e0e0;
         }
 
         th>div {
@@ -93,24 +141,23 @@ main {
         tbody {
             tr {
                 &:nth-child(odd) {
-                    background-color: #ddd;
+                    background-color: #f8f9fa;
                 }
 
                 &:hover {
-                    background-color: #d0e5ff;
+                    background-color: #e9ecef;
                 }
             }
         }
     }
-
 }
 
 @media(max-width: 768px) {
     main {
+        padding: 1rem;
 
-        .admin {
+        ::ng-deep .admin {
             grid-template-columns: 1fr;
         }
-
     }
 }
