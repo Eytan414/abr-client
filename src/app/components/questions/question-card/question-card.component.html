@@ -39,14 +39,16 @@
         </div>
 
         <div class="possible-answers">
-            @for(answer of possible_answers(); track $index){
-            <button [disabled]="appService.quizSent()" (click)="userAnswered(answer.id)"
-                [class]='highlightSelectedAnswer(answer.id)' class="answer">
-                {{ answer.value }}
-            </button>
-            } @empty {
+            @if(question().openEnded){
             <textarea placeholder="נא למלא את תשובתך" required [disabled]="appService.quizSent()"
                 (blur)="userAnswered($event)"></textarea>
+            } @else {
+                @for(answer of possible_answers(); track $index){
+                <button [disabled]="appService.quizSent()" (click)="userAnswered(answer.id)"
+                    [class]='highlightSelectedAnswer(answer.id)' class="answer">
+                    {{ answer.value }}
+                </button>
+                }
             }
         </div>
     </div>

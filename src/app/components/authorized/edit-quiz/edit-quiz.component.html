@@ -95,6 +95,11 @@
                 </div>
 
                 <div class="answers-section">
+                    <label for="openEnded_{{visibleQuestionIndex}}">שאלה פתוחה?
+                        <input type="checkbox" name="openEnded_{{visibleQuestionIndex}}"
+                            [(ngModel)]="question.openEnded" id="openEnded_{{visibleQuestionIndex}}" />
+                    </label>
+                    @if(!question.openEnded){
                     <div class="answers-label">תשובות אפשריות</div>
                     <div class="answers-list">
                         @for(answer of question!.possible_answers!; track $index) {
@@ -112,6 +117,7 @@
                         </div>
                         }
                     </div>
+                    }
                 </div>
             </div>
             }
