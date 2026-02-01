@@ -516,6 +516,7 @@ main {
                     border: 2px solid var(--main-color);
 
                     &:hover {
+                        opacity: .8;
                         background: var(--main-color);
                         color: white;
                         transform: translateY(-2px);

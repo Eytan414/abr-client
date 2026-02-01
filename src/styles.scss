@@ -4,7 +4,9 @@
 
 
 :root {
-  --main-color: #961a1d;
+  --main-color: #22577a;
+  --main-color-light: #22577a66;
+  --secondary-color: #8cc63f;
   @include mat.table-theme(theme.$light-theme);
   @include mat.progress-spinner-overrides((active-indicator-color: var(--main-color),
     ));

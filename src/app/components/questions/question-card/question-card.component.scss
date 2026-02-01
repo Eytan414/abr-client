@@ -29,7 +29,7 @@
             display: grid;
             text-align: center;
             align-items: center;
-            background-color: lightsalmon;
+            background-color: var(--main-color-light);
             padding: .5rem .375rem;
             border-radius: .5rem;
             color: #1b1e4b;
@@ -38,12 +38,12 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #ff3036;
+                    background-color: var(--secondary-color);
                 }
             }
 
             &.highlight {
-                background-color: #ff3036;
+                background-color: var(--secondary-color);
             }
         }
     }
@@ -57,6 +57,22 @@
 
         &.bonus {
             color: #258841;
+        }
+
+        .media-thumbnail {
+            width: 2rem;
+            height: 2rem;
+            border-radius: .25rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border: 1px solid var(--main-color);
+            .video-icon {
+                font-size: 1.5rem;
+                color: var(--main-color);
+            }
         }
 
         button {

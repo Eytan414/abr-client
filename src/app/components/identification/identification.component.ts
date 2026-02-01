@@ -5,6 +5,7 @@ import { finalize, tap } from 'rxjs/operators';
 import { AppService } from '../../services/app.service';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SchoolDTO } from '../../shared/models/school';
 
 @Component({
   selector: 'identification',
@@ -26,7 +27,12 @@ export class IdentificationComponent implements OnInit {
   protected readonly name = signal<string>('');
   protected readonly grade = signal<string>('');
   protected readonly phone = signal<string>('');
-  protected readonly school = signal<string>('');
+
+  // protected readonly school = signal<string>('');
+  schoolName = signal('');
+  school = signal('');
+  filtered = signal<SchoolDTO[]>([]);
+
   protected readonly password = signal<string>('');
   protected readonly isMemberFlow = signal<boolean>(false);
   protected readonly loginCheckLoading = signal<boolean>(false);
@@ -59,7 +65,20 @@ export class IdentificationComponent implements OnInit {
       .subscribe();
   }
 
+  filterSchools() {
+    const val = this.schoolName();
+    this.filtered.set(this.schools().filter(s => s.name.includes(val)));
+  }
 
+  onSchoolNameChange(value: string) {
+    this.schoolName.set(value);
+    this.filterSchools();
+  }
+  selectSchool(s: SchoolDTO) {
+    this.school.set(s._id);
+    this.schoolName.set(s.name);
+    this.filtered.set([]);
+  }
   protected login() {
     this.loginCheckLoading.set(true);
     if (this.isMemberFlow()) {

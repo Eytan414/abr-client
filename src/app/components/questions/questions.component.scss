@@ -27,7 +27,7 @@ main {
             margin-bottom: 1rem;
             background: green;
             color: white;
-            padding: 0.375rem;
+            padding: 0.5rem 1rem;
             border: navajowhite;
             border-radius: .25rem;
             font-weight: bold;
@@ -111,6 +111,7 @@ main {
         button {
             background: none;
             border: none;
+
             &:hover {
                 color: var(--main-color)
             }

@@ -12,7 +12,11 @@
             <button [attr.popovertarget]="'popover' + question().imageUrl">
                 <span>
                     @if(mediaType === 'video'){
-                    <mat-icon class="video">video_file</mat-icon>
+                    <div class="media-thumbnail">
+                        <mat-icon class="video-icon">play_circle</mat-icon>
+                    </div>
+
+                    <!-- <mat-icon class="video">video_file</mat-icon> -->
                     } @else{
                     <img loading="lazy" fetchpriority="low" [src]="getURL()">
                     }
@@ -25,9 +29,9 @@
                     הדפדפן שלך לא תומך בתג וידאו.
                 </video>
                 } @else if(mediaType === 'image'){
-                    <img [src]="getURL()">
+                <img [src]="getURL()">
                 } @else {
-                    <img [src]="getURL()">
+                <img [src]="getURL()">
                 }
 
             </div>

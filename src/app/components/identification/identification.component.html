@@ -22,12 +22,29 @@
         } @else{
         <label for="school">בחירת בית ספר:</label>
 
-        <select [(ngModel)]="school" name="school" id="school" [required]="isStudentFlow">
+        <input type="text" [ngModel]="schoolName()" (ngModelChange)="onSchoolNameChange($event)"
+            placeholder="בחירה מרשימה" [required]="isStudentFlow" [ngModelOptions]="{standalone: true}">
+
+
+        @if(filtered().length){
+        <ul class="school-list">
+            @for(school of filtered(); track school._id){
+            <li (click)="selectSchool(school)">
+                {{ school.name }}
+            </li>
+            }
+        </ul>
+        }
+
+        <!-- <select [(ngModel)]="school" name="school" id="school" [required]="isStudentFlow">
             <option [value]="''">בחירה מרשימה</option>
             @for(school of schools(); track $index){
             <option [value]="school._id">{{school.name}}</option>
             }
-        </select>
+        </select> -->
+
+
+
         <label for="grade">כיתה:</label>
         <input autocomplete="on" [(ngModel)]="grade" name="grade" id="grade" type="text" [required]="isStudentFlow">
         }
