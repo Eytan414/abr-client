@@ -78,9 +78,9 @@
                 </div>
 
                 <div class="answers-section">
-                    <label for="openEnded_{{visibleQuestionIndex}}">שאלה פתוחה?
-                        <input type="checkbox" name="openEnded_{{visibleQuestionIndex}}"
-                            [(ngModel)]="question.openEnded" id="openEnded_{{visibleQuestionIndex}}" />
+                    <label for="openEnded_{{questionIndex}}">שאלה פתוחה?
+                        <input type="checkbox" name="openEnded_{{questionIndex}}"
+                            [(ngModel)]="question.openEnded" id="openEnded_{{questionIndex}}" />
                     </label>
                     @if(!question.openEnded){
                         <div class="answers-label">תשובות אפשריות</div>
@@ -113,7 +113,7 @@
             </button>
 
             <button type="submit" class="btn btn-primary"
-                [disabled]="addQuizForm.invalid || newQuiz().questions.length < 1">
+                [disabled]="addQuizForm.invalid || newQuiz().questions.length < 6">
                 <mat-icon>save</mat-icon>
                 <span>שמירת חידון</span>
             </button>
