@@ -7,13 +7,15 @@
                 <option [value]="school._id">{{school.name}}</option>
                 }
             </select>
-            <button class="refresh-btn" (click)="loadSchools()" title="רענון">
-                <mat-icon>refresh</mat-icon>
-            </button>
-            <button class="delete-school-btn" (click)="deleteSchool()" [disabled]="selectedSchool() === ''" title="מחיקת בית ספר ורכז">
-                <mat-icon>delete</mat-icon>
-                <span>מחיקה</span>
-            </button>
+            <div class="actions">
+                <button class="refresh-btn" (click)="loadSchools()" title="רענון">
+                    <mat-icon>refresh</mat-icon>
+                </button>
+                <button class="delete-school-btn" (click)="deleteSchool()" [disabled]="selectedSchool() === ''" title="מחיקת בית ספר ורכז">
+                    <mat-icon>delete</mat-icon>
+                    <span>מחיקה</span>
+                </button>
+            </div>
         </div>
     </div>
     

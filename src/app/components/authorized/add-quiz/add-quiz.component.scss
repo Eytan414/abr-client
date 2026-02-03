@@ -19,6 +19,11 @@ main {
             transition: box-shadow 0.3s ease;
             width: 50%;
 
+            @media(max-width: 768px) {
+                width: 100%;
+            }
+
+
             &:hover {
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
@@ -466,7 +471,7 @@ main {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                padding: 0.875rem 1.75rem;
+                padding: 0.75rem 1.25rem;
                 border: none;
                 border-radius: 8px;
                 font-size: 1rem;
@@ -474,6 +479,10 @@ main {
                 cursor: pointer;
                 transition: all 0.3s ease;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+                @media(max-width: 768px) {
+                    padding-block: .5rem;
+                }
 
                 &:disabled {
                     opacity: 0.6;

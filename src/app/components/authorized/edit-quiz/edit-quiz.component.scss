@@ -6,6 +6,10 @@ main {
         margin-bottom: 2rem;
         width: 50%;
 
+        @media(max-width: 768px) {
+            width: auto;
+        }
+
         .heading-content {
             display: flex;
             gap: 1rem;
@@ -38,6 +42,7 @@ main {
 
             .delete-quiz-btn {
                 display: flex;
+                width: max-content;
                 align-items: center;
                 gap: 0.5rem;
                 padding: 0.75rem 1.25rem;
@@ -545,7 +550,7 @@ main {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                padding: 0.875rem 1.75rem;
+                padding: 0.75rem 1.25rem;
                 border: none;
                 border-radius: 8px;
                 font-size: 1rem;
@@ -553,6 +558,11 @@ main {
                 cursor: pointer;
                 transition: all 0.3s ease;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+                @media(max-width: 768px) {
+                    width: max-content;
+                    padding: 0.75rem;
+                }
 
                 &:disabled {
                     opacity: 0.6;
